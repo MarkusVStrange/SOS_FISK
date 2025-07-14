@@ -1,14 +1,13 @@
 library(tidyverse)
 
-setwd("/Users/mavast/Desktop/Markus SOS/seal and cormorant size preference/")
-
+data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="")
 # Read data from DATRAS
 #####
-hldata <- read.table("data/hldata.csv",sep=',',header=TRUE)
-cadata <- read.table("data/cadata.csv",sep=',',header=TRUE)
-hhdata <- read.table("data/hhdata.csv",sep=',',header=TRUE)
-hl.cpue <- read.table("data/hl_cpue.csv",sep=',',header=TRUE)
-ca.cpue <- read.table("data/ca_cpue.csv",sep=',',header=TRUE)
+hldata <- read.table(paste(data_wd,"hldata.csv",sep=""),sep=',',header=TRUE)
+cadata <- read.table(paste(data_wd,"cadata.csv",sep=""),sep=',',header=TRUE)
+hhdata <- read.table(paste(data_wd,"hhdata.csv",sep=""),sep=',',header=TRUE)
+hl.cpue <- read.table(paste(data_wd,"hl_cpue.csv",sep=""),sep=',',header=TRUE)
+ca.cpue <- read.table(paste(data_wd,"ca_cpue.csv",sep=""),sep=',',header=TRUE)
 #####
 
 #Prepare data

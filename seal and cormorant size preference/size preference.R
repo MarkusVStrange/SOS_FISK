@@ -62,6 +62,7 @@ N_ageCod <- function(dat,age,yrs){ # Number of individuals by age
 }
 
 Cod <- read.table('data/M_sms.csv',sep=';',header=TRUE)
+#Cod$N <- readRDS('data/sms_mortality.RDS')$N$N
 cormorant <- read.table('data/corm_diet.csv',sep=';',header=TRUE)
 gseal <- read.table('data/gSeal_diet.csv',sep=';',header=TRUE)
 gseal <- gseal %>% filter(Site!="Utklippan")

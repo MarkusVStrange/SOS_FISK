@@ -1,5 +1,4 @@
 source('prepare DATRAS.R')
-rm(list=setdiff(ls(),c('hl_N')))
 ##############
 # cod
 #############
