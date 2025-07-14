@@ -1,4 +1,6 @@
 source('estimate uncertainty on coefficients.R')
+
+data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="")
 # Define cod functions and read data
 #####
 # Growth model, cohort spread by length, and individuals at by age and time, functions: vbgr.fixed(), vbgr.sd(), N_age
@@ -61,10 +63,10 @@ N_ageCod <- function(dat,age,yrs){ # Number of individuals by age
   return(Ns)
 }
 
-Cod <- read.table('data/M_sms.csv',sep=';',header=TRUE)
+Cod <- read.table(paste(data_wd,'M_sms.csv',sep=""),sep=';',header=TRUE)
 #Cod$N <- readRDS('data/sms_mortality.RDS')$N$N
-cormorant <- read.table('data/corm_diet.csv',sep=';',header=TRUE)
-gseal <- read.table('data/gSeal_diet.csv',sep=';',header=TRUE)
+cormorant <- read.table(paste(data_wd,'corm_diet.csv',sep=""),sep=';',header=TRUE)
+gseal <- read.table(paste(data_wd,'gSeal_diet.csv',sep=""),sep=';',header=TRUE)
 gseal <- gseal %>% filter(Site!="Utklippan")
 
 #####
@@ -129,7 +131,7 @@ N_ageHerring <- function(dat,age,yrs){ # Number of individuals by age - Model N 
   }
   return(Ns)
 }
-Herring <- read.table('data/Herring.csv',sep=';',header=TRUE)
+Herring <- read.table(paste(data_wd,'Herring.csv',sep=""),sep=';',header=TRUE)
 #####
 
 # Define Flatfish functions and read data
@@ -258,7 +260,7 @@ vbgr.sdDab <- function(age,n){
   return(sd)
 }
 
-Flatfish <- read.table("data/N_est.flatfish.csv",sep=';',header=TRUE)
+Flatfish <- read.table(paste(data_wd,"N_est.flatfish.csv",sep=""),sep=';',header=TRUE)
 Flatfish$yday <- round(Flatfish$jd*365)
 names(Flatfish)[names(Flatfish)=="Species"] <- "species"
 #####
@@ -1467,4 +1469,12 @@ lines(x,seal_flatfish.pref(x),col="red",lty=3,lwd=2)
 lines(x,corm_cod.pref(x),col="darkblue",lty=1,lwd=2)
 lines(x,corm_herring.pref(x),col="darkblue",lty=2,lwd=2)
 lines(x,corm_flatfish.pref(x),col="darkblue",lty=3,lwd=2)
+
+save(corm_cod.pref, file = "seal_cod_pref.RData")
+save(corm_cod.pref, file = "seal_herring_pref.RData")
+save(corm_cod.pref, file = "seal_flatfish_pref.RData")
+save(corm_cod.pref, file = "corm_cod_pref.RData")
+save(corm_cod.pref, file = "corm_herring_pref.RData")
+save(corm_cod.pref, file = "corm_flatfish_pref.RData")
 #####
+
