@@ -1,0 +1,793 @@
+"prey";"quarter";"year";"predator";"diet"
+"cod";"Q1";1991;"cormorant";0.0776108891376219
+"flatfish";"Q1";1991;"cormorant";0.720882137924427
+"other";"Q1";1991;"cormorant";0.201506972937951
+"cod";"Q2";1991;"cormorant";0.0776108891376219
+"flatfish";"Q2";1991;"cormorant";0.720882137924427
+"other";"Q2";1991;"cormorant";0.201506972937951
+"cod";"Q3";1991;"cormorant";0.0776108891376219
+"flatfish";"Q3";1991;"cormorant";0.720882137924427
+"other";"Q3";1991;"cormorant";0.201506972937951
+"cod";"Q4";1991;"cormorant";0.0776108891376219
+"flatfish";"Q4";1991;"cormorant";0.720882137924427
+"other";"Q4";1991;"cormorant";0.201506972937951
+"cod";"Q1";1992;"cormorant";0.139933080287058
+"flatfish";"Q1";1992;"cormorant";0.632533695494039
+"other";"Q1";1992;"cormorant";0.227533224218903
+"cod";"Q2";1992;"cormorant";0.139933080287058
+"flatfish";"Q2";1992;"cormorant";0.632533695494039
+"other";"Q2";1992;"cormorant";0.227533224218903
+"cod";"Q3";1992;"cormorant";0.139933080287058
+"flatfish";"Q3";1992;"cormorant";0.632533695494039
+"other";"Q3";1992;"cormorant";0.227533224218903
+"cod";"Q4";1992;"cormorant";0.139933080287058
+"flatfish";"Q4";1992;"cormorant";0.632533695494039
+"other";"Q4";1992;"cormorant";0.227533224218903
+"cod";"Q1";1993;"cormorant";0.183918195355236
+"flatfish";"Q1";1993;"cormorant";0.520598946387769
+"other";"Q1";1993;"cormorant";0.295482858256994
+"cod";"Q2";1993;"cormorant";0.183918195355236
+"flatfish";"Q2";1993;"cormorant";0.520598946387769
+"other";"Q2";1993;"cormorant";0.295482858256994
+"cod";"Q3";1993;"cormorant";0.183918195355236
+"flatfish";"Q3";1993;"cormorant";0.520598946387769
+"other";"Q3";1993;"cormorant";0.295482858256994
+"cod";"Q4";1993;"cormorant";0.183918195355236
+"flatfish";"Q4";1993;"cormorant";0.520598946387769
+"other";"Q4";1993;"cormorant";0.295482858256994
+"cod";"Q1";1994;"cormorant";0.180195205723589
+"flatfish";"Q1";1994;"cormorant";0.482927486284145
+"other";"Q1";1994;"cormorant";0.336877307992267
+"cod";"Q2";1994;"cormorant";0.180195205723589
+"flatfish";"Q2";1994;"cormorant";0.482927486284145
+"other";"Q2";1994;"cormorant";0.336877307992267
+"cod";"Q3";1994;"cormorant";0.180195205723589
+"flatfish";"Q3";1994;"cormorant";0.482927486284145
+"other";"Q3";1994;"cormorant";0.336877307992267
+"cod";"Q4";1994;"cormorant";0.180195205723589
+"flatfish";"Q4";1994;"cormorant";0.482927486284145
+"other";"Q4";1994;"cormorant";0.336877307992267
+"cod";"Q1";1995;"cormorant";0.229037082470098
+"flatfish";"Q1";1995;"cormorant";0.465134292622579
+"other";"Q1";1995;"cormorant";0.305828624907323
+"cod";"Q2";1995;"cormorant";0.229037082470098
+"flatfish";"Q2";1995;"cormorant";0.465134292622579
+"other";"Q2";1995;"cormorant";0.305828624907323
+"cod";"Q3";1995;"cormorant";0.229037082470098
+"flatfish";"Q3";1995;"cormorant";0.465134292622579
+"other";"Q3";1995;"cormorant";0.305828624907323
+"cod";"Q4";1995;"cormorant";0.229037082470098
+"flatfish";"Q4";1995;"cormorant";0.465134292622579
+"other";"Q4";1995;"cormorant";0.305828624907323
+"cod";"Q1";1996;"cormorant";0.189659652757527
+"flatfish";"Q1";1996;"cormorant";0.560422698100847
+"other";"Q1";1996;"cormorant";0.249917649141625
+"cod";"Q2";1996;"cormorant";0.189659652757527
+"flatfish";"Q2";1996;"cormorant";0.560422698100847
+"other";"Q2";1996;"cormorant";0.249917649141625
+"cod";"Q3";1996;"cormorant";0.189659652757527
+"flatfish";"Q3";1996;"cormorant";0.560422698100847
+"other";"Q3";1996;"cormorant";0.249917649141625
+"cod";"Q4";1996;"cormorant";0.189659652757527
+"flatfish";"Q4";1996;"cormorant";0.560422698100847
+"other";"Q4";1996;"cormorant";0.249917649141625
+"cod";"Q1";1997;"cormorant";0.138076966784094
+"flatfish";"Q1";1997;"cormorant";0.643533082952563
+"other";"Q1";1997;"cormorant";0.218389950263343
+"cod";"Q2";1997;"cormorant";0.138076966784094
+"flatfish";"Q2";1997;"cormorant";0.643533082952563
+"other";"Q2";1997;"cormorant";0.218389950263343
+"cod";"Q3";1997;"cormorant";0.138076966784094
+"flatfish";"Q3";1997;"cormorant";0.643533082952563
+"other";"Q3";1997;"cormorant";0.218389950263343
+"cod";"Q4";1997;"cormorant";0.138076966784094
+"flatfish";"Q4";1997;"cormorant";0.643533082952563
+"other";"Q4";1997;"cormorant";0.218389950263343
+"cod";"Q1";1998;"cormorant";0.153872186227084
+"flatfish";"Q1";1998;"cormorant";0.649310784451361
+"other";"Q1";1998;"cormorant";0.196817029321555
+"cod";"Q2";1998;"cormorant";0.153872186227084
+"flatfish";"Q2";1998;"cormorant";0.649310784451361
+"other";"Q2";1998;"cormorant";0.196817029321555
+"cod";"Q3";1998;"cormorant";0.153872186227084
+"flatfish";"Q3";1998;"cormorant";0.649310784451361
+"other";"Q3";1998;"cormorant";0.196817029321555
+"cod";"Q4";1998;"cormorant";0.153872186227084
+"flatfish";"Q4";1998;"cormorant";0.649310784451361
+"other";"Q4";1998;"cormorant";0.196817029321555
+"cod";"Q1";1999;"cormorant";0.130457701435443
+"flatfish";"Q1";1999;"cormorant";0.684047836753414
+"other";"Q1";1999;"cormorant";0.185494461811143
+"cod";"Q2";1999;"cormorant";0.130457701435443
+"flatfish";"Q2";1999;"cormorant";0.684047836753414
+"other";"Q2";1999;"cormorant";0.185494461811143
+"cod";"Q3";1999;"cormorant";0.130457701435443
+"flatfish";"Q3";1999;"cormorant";0.684047836753414
+"other";"Q3";1999;"cormorant";0.185494461811143
+"cod";"Q4";1999;"cormorant";0.130457701435443
+"flatfish";"Q4";1999;"cormorant";0.684047836753414
+"other";"Q4";1999;"cormorant";0.185494461811143
+"cod";"Q1";2000;"cormorant";0.110308852217946
+"flatfish";"Q1";2000;"cormorant";0.665473249811816
+"other";"Q1";2000;"cormorant";0.224217897970238
+"cod";"Q2";2000;"cormorant";0.110308852217946
+"flatfish";"Q2";2000;"cormorant";0.665473249811816
+"other";"Q2";2000;"cormorant";0.224217897970238
+"cod";"Q3";2000;"cormorant";0.110308852217946
+"flatfish";"Q3";2000;"cormorant";0.665473249811816
+"other";"Q3";2000;"cormorant";0.224217897970238
+"cod";"Q4";2000;"cormorant";0.110308852217946
+"flatfish";"Q4";2000;"cormorant";0.665473249811816
+"other";"Q4";2000;"cormorant";0.224217897970238
+"cod";"Q1";2001;"cormorant";0.109732962453278
+"flatfish";"Q1";2001;"cormorant";0.626241512376627
+"other";"Q1";2001;"cormorant";0.264025525170095
+"cod";"Q2";2001;"cormorant";0.109732962453278
+"flatfish";"Q2";2001;"cormorant";0.626241512376627
+"other";"Q2";2001;"cormorant";0.264025525170095
+"cod";"Q3";2001;"cormorant";0.109732962453278
+"flatfish";"Q3";2001;"cormorant";0.626241512376627
+"other";"Q3";2001;"cormorant";0.264025525170095
+"cod";"Q4";2001;"cormorant";0.109732962453278
+"flatfish";"Q4";2001;"cormorant";0.626241512376627
+"other";"Q4";2001;"cormorant";0.264025525170095
+"cod";"Q1";2002;"cormorant";0.144902909154105
+"flatfish";"Q1";2002;"cormorant";0.541113947434168
+"other";"Q1";2002;"cormorant";0.313983143411727
+"cod";"Q2";2002;"cormorant";0.144902909154105
+"flatfish";"Q2";2002;"cormorant";0.541113947434168
+"other";"Q2";2002;"cormorant";0.313983143411727
+"cod";"Q3";2002;"cormorant";0.144902909154105
+"flatfish";"Q3";2002;"cormorant";0.541113947434168
+"other";"Q3";2002;"cormorant";0.313983143411727
+"cod";"Q4";2002;"cormorant";0.144902909154105
+"flatfish";"Q4";2002;"cormorant";0.541113947434168
+"other";"Q4";2002;"cormorant";0.313983143411727
+"cod";"Q1";2003;"cormorant";0.158853821396606
+"flatfish";"Q1";2003;"cormorant";0.499987691774061
+"other";"Q1";2003;"cormorant";0.341158486829332
+"cod";"Q2";2003;"cormorant";0.158853821396606
+"flatfish";"Q2";2003;"cormorant";0.499987691774061
+"other";"Q2";2003;"cormorant";0.341158486829332
+"cod";"Q3";2003;"cormorant";0.158853821396606
+"flatfish";"Q3";2003;"cormorant";0.499987691774061
+"other";"Q3";2003;"cormorant";0.341158486829332
+"cod";"Q4";2003;"cormorant";0.158853821396606
+"flatfish";"Q4";2003;"cormorant";0.499987691774061
+"other";"Q4";2003;"cormorant";0.341158486829332
+"cod";"Q1";2004;"cormorant";0.143414167097692
+"flatfish";"Q1";2004;"cormorant";0.525137539382712
+"other";"Q1";2004;"cormorant";0.331448293519596
+"cod";"Q2";2004;"cormorant";0.143414167097692
+"flatfish";"Q2";2004;"cormorant";0.525137539382712
+"other";"Q2";2004;"cormorant";0.331448293519596
+"cod";"Q3";2004;"cormorant";0.143414167097692
+"flatfish";"Q3";2004;"cormorant";0.525137539382712
+"other";"Q3";2004;"cormorant";0.331448293519596
+"cod";"Q4";2004;"cormorant";0.143414167097692
+"flatfish";"Q4";2004;"cormorant";0.525137539382712
+"other";"Q4";2004;"cormorant";0.331448293519596
+"cod";"Q1";2005;"cormorant";0.142296342003106
+"flatfish";"Q1";2005;"cormorant";0.560014041577317
+"other";"Q1";2005;"cormorant";0.297689616419577
+"cod";"Q2";2005;"cormorant";0.142296342003106
+"flatfish";"Q2";2005;"cormorant";0.560014041577317
+"other";"Q2";2005;"cormorant";0.297689616419577
+"cod";"Q3";2005;"cormorant";0.142296342003106
+"flatfish";"Q3";2005;"cormorant";0.560014041577317
+"other";"Q3";2005;"cormorant";0.297689616419577
+"cod";"Q4";2005;"cormorant";0.142296342003106
+"flatfish";"Q4";2005;"cormorant";0.560014041577317
+"other";"Q4";2005;"cormorant";0.297689616419577
+"cod";"Q1";2006;"cormorant";0.0992880160074443
+"flatfish";"Q1";2006;"cormorant";0.607121701725861
+"other";"Q1";2006;"cormorant";0.293590282266695
+"cod";"Q2";2006;"cormorant";0.0992880160074443
+"flatfish";"Q2";2006;"cormorant";0.607121701725861
+"other";"Q2";2006;"cormorant";0.293590282266695
+"cod";"Q3";2006;"cormorant";0.0992880160074443
+"flatfish";"Q3";2006;"cormorant";0.607121701725861
+"other";"Q3";2006;"cormorant";0.293590282266695
+"cod";"Q4";2006;"cormorant";0.0992880160074443
+"flatfish";"Q4";2006;"cormorant";0.607121701725861
+"other";"Q4";2006;"cormorant";0.293590282266695
+"cod";"Q1";2007;"cormorant";0.0718634139621609
+"flatfish";"Q1";2007;"cormorant";0.62836078185879
+"other";"Q1";2007;"cormorant";0.299775804179049
+"cod";"Q2";2007;"cormorant";0.0718634139621609
+"flatfish";"Q2";2007;"cormorant";0.62836078185879
+"other";"Q2";2007;"cormorant";0.299775804179049
+"cod";"Q3";2007;"cormorant";0.0718634139621609
+"flatfish";"Q3";2007;"cormorant";0.62836078185879
+"other";"Q3";2007;"cormorant";0.299775804179049
+"cod";"Q4";2007;"cormorant";0.0718634139621609
+"flatfish";"Q4";2007;"cormorant";0.62836078185879
+"other";"Q4";2007;"cormorant";0.299775804179049
+"cod";"Q1";2008;"cormorant";0.042805404025804
+"flatfish";"Q1";2008;"cormorant";0.639453325635477
+"other";"Q1";2008;"cormorant";0.31774127033872
+"cod";"Q2";2008;"cormorant";0.042805404025804
+"flatfish";"Q2";2008;"cormorant";0.639453325635477
+"other";"Q2";2008;"cormorant";0.31774127033872
+"cod";"Q3";2008;"cormorant";0.042805404025804
+"flatfish";"Q3";2008;"cormorant";0.639453325635477
+"other";"Q3";2008;"cormorant";0.31774127033872
+"cod";"Q4";2008;"cormorant";0.042805404025804
+"flatfish";"Q4";2008;"cormorant";0.639453325635477
+"other";"Q4";2008;"cormorant";0.31774127033872
+"cod";"Q1";2009;"cormorant";0.0561521056838305
+"flatfish";"Q1";2009;"cormorant";0.671084992436136
+"other";"Q1";2009;"cormorant";0.272762901880034
+"cod";"Q2";2009;"cormorant";0.0561521056838305
+"flatfish";"Q2";2009;"cormorant";0.671084992436136
+"other";"Q2";2009;"cormorant";0.272762901880034
+"cod";"Q3";2009;"cormorant";0.0561521056838305
+"flatfish";"Q3";2009;"cormorant";0.671084992436136
+"other";"Q3";2009;"cormorant";0.272762901880034
+"cod";"Q4";2009;"cormorant";0.0561521056838305
+"flatfish";"Q4";2009;"cormorant";0.671084992436136
+"other";"Q4";2009;"cormorant";0.272762901880034
+"cod";"Q1";2010;"cormorant";0.0720095483763961
+"flatfish";"Q1";2010;"cormorant";0.681941625497741
+"other";"Q1";2010;"cormorant";0.246048826125863
+"cod";"Q2";2010;"cormorant";0.0720095483763961
+"flatfish";"Q2";2010;"cormorant";0.681941625497741
+"other";"Q2";2010;"cormorant";0.246048826125863
+"cod";"Q3";2010;"cormorant";0.0720095483763961
+"flatfish";"Q3";2010;"cormorant";0.681941625497741
+"other";"Q3";2010;"cormorant";0.246048826125863
+"cod";"Q4";2010;"cormorant";0.0720095483763961
+"flatfish";"Q4";2010;"cormorant";0.681941625497741
+"other";"Q4";2010;"cormorant";0.246048826125863
+"cod";"Q1";2011;"cormorant";0.0513544236653484
+"flatfish";"Q1";2011;"cormorant";0.736591021808599
+"other";"Q1";2011;"cormorant";0.212054554526053
+"cod";"Q2";2011;"cormorant";0.0513544236653484
+"flatfish";"Q2";2011;"cormorant";0.736591021808599
+"other";"Q2";2011;"cormorant";0.212054554526053
+"cod";"Q3";2011;"cormorant";0.0513544236653484
+"flatfish";"Q3";2011;"cormorant";0.736591021808599
+"other";"Q3";2011;"cormorant";0.212054554526053
+"cod";"Q4";2011;"cormorant";0.0513544236653484
+"flatfish";"Q4";2011;"cormorant";0.736591021808599
+"other";"Q4";2011;"cormorant";0.212054554526053
+"cod";"Q1";2012;"cormorant";0.0456963269935795
+"flatfish";"Q1";2012;"cormorant";0.774235316121449
+"other";"Q1";2012;"cormorant";0.180068356884971
+"cod";"Q2";2012;"cormorant";0.0456963269935795
+"flatfish";"Q2";2012;"cormorant";0.774235316121449
+"other";"Q2";2012;"cormorant";0.180068356884971
+"cod";"Q3";2012;"cormorant";0.0456963269935795
+"flatfish";"Q3";2012;"cormorant";0.774235316121449
+"other";"Q3";2012;"cormorant";0.180068356884971
+"cod";"Q4";2012;"cormorant";0.0456963269935795
+"flatfish";"Q4";2012;"cormorant";0.774235316121449
+"other";"Q4";2012;"cormorant";0.180068356884971
+"cod";"Q1";2013;"cormorant";0.0423431701303561
+"flatfish";"Q1";2013;"cormorant";0.806578116172987
+"other";"Q1";2013;"cormorant";0.151078713696656
+"cod";"Q2";2013;"cormorant";0.0423431701303561
+"flatfish";"Q2";2013;"cormorant";0.806578116172987
+"other";"Q2";2013;"cormorant";0.151078713696656
+"cod";"Q3";2013;"cormorant";0.0423431701303561
+"flatfish";"Q3";2013;"cormorant";0.806578116172987
+"other";"Q3";2013;"cormorant";0.151078713696656
+"cod";"Q4";2013;"cormorant";0.0423431701303561
+"flatfish";"Q4";2013;"cormorant";0.806578116172987
+"other";"Q4";2013;"cormorant";0.151078713696656
+"cod";"Q1";2014;"cormorant";0.0400844448901141
+"flatfish";"Q1";2014;"cormorant";0.821282424070805
+"other";"Q1";2014;"cormorant";0.138633131039081
+"cod";"Q2";2014;"cormorant";0.0400844448901141
+"flatfish";"Q2";2014;"cormorant";0.821282424070805
+"other";"Q2";2014;"cormorant";0.138633131039081
+"cod";"Q3";2014;"cormorant";0.0400844448901141
+"flatfish";"Q3";2014;"cormorant";0.821282424070805
+"other";"Q3";2014;"cormorant";0.138633131039081
+"cod";"Q4";2014;"cormorant";0.0400844448901141
+"flatfish";"Q4";2014;"cormorant";0.821282424070805
+"other";"Q4";2014;"cormorant";0.138633131039081
+"cod";"Q1";2015;"cormorant";0.0260583659720801
+"flatfish";"Q1";2015;"cormorant";0.847065495470919
+"other";"Q1";2015;"cormorant";0.126876138557001
+"cod";"Q2";2015;"cormorant";0.0260583659720801
+"flatfish";"Q2";2015;"cormorant";0.847065495470919
+"other";"Q2";2015;"cormorant";0.126876138557001
+"cod";"Q3";2015;"cormorant";0.0260583659720801
+"flatfish";"Q3";2015;"cormorant";0.847065495470919
+"other";"Q3";2015;"cormorant";0.126876138557001
+"cod";"Q4";2015;"cormorant";0.0260583659720801
+"flatfish";"Q4";2015;"cormorant";0.847065495470919
+"other";"Q4";2015;"cormorant";0.126876138557001
+"cod";"Q1";2016;"cormorant";0.0156219531753949
+"flatfish";"Q1";2016;"cormorant";0.862990604042504
+"other";"Q1";2016;"cormorant";0.121387442782101
+"cod";"Q2";2016;"cormorant";0.0156219531753949
+"flatfish";"Q2";2016;"cormorant";0.862990604042504
+"other";"Q2";2016;"cormorant";0.121387442782101
+"cod";"Q3";2016;"cormorant";0.0156219531753949
+"flatfish";"Q3";2016;"cormorant";0.862990604042504
+"other";"Q3";2016;"cormorant";0.121387442782101
+"cod";"Q4";2016;"cormorant";0.0156219531753949
+"flatfish";"Q4";2016;"cormorant";0.862990604042504
+"other";"Q4";2016;"cormorant";0.121387442782101
+"cod";"Q1";2017;"cormorant";0.0318291158039519
+"flatfish";"Q1";2017;"cormorant";0.842301319491272
+"other";"Q1";2017;"cormorant";0.125869564704776
+"cod";"Q2";2017;"cormorant";0.0318291158039519
+"flatfish";"Q2";2017;"cormorant";0.842301319491272
+"other";"Q2";2017;"cormorant";0.125869564704776
+"cod";"Q3";2017;"cormorant";0.0318291158039519
+"flatfish";"Q3";2017;"cormorant";0.842301319491272
+"other";"Q3";2017;"cormorant";0.125869564704776
+"cod";"Q4";2017;"cormorant";0.0318291158039519
+"flatfish";"Q4";2017;"cormorant";0.842301319491272
+"other";"Q4";2017;"cormorant";0.125869564704776
+"cod";"Q1";2018;"cormorant";0.0350830253064875
+"flatfish";"Q1";2018;"cormorant";0.839689980037874
+"other";"Q1";2018;"cormorant";0.125226994655638
+"cod";"Q2";2018;"cormorant";0.0350830253064875
+"flatfish";"Q2";2018;"cormorant";0.839689980037874
+"other";"Q2";2018;"cormorant";0.125226994655638
+"cod";"Q3";2018;"cormorant";0.0350830253064875
+"flatfish";"Q3";2018;"cormorant";0.839689980037874
+"other";"Q3";2018;"cormorant";0.125226994655638
+"cod";"Q4";2018;"cormorant";0.0350830253064875
+"flatfish";"Q4";2018;"cormorant";0.839689980037874
+"other";"Q4";2018;"cormorant";0.125226994655638
+"cod";"Q1";2019;"cormorant";0.00911913534253499
+"flatfish";"Q1";2019;"cormorant";0.863321180962329
+"other";"Q1";2019;"cormorant";0.127559683695136
+"cod";"Q2";2019;"cormorant";0.00911913534253499
+"flatfish";"Q2";2019;"cormorant";0.863321180962329
+"other";"Q2";2019;"cormorant";0.127559683695136
+"cod";"Q3";2019;"cormorant";0.00911913534253499
+"flatfish";"Q3";2019;"cormorant";0.863321180962329
+"other";"Q3";2019;"cormorant";0.127559683695136
+"cod";"Q4";2019;"cormorant";0.00911913534253499
+"flatfish";"Q4";2019;"cormorant";0.863321180962329
+"other";"Q4";2019;"cormorant";0.127559683695136
+"cod";"Q1";2020;"cormorant";0.00589480884866073
+"flatfish";"Q1";2020;"cormorant";0.867839065766502
+"other";"Q1";2020;"cormorant";0.126266125384837
+"cod";"Q2";2020;"cormorant";0.00589480884866073
+"flatfish";"Q2";2020;"cormorant";0.867839065766502
+"other";"Q2";2020;"cormorant";0.126266125384837
+"cod";"Q3";2020;"cormorant";0.00589480884866073
+"flatfish";"Q3";2020;"cormorant";0.867839065766502
+"other";"Q3";2020;"cormorant";0.126266125384837
+"cod";"Q4";2020;"cormorant";0.00589480884866073
+"flatfish";"Q4";2020;"cormorant";0.867839065766502
+"other";"Q4";2020;"cormorant";0.126266125384837
+"cod";"Q1";2021;"cormorant";0.00884768859266832
+"flatfish";"Q1";2021;"cormorant";0.865955582190267
+"other";"Q1";2021;"cormorant";0.125196729217064
+"cod";"Q2";2021;"cormorant";0.00884768859266832
+"flatfish";"Q2";2021;"cormorant";0.865955582190267
+"other";"Q2";2021;"cormorant";0.125196729217064
+"cod";"Q3";2021;"cormorant";0.00884768859266832
+"flatfish";"Q3";2021;"cormorant";0.865955582190267
+"other";"Q3";2021;"cormorant";0.125196729217064
+"cod";"Q4";2021;"cormorant";0.00884768859266832
+"flatfish";"Q4";2021;"cormorant";0.865955582190267
+"other";"Q4";2021;"cormorant";0.125196729217064
+"cod";"Q1";2022;"cormorant";0.00851305352892727
+"flatfish";"Q1";2022;"cormorant";0.895691241494619
+"other";"Q1";2022;"cormorant";0.0957957049764541
+"cod";"Q2";2022;"cormorant";0.00851305352892727
+"flatfish";"Q2";2022;"cormorant";0.895691241494619
+"other";"Q2";2022;"cormorant";0.0957957049764541
+"cod";"Q3";2022;"cormorant";0.00851305352892727
+"flatfish";"Q3";2022;"cormorant";0.895691241494619
+"other";"Q3";2022;"cormorant";0.0957957049764541
+"cod";"Q4";2022;"cormorant";0.00851305352892727
+"flatfish";"Q4";2022;"cormorant";0.895691241494619
+"other";"Q4";2022;"cormorant";0.0957957049764541
+"cod";"Q1";2023;"cormorant";0.0153390572477802
+"flatfish";"Q1";2023;"cormorant";0.909269774653008
+"other";"Q1";2023;"cormorant";0.0753911680992117
+"cod";"Q2";2023;"cormorant";0.0153390572477802
+"flatfish";"Q2";2023;"cormorant";0.909269774653008
+"other";"Q2";2023;"cormorant";0.0753911680992117
+"cod";"Q3";2023;"cormorant";0.0153390572477802
+"flatfish";"Q3";2023;"cormorant";0.909269774653008
+"other";"Q3";2023;"cormorant";0.0753911680992117
+"cod";"Q4";2023;"cormorant";0.0153390572477802
+"flatfish";"Q4";2023;"cormorant";0.909269774653008
+"other";"Q4";2023;"cormorant";0.0753911680992117
+"cod";"Q1";1991;"grey seal";0.550919929101485
+"flatfish";"Q1";1991;"grey seal";0.385804457267842
+"other";"Q1";1991;"grey seal";0.0632756136306726
+"cod";"Q2";1991;"grey seal";0.550919929101485
+"flatfish";"Q2";1991;"grey seal";0.385804457267842
+"other";"Q2";1991;"grey seal";0.0632756136306726
+"cod";"Q3";1991;"grey seal";0.550919929101485
+"flatfish";"Q3";1991;"grey seal";0.385804457267842
+"other";"Q3";1991;"grey seal";0.0632756136306726
+"cod";"Q4";1991;"grey seal";0.550919929101485
+"flatfish";"Q4";1991;"grey seal";0.385804457267842
+"other";"Q4";1991;"grey seal";0.0632756136306726
+"cod";"Q1";1992;"grey seal";0.599122994297038
+"flatfish";"Q1";1992;"grey seal";0.345817546633975
+"other";"Q1";1992;"grey seal";0.0550594590689872
+"cod";"Q2";1992;"grey seal";0.599122994297038
+"flatfish";"Q2";1992;"grey seal";0.345817546633975
+"other";"Q2";1992;"grey seal";0.0550594590689872
+"cod";"Q3";1992;"grey seal";0.599122994297038
+"flatfish";"Q3";1992;"grey seal";0.345817546633975
+"other";"Q3";1992;"grey seal";0.0550594590689872
+"cod";"Q4";1992;"grey seal";0.599122994297038
+"flatfish";"Q4";1992;"grey seal";0.345817546633975
+"other";"Q4";1992;"grey seal";0.0550594590689872
+"cod";"Q1";1993;"grey seal";0.614647694193542
+"flatfish";"Q1";1993;"grey seal";0.331758591814237
+"other";"Q1";1993;"grey seal";0.0535937139922203
+"cod";"Q2";1993;"grey seal";0.614647694193542
+"flatfish";"Q2";1993;"grey seal";0.331758591814237
+"other";"Q2";1993;"grey seal";0.0535937139922203
+"cod";"Q3";1993;"grey seal";0.614647694193542
+"flatfish";"Q3";1993;"grey seal";0.331758591814237
+"other";"Q3";1993;"grey seal";0.0535937139922203
+"cod";"Q4";1993;"grey seal";0.614647694193542
+"flatfish";"Q4";1993;"grey seal";0.331758591814237
+"other";"Q4";1993;"grey seal";0.0535937139922203
+"cod";"Q1";1994;"grey seal";0.591218053463834
+"flatfish";"Q1";1994;"grey seal";0.351729985954427
+"other";"Q1";1994;"grey seal";0.0570519605817394
+"cod";"Q2";1994;"grey seal";0.591218053463834
+"flatfish";"Q2";1994;"grey seal";0.351729985954427
+"other";"Q2";1994;"grey seal";0.0570519605817394
+"cod";"Q3";1994;"grey seal";0.591218053463834
+"flatfish";"Q3";1994;"grey seal";0.351729985954427
+"other";"Q3";1994;"grey seal";0.0570519605817394
+"cod";"Q4";1994;"grey seal";0.591218053463834
+"flatfish";"Q4";1994;"grey seal";0.351729985954427
+"other";"Q4";1994;"grey seal";0.0570519605817394
+"cod";"Q1";1995;"grey seal";0.625741108785771
+"flatfish";"Q1";1995;"grey seal";0.322210596536007
+"other";"Q1";1995;"grey seal";0.052048294678222
+"cod";"Q2";1995;"grey seal";0.625741108785771
+"flatfish";"Q2";1995;"grey seal";0.322210596536007
+"other";"Q2";1995;"grey seal";0.052048294678222
+"cod";"Q3";1995;"grey seal";0.625741108785771
+"flatfish";"Q3";1995;"grey seal";0.322210596536007
+"other";"Q3";1995;"grey seal";0.052048294678222
+"cod";"Q4";1995;"grey seal";0.625741108785771
+"flatfish";"Q4";1995;"grey seal";0.322210596536007
+"other";"Q4";1995;"grey seal";0.052048294678222
+"cod";"Q1";1996;"grey seal";0.647284404138769
+"flatfish";"Q1";1996;"grey seal";0.30119660320299
+"other";"Q1";1996;"grey seal";0.051518992658241
+"cod";"Q2";1996;"grey seal";0.647284404138769
+"flatfish";"Q2";1996;"grey seal";0.30119660320299
+"other";"Q2";1996;"grey seal";0.051518992658241
+"cod";"Q3";1996;"grey seal";0.647284404138769
+"flatfish";"Q3";1996;"grey seal";0.30119660320299
+"other";"Q3";1996;"grey seal";0.051518992658241
+"cod";"Q4";1996;"grey seal";0.647284404138769
+"flatfish";"Q4";1996;"grey seal";0.30119660320299
+"other";"Q4";1996;"grey seal";0.051518992658241
+"cod";"Q1";1997;"grey seal";0.615502698307272
+"flatfish";"Q1";1997;"grey seal";0.328999413924825
+"other";"Q1";1997;"grey seal";0.0554978877679031
+"cod";"Q2";1997;"grey seal";0.615502698307272
+"flatfish";"Q2";1997;"grey seal";0.328999413924825
+"other";"Q2";1997;"grey seal";0.0554978877679031
+"cod";"Q3";1997;"grey seal";0.615502698307272
+"flatfish";"Q3";1997;"grey seal";0.328999413924825
+"other";"Q3";1997;"grey seal";0.0554978877679031
+"cod";"Q4";1997;"grey seal";0.615502698307272
+"flatfish";"Q4";1997;"grey seal";0.328999413924825
+"other";"Q4";1997;"grey seal";0.0554978877679031
+"cod";"Q1";1998;"grey seal";0.633030699551314
+"flatfish";"Q1";1998;"grey seal";0.315538342912529
+"other";"Q1";1998;"grey seal";0.0514309575361572
+"cod";"Q2";1998;"grey seal";0.633030699551314
+"flatfish";"Q2";1998;"grey seal";0.315538342912529
+"other";"Q2";1998;"grey seal";0.0514309575361572
+"cod";"Q3";1998;"grey seal";0.633030699551314
+"flatfish";"Q3";1998;"grey seal";0.315538342912529
+"other";"Q3";1998;"grey seal";0.0514309575361572
+"cod";"Q4";1998;"grey seal";0.633030699551314
+"flatfish";"Q4";1998;"grey seal";0.315538342912529
+"other";"Q4";1998;"grey seal";0.0514309575361572
+"cod";"Q1";1999;"grey seal";0.626822784045734
+"flatfish";"Q1";1999;"grey seal";0.321351318461848
+"other";"Q1";1999;"grey seal";0.0518258974924178
+"cod";"Q2";1999;"grey seal";0.626822784045734
+"flatfish";"Q2";1999;"grey seal";0.321351318461848
+"other";"Q2";1999;"grey seal";0.0518258974924178
+"cod";"Q3";1999;"grey seal";0.626822784045734
+"flatfish";"Q3";1999;"grey seal";0.321351318461848
+"other";"Q3";1999;"grey seal";0.0518258974924178
+"cod";"Q4";1999;"grey seal";0.626822784045734
+"flatfish";"Q4";1999;"grey seal";0.321351318461848
+"other";"Q4";1999;"grey seal";0.0518258974924178
+"cod";"Q1";2000;"grey seal";0.577356143882944
+"flatfish";"Q1";2000;"grey seal";0.36590828225166
+"other";"Q1";2000;"grey seal";0.0567355738653961
+"cod";"Q2";2000;"grey seal";0.577356143882944
+"flatfish";"Q2";2000;"grey seal";0.36590828225166
+"other";"Q2";2000;"grey seal";0.0567355738653961
+"cod";"Q3";2000;"grey seal";0.577356143882944
+"flatfish";"Q3";2000;"grey seal";0.36590828225166
+"other";"Q3";2000;"grey seal";0.0567355738653961
+"cod";"Q4";2000;"grey seal";0.577356143882944
+"flatfish";"Q4";2000;"grey seal";0.36590828225166
+"other";"Q4";2000;"grey seal";0.0567355738653961
+"cod";"Q1";2001;"grey seal";0.561912779323773
+"flatfish";"Q1";2001;"grey seal";0.378340559317989
+"other";"Q1";2001;"grey seal";0.0597466613582383
+"cod";"Q2";2001;"grey seal";0.561912779323773
+"flatfish";"Q2";2001;"grey seal";0.378340559317989
+"other";"Q2";2001;"grey seal";0.0597466613582383
+"cod";"Q3";2001;"grey seal";0.561912779323773
+"flatfish";"Q3";2001;"grey seal";0.378340559317989
+"other";"Q3";2001;"grey seal";0.0597466613582383
+"cod";"Q4";2001;"grey seal";0.561912779323773
+"flatfish";"Q4";2001;"grey seal";0.378340559317989
+"other";"Q4";2001;"grey seal";0.0597466613582383
+"cod";"Q1";2002;"grey seal";0.573209032744994
+"flatfish";"Q1";2002;"grey seal";0.367045716011702
+"other";"Q1";2002;"grey seal";0.0597452512433043
+"cod";"Q2";2002;"grey seal";0.573209032744994
+"flatfish";"Q2";2002;"grey seal";0.367045716011702
+"other";"Q2";2002;"grey seal";0.0597452512433043
+"cod";"Q3";2002;"grey seal";0.573209032744994
+"flatfish";"Q3";2002;"grey seal";0.367045716011702
+"other";"Q3";2002;"grey seal";0.0597452512433043
+"cod";"Q4";2002;"grey seal";0.573209032744994
+"flatfish";"Q4";2002;"grey seal";0.367045716011702
+"other";"Q4";2002;"grey seal";0.0597452512433043
+"cod";"Q1";2003;"grey seal";0.579161982629946
+"flatfish";"Q1";2003;"grey seal";0.363089424418896
+"other";"Q1";2003;"grey seal";0.0577485929511582
+"cod";"Q2";2003;"grey seal";0.579161982629946
+"flatfish";"Q2";2003;"grey seal";0.363089424418896
+"other";"Q2";2003;"grey seal";0.0577485929511582
+"cod";"Q3";2003;"grey seal";0.579161982629946
+"flatfish";"Q3";2003;"grey seal";0.363089424418896
+"other";"Q3";2003;"grey seal";0.0577485929511582
+"cod";"Q4";2003;"grey seal";0.579161982629946
+"flatfish";"Q4";2003;"grey seal";0.363089424418896
+"other";"Q4";2003;"grey seal";0.0577485929511582
+"cod";"Q1";2004;"grey seal";0.591745807070506
+"flatfish";"Q1";2004;"grey seal";0.345056986454821
+"other";"Q1";2004;"grey seal";0.0631972064746733
+"cod";"Q2";2004;"grey seal";0.591745807070506
+"flatfish";"Q2";2004;"grey seal";0.345056986454821
+"other";"Q2";2004;"grey seal";0.0631972064746733
+"cod";"Q3";2004;"grey seal";0.591745807070506
+"flatfish";"Q3";2004;"grey seal";0.345056986454821
+"other";"Q3";2004;"grey seal";0.0631972064746733
+"cod";"Q4";2004;"grey seal";0.591745807070506
+"flatfish";"Q4";2004;"grey seal";0.345056986454821
+"other";"Q4";2004;"grey seal";0.0631972064746733
+"cod";"Q1";2005;"grey seal";0.600073296163606
+"flatfish";"Q1";2005;"grey seal";0.34064672426362
+"other";"Q1";2005;"grey seal";0.059279979572774
+"cod";"Q2";2005;"grey seal";0.600073296163606
+"flatfish";"Q2";2005;"grey seal";0.34064672426362
+"other";"Q2";2005;"grey seal";0.059279979572774
+"cod";"Q3";2005;"grey seal";0.600073296163606
+"flatfish";"Q3";2005;"grey seal";0.34064672426362
+"other";"Q3";2005;"grey seal";0.059279979572774
+"cod";"Q4";2005;"grey seal";0.600073296163606
+"flatfish";"Q4";2005;"grey seal";0.34064672426362
+"other";"Q4";2005;"grey seal";0.059279979572774
+"cod";"Q1";2006;"grey seal";0.550420509618498
+"flatfish";"Q1";2006;"grey seal";0.385846598023301
+"other";"Q1";2006;"grey seal";0.0637328923582011
+"cod";"Q2";2006;"grey seal";0.550420509618498
+"flatfish";"Q2";2006;"grey seal";0.385846598023301
+"other";"Q2";2006;"grey seal";0.0637328923582011
+"cod";"Q3";2006;"grey seal";0.550420509618498
+"flatfish";"Q3";2006;"grey seal";0.385846598023301
+"other";"Q3";2006;"grey seal";0.0637328923582011
+"cod";"Q4";2006;"grey seal";0.550420509618498
+"flatfish";"Q4";2006;"grey seal";0.385846598023301
+"other";"Q4";2006;"grey seal";0.0637328923582011
+"cod";"Q1";2007;"grey seal";0.514208446933001
+"flatfish";"Q1";2007;"grey seal";0.416724409900288
+"other";"Q1";2007;"grey seal";0.0690671431667106
+"cod";"Q2";2007;"grey seal";0.514208446933001
+"flatfish";"Q2";2007;"grey seal";0.416724409900288
+"other";"Q2";2007;"grey seal";0.0690671431667106
+"cod";"Q3";2007;"grey seal";0.514208446933001
+"flatfish";"Q3";2007;"grey seal";0.416724409900288
+"other";"Q3";2007;"grey seal";0.0690671431667106
+"cod";"Q4";2007;"grey seal";0.514208446933001
+"flatfish";"Q4";2007;"grey seal";0.416724409900288
+"other";"Q4";2007;"grey seal";0.0690671431667106
+"cod";"Q1";2008;"grey seal";0.438915630126614
+"flatfish";"Q1";2008;"grey seal";0.484608685119101
+"other";"Q1";2008;"grey seal";0.0764756847542844
+"cod";"Q2";2008;"grey seal";0.438915630126614
+"flatfish";"Q2";2008;"grey seal";0.484608685119101
+"other";"Q2";2008;"grey seal";0.0764756847542844
+"cod";"Q3";2008;"grey seal";0.438915630126614
+"flatfish";"Q3";2008;"grey seal";0.484608685119101
+"other";"Q3";2008;"grey seal";0.0764756847542844
+"cod";"Q4";2008;"grey seal";0.438915630126614
+"flatfish";"Q4";2008;"grey seal";0.484608685119101
+"other";"Q4";2008;"grey seal";0.0764756847542844
+"cod";"Q1";2009;"grey seal";0.458809512010083
+"flatfish";"Q1";2009;"grey seal";0.470418164964654
+"other";"Q1";2009;"grey seal";0.0707723230252638
+"cod";"Q2";2009;"grey seal";0.458809512010083
+"flatfish";"Q2";2009;"grey seal";0.470418164964654
+"other";"Q2";2009;"grey seal";0.0707723230252638
+"cod";"Q3";2009;"grey seal";0.458809512010083
+"flatfish";"Q3";2009;"grey seal";0.470418164964654
+"other";"Q3";2009;"grey seal";0.0707723230252638
+"cod";"Q4";2009;"grey seal";0.458809512010083
+"flatfish";"Q4";2009;"grey seal";0.470418164964654
+"other";"Q4";2009;"grey seal";0.0707723230252638
+"cod";"Q1";2010;"grey seal";0.519889250167356
+"flatfish";"Q1";2010;"grey seal";0.415992890460835
+"other";"Q1";2010;"grey seal";0.0641178593718082
+"cod";"Q2";2010;"grey seal";0.519889250167356
+"flatfish";"Q2";2010;"grey seal";0.415992890460835
+"other";"Q2";2010;"grey seal";0.0641178593718082
+"cod";"Q3";2010;"grey seal";0.519889250167356
+"flatfish";"Q3";2010;"grey seal";0.415992890460835
+"other";"Q3";2010;"grey seal";0.0641178593718082
+"cod";"Q4";2010;"grey seal";0.519889250167356
+"flatfish";"Q4";2010;"grey seal";0.415992890460835
+"other";"Q4";2010;"grey seal";0.0641178593718082
+"cod";"Q1";2011;"grey seal";0.495983415547542
+"flatfish";"Q1";2011;"grey seal";0.436116368982448
+"other";"Q1";2011;"grey seal";0.0679002154700105
+"cod";"Q2";2011;"grey seal";0.495983415547542
+"flatfish";"Q2";2011;"grey seal";0.436116368982448
+"other";"Q2";2011;"grey seal";0.0679002154700105
+"cod";"Q3";2011;"grey seal";0.495983415547542
+"flatfish";"Q3";2011;"grey seal";0.436116368982448
+"other";"Q3";2011;"grey seal";0.0679002154700105
+"cod";"Q4";2011;"grey seal";0.495983415547542
+"flatfish";"Q4";2011;"grey seal";0.436116368982448
+"other";"Q4";2011;"grey seal";0.0679002154700105
+"cod";"Q1";2012;"grey seal";0.483391349399967
+"flatfish";"Q1";2012;"grey seal";0.452025493067075
+"other";"Q1";2012;"grey seal";0.0645831575329578
+"cod";"Q2";2012;"grey seal";0.483391349399967
+"flatfish";"Q2";2012;"grey seal";0.452025493067075
+"other";"Q2";2012;"grey seal";0.0645831575329578
+"cod";"Q3";2012;"grey seal";0.483391349399967
+"flatfish";"Q3";2012;"grey seal";0.452025493067075
+"other";"Q3";2012;"grey seal";0.0645831575329578
+"cod";"Q4";2012;"grey seal";0.483391349399967
+"flatfish";"Q4";2012;"grey seal";0.452025493067075
+"other";"Q4";2012;"grey seal";0.0645831575329578
+"cod";"Q1";2013;"grey seal";0.491169075917319
+"flatfish";"Q1";2013;"grey seal";0.444519358948377
+"other";"Q1";2013;"grey seal";0.0643115651343034
+"cod";"Q2";2013;"grey seal";0.491169075917319
+"flatfish";"Q2";2013;"grey seal";0.444519358948377
+"other";"Q2";2013;"grey seal";0.0643115651343034
+"cod";"Q3";2013;"grey seal";0.491169075917319
+"flatfish";"Q3";2013;"grey seal";0.444519358948377
+"other";"Q3";2013;"grey seal";0.0643115651343034
+"cod";"Q4";2013;"grey seal";0.491169075917319
+"flatfish";"Q4";2013;"grey seal";0.444519358948377
+"other";"Q4";2013;"grey seal";0.0643115651343034
+"cod";"Q1";2014;"grey seal";0.494593329574729
+"flatfish";"Q1";2014;"grey seal";0.443599427293659
+"other";"Q1";2014;"grey seal";0.0618072431316114
+"cod";"Q2";2014;"grey seal";0.494593329574729
+"flatfish";"Q2";2014;"grey seal";0.443599427293659
+"other";"Q2";2014;"grey seal";0.0618072431316114
+"cod";"Q3";2014;"grey seal";0.494593329574729
+"flatfish";"Q3";2014;"grey seal";0.443599427293659
+"other";"Q3";2014;"grey seal";0.0618072431316114
+"cod";"Q4";2014;"grey seal";0.494593329574729
+"flatfish";"Q4";2014;"grey seal";0.443599427293659
+"other";"Q4";2014;"grey seal";0.0618072431316114
+"cod";"Q1";2015;"grey seal";0.456802176285492
+"flatfish";"Q1";2015;"grey seal";0.476235938004162
+"other";"Q1";2015;"grey seal";0.0669618857103461
+"cod";"Q2";2015;"grey seal";0.456802176285492
+"flatfish";"Q2";2015;"grey seal";0.476235938004162
+"other";"Q2";2015;"grey seal";0.0669618857103461
+"cod";"Q3";2015;"grey seal";0.456802176285492
+"flatfish";"Q3";2015;"grey seal";0.476235938004162
+"other";"Q3";2015;"grey seal";0.0669618857103461
+"cod";"Q4";2015;"grey seal";0.456802176285492
+"flatfish";"Q4";2015;"grey seal";0.476235938004162
+"other";"Q4";2015;"grey seal";0.0669618857103461
+"cod";"Q1";2016;"grey seal";0.403737064436509
+"flatfish";"Q1";2016;"grey seal";0.524543287276068
+"other";"Q1";2016;"grey seal";0.0717196482874224
+"cod";"Q2";2016;"grey seal";0.403737064436509
+"flatfish";"Q2";2016;"grey seal";0.524543287276068
+"other";"Q2";2016;"grey seal";0.0717196482874224
+"cod";"Q3";2016;"grey seal";0.403737064436509
+"flatfish";"Q3";2016;"grey seal";0.524543287276068
+"other";"Q3";2016;"grey seal";0.0717196482874224
+"cod";"Q4";2016;"grey seal";0.403737064436509
+"flatfish";"Q4";2016;"grey seal";0.524543287276068
+"other";"Q4";2016;"grey seal";0.0717196482874224
+"cod";"Q1";2017;"grey seal";0.451574055376703
+"flatfish";"Q1";2017;"grey seal";0.482378836270414
+"other";"Q1";2017;"grey seal";0.0660471083528825
+"cod";"Q2";2017;"grey seal";0.451574055376703
+"flatfish";"Q2";2017;"grey seal";0.482378836270414
+"other";"Q2";2017;"grey seal";0.0660471083528825
+"cod";"Q3";2017;"grey seal";0.451574055376703
+"flatfish";"Q3";2017;"grey seal";0.482378836270414
+"other";"Q3";2017;"grey seal";0.0660471083528825
+"cod";"Q4";2017;"grey seal";0.451574055376703
+"flatfish";"Q4";2017;"grey seal";0.482378836270414
+"other";"Q4";2017;"grey seal";0.0660471083528825
+"cod";"Q1";2018;"grey seal";0.495708890526104
+"flatfish";"Q1";2018;"grey seal";0.442575036601003
+"other";"Q1";2018;"grey seal";0.0617160728728931
+"cod";"Q2";2018;"grey seal";0.495708890526104
+"flatfish";"Q2";2018;"grey seal";0.442575036601003
+"other";"Q2";2018;"grey seal";0.0617160728728931
+"cod";"Q3";2018;"grey seal";0.495708890526104
+"flatfish";"Q3";2018;"grey seal";0.442575036601003
+"other";"Q3";2018;"grey seal";0.0617160728728931
+"cod";"Q4";2018;"grey seal";0.495708890526104
+"flatfish";"Q4";2018;"grey seal";0.442575036601003
+"other";"Q4";2018;"grey seal";0.0617160728728931
+"cod";"Q1";2019;"grey seal";0.352206472989155
+"flatfish";"Q1";2019;"grey seal";0.568448035355508
+"other";"Q1";2019;"grey seal";0.0793454916553373
+"cod";"Q2";2019;"grey seal";0.352206472989155
+"flatfish";"Q2";2019;"grey seal";0.568448035355508
+"other";"Q2";2019;"grey seal";0.0793454916553373
+"cod";"Q3";2019;"grey seal";0.352206472989155
+"flatfish";"Q3";2019;"grey seal";0.568448035355508
+"other";"Q3";2019;"grey seal";0.0793454916553373
+"cod";"Q4";2019;"grey seal";0.352206472989155
+"flatfish";"Q4";2019;"grey seal";0.568448035355508
+"other";"Q4";2019;"grey seal";0.0793454916553373
+"cod";"Q1";2020;"grey seal";0.294823937987271
+"flatfish";"Q1";2020;"grey seal";0.615349187243195
+"other";"Q1";2020;"grey seal";0.0898268747695338
+"cod";"Q2";2020;"grey seal";0.294823937987271
+"flatfish";"Q2";2020;"grey seal";0.615349187243195
+"other";"Q2";2020;"grey seal";0.0898268747695338
+"cod";"Q3";2020;"grey seal";0.294823937987271
+"flatfish";"Q3";2020;"grey seal";0.615349187243195
+"other";"Q3";2020;"grey seal";0.0898268747695338
+"cod";"Q4";2020;"grey seal";0.294823937987271
+"flatfish";"Q4";2020;"grey seal";0.615349187243195
+"other";"Q4";2020;"grey seal";0.0898268747695338
+"cod";"Q1";2021;"grey seal";0.335791483845947
+"flatfish";"Q1";2021;"grey seal";0.579548189634244
+"other";"Q1";2021;"grey seal";0.0846603265198086
+"cod";"Q2";2021;"grey seal";0.335791483845947
+"flatfish";"Q2";2021;"grey seal";0.579548189634244
+"other";"Q2";2021;"grey seal";0.0846603265198086
+"cod";"Q3";2021;"grey seal";0.335791483845947
+"flatfish";"Q3";2021;"grey seal";0.579548189634244
+"other";"Q3";2021;"grey seal";0.0846603265198086
+"cod";"Q4";2021;"grey seal";0.335791483845947
+"flatfish";"Q4";2021;"grey seal";0.579548189634244
+"other";"Q4";2021;"grey seal";0.0846603265198086
+"cod";"Q1";2022;"grey seal";0.365439839862764
+"flatfish";"Q1";2022;"grey seal";0.551936784165124
+"other";"Q1";2022;"grey seal";0.0826233759721121
+"cod";"Q2";2022;"grey seal";0.365439839862764
+"flatfish";"Q2";2022;"grey seal";0.551936784165124
+"other";"Q2";2022;"grey seal";0.0826233759721121
+"cod";"Q3";2022;"grey seal";0.365439839862764
+"flatfish";"Q3";2022;"grey seal";0.551936784165124
+"other";"Q3";2022;"grey seal";0.0826233759721121
+"cod";"Q4";2022;"grey seal";0.365439839862764
+"flatfish";"Q4";2022;"grey seal";0.551936784165124
+"other";"Q4";2022;"grey seal";0.0826233759721121
+"cod";"Q1";2023;"grey seal";0.454062081578702
+"flatfish";"Q1";2023;"grey seal";0.473463174296413
+"other";"Q1";2023;"grey seal";0.072474744124885
+"cod";"Q2";2023;"grey seal";0.454062081578702
+"flatfish";"Q2";2023;"grey seal";0.473463174296413
+"other";"Q2";2023;"grey seal";0.072474744124885
+"cod";"Q3";2023;"grey seal";0.454062081578702
+"flatfish";"Q3";2023;"grey seal";0.473463174296413
+"other";"Q3";2023;"grey seal";0.072474744124885
+"cod";"Q4";2023;"grey seal";0.454062081578702
+"flatfish";"Q4";2023;"grey seal";0.473463174296413
+"other";"Q4";2023;"grey seal";0.072474744124885
