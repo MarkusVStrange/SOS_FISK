@@ -117,7 +117,7 @@ vbgr.sdHerring <- function(age,n){ # von Bertalanffy growth rate for herring.
   return(sd)
 }
 
-N_ageHerring <- function(dat,age,yrs){ # Number of individuals by age - Model N is from the stspecies of the year
+N_ageHerring <- function(dat,age,yrs){ # Number of individuals by age - Model N is from the start of the year
   Ns <- matrix(rep(0,(length(age)+1)*length(yrs)*365),ncol = length(age)+1)
   Ns[,length(age)+1] <- rep(yrs,each=365)
   x <- seq(1/365,1,length=365)
@@ -448,7 +448,7 @@ df.corm <- data.frame(l.class = rep(vec.lengths,length(samplings)),
                       year =  rep(0,n.lengths*length(samplings)))
 
 cod_hatch <- ((16+197)/2)/365 # time of hatching, Julian day / 365 - spawning from Jan. to July (a bit arbitrary from Hüssy et al., 2011), average set to peak spawning
-stspecies_time <- Sys.time() #NB takes 5 min
+start_time <- Sys.time() #NB takes 5 min
 for (i in 1:length(samplings)){
   dada <- cod_corm %>% filter(dmy==samplings[i])
   n_sca <- length(unique(dada$GYLP))
@@ -486,7 +486,7 @@ for (i in 1:length(samplings)){
   df.corm$year[i.idx] <- rep(dada$year[1],n.lengths)
 }
 end_time <- Sys.time()
-elapsed <- end_time - stspecies_time
+elapsed <- end_time - start_time
 print(elapsed)
 df.corm$odds <- df.corm$n_eaten/df.corm$n
 df.corm <- df.corm %>% filter(!is.na(odds))
@@ -743,9 +743,9 @@ obj_fn <- function(par) {
   pred <- sigmoid(df.fin.seal$l.class,maximum,s,mid)
   sum((df.fin.seal$weighted.odds - pred)^2)
 }
-stspeciess <- expand.grid(logMax =log(max(df.fin.seal$weighted.odds)),logS = seq(log(0.02), log(0.1), 0.01), logMid = seq(log(250), log(350), 0.005))
-results <- lapply(1:nrow(stspeciess), function(i) {
-  par <- as.list(stspeciess[i,])
+starts <- expand.grid(logMax =log(max(df.fin.seal$weighted.odds)),logS = seq(log(0.02), log(0.1), 0.01), logMid = seq(log(250), log(350), 0.005))
+results <- lapply(1:nrow(starts), function(i) {
+  par <- as.list(starts[i,])
   opt <- try(nlminb(par, objective = obj_fn), silent = TRUE)
   if (!inherits(opt, "try-error")) {
     return(list(par = exp(opt$par), obj = opt$objective))
@@ -806,7 +806,7 @@ df.corm <- data.frame(l.class = rep(vec.lengths,length(samplings)),
                       year =  rep(0,n.lengths*length(samplings)))
 
 herring_hatch <- mean(c(92,92,94,96,99,103,106,109,111,118,118,122,126,134,135,143)/365)
-stspecies_time <- Sys.time() #NB takes 5 min
+start_time <- Sys.time() #NB takes 5 min
 for (i in 1:length(samplings)){
   dada <- herring_corm %>% filter(dmy==samplings[i])
   n_sca <- length(unique(dada$GYLP))
@@ -848,9 +848,10 @@ for (i in 1:length(samplings)){
   df.corm$n_scat[i.idx] <- rep(n_sca,n.lengths)
   #  df$location <- rep(dada$Site[1],n.lengths)
   df.corm$year[i.idx] <- rep(dada$year[1],n.lengths)
+  print(i)
 }
 end_time <- Sys.time()
-elapsed <- end_time - stspecies_time
+elapsed <- end_time - start_time
 print(elapsed)
 df.corm$odds <- df.corm$n_eaten/df.corm$n
 df.corm <- df.corm %>% filter(n>0)
@@ -913,7 +914,7 @@ bell_curve <- function(x, A, mu, sigma) {
 df.fin.corm <- df.fin.corm %>% filter(weighted.odds<(2*10^-5))
 fit <- nls(weighted.odds ~ bell_curve(l.class,A,mu,sigma),
            data = df.fin.corm,
-           stspecies = list(A = max(df.fin.corm$weighted.odds), mu = 200, sigma = 50))
+           start = list(A = max(df.fin.corm$weighted.odds), mu = 200, sigma = 50))
 
 corm_param <- coef(fit)
 
@@ -1161,9 +1162,9 @@ obj_fn <- function(par) {
   pred <- sigmoid(df.fin.seal$l.class,maximum,s,mid)
   sum((df.fin.seal$weighted.odds - pred)^2)
 }
-stspeciess <- expand.grid(logMax =log(max(df.fin.seal$weighted.odds)),logS = seq(log(0.02), log(0.1), 0.01), logMid = seq(log(250), log(350), 0.005))
-results <- lapply(1:nrow(stspeciess), function(i) {
-  par <- as.list(stspeciess[i,])
+starts <- expand.grid(logMax =log(max(df.fin.seal$weighted.odds)),logS = seq(log(0.02), log(0.1), 0.01), logMid = seq(log(250), log(350), 0.005))
+results <- lapply(1:nrow(starts), function(i) {
+  par <- as.list(starts[i,])
   opt <- try(nlminb(par, objective = obj_fn), silent = TRUE)
   if (!inherits(opt, "try-error")) {
     return(list(par = exp(opt$par), obj = opt$objective))
@@ -1225,7 +1226,7 @@ Flounder_hatch <- ((75+197)/2)/365 # time of hatching, Julian day / 365 - from f
 Plaice_hatch <- ((-46+75)/2)/365 # time of hatching, Julian day / 365 - from fiskeatlas 
 Dab_hatch <- ((105+228)/2)/365 # time of hatching, Julian day / 365 - from fiskeatlas 
 
-stspecies_time <- Sys.time() #NB takes 5 min
+start_time <- Sys.time() #NB takes 5 min
 for (i in 1:length(samplings)){
   dada <- flatfish_corm %>% filter(dmy==samplings[i])
   n_sca <- length(unique(dada$GYLP))
@@ -1341,7 +1342,7 @@ for (i in 1:length(samplings)){
   print(i)
 }
 end_time <- Sys.time()
-elapsed <- end_time - stspecies_time
+elapsed <- end_time - start_time
 print(elapsed)
 df.corm$odds <- df.corm$n_eaten/df.corm$n
 df.corm <- df.corm %>% filter(n>0)
@@ -1460,7 +1461,7 @@ corm_flatfish.pref <- make_my_function(corm_param)
 #                       'corm_cod.pref','corm_herring.pref','corm_flatfish.pref')))
 
 
-# Save and plot functions - NB save does not work
+# Save and plot functions 
 #####
 x <- 0:700
 plot(x,seal_cod.pref(x),col="red",lty=1,type = 'l',lwd=2)
