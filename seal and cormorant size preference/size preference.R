@@ -1470,11 +1470,12 @@ lines(x,corm_cod.pref(x),col="darkblue",lty=1,lwd=2)
 lines(x,corm_herring.pref(x),col="darkblue",lty=2,lwd=2)
 lines(x,corm_flatfish.pref(x),col="darkblue",lty=3,lwd=2)
 
-save(corm_cod.pref, file = "seal_cod_pref.RData")
-save(corm_cod.pref, file = "seal_herring_pref.RData")
-save(corm_cod.pref, file = "seal_flatfish_pref.RData")
-save(corm_cod.pref, file = "corm_cod_pref.RData")
-save(corm_cod.pref, file = "corm_herring_pref.RData")
-save(corm_cod.pref, file = "corm_flatfish_pref.RData")
+save(seal_cod.pref, file = paste(dirname(getwd()),"/Dirichlet diet estimation/preference functions/seal_cod_pref.RData",sep=""))
+save(seal_herring.pref, file = paste(dirname(getwd()),"/Dirichlet diet estimation/preference functions/seal_herring_pref.RData",sep=""))
+save(seal_flatfish.pref, file = paste(dirname(getwd()),"/Dirichlet diet estimation/preference functions/seal_flatfish_pref.RData",sep=""))
+save(corm_cod.pref, file = paste(dirname(getwd()),"/Dirichlet diet estimation/preference functions/corm_cod_pref.RData",sep=""))
+save(corm_herring.pref, file = paste(dirname(getwd()),"/Dirichlet diet estimation/preference functions/corm_herring_pref.RData",sep=""))
+save(corm_flatfish.pref, file = paste(dirname(getwd()),"/Dirichlet diet estimation/preference functions/corm_flatfish_pref.RData",sep=""))
+
 #####
 
