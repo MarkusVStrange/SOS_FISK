@@ -1,10 +1,13 @@
+
+data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="") # data working directory
+
 # Read data from DATRAS
 #####
-hldata <- read.table("data/hldata.csv",sep=',',header=TRUE)
-cadata <- read.table("data/cadata.csv",sep=',',header=TRUE)
-hhdata <- read.table("data/hhdata.csv",sep=',',header=TRUE)
-hl.cpue <- read.table("data/hl_cpue.csv",sep=',',header=TRUE)
-ca.cpue <- read.table("data/ca_cpue.csv",sep=',',header=TRUE)
+hldata <- read.table(paste(data_wd,"hldata.csv",sep=""),sep=',',header=TRUE)
+cadata <- read.table(paste(data_wd,"cadata.csv",sep=""),sep=',',header=TRUE)
+hhdata <- read.table(paste(data_wd,"hhdata.csv",sep=""),sep=',',header=TRUE)
+hl.cpue <- read.table(paste(data_wd,"hl_cpue.csv",sep=""),sep=',',header=TRUE)
+ca.cpue <- read.table(paste(data_wd,"ca_cpue.csv",sep=""),sep=',',header=TRUE)
 #####
 
 #Prepare data
@@ -122,12 +125,14 @@ for (i in 1:n_years){
   cod.b[i] <- coef(fit)[2]
   
 }
-plot(dada$LngtClass,dada$IndWgt)
-lines(1:100,exp_fit(1:100,cod.a[1],cod.b[1]),col="red",lwd=2)
+par(mfrow=c(1,2))
+plot(dada$LngtClass,dada$IndWgt,xlab="length [cm]",ylab="weight [g]")
+lines(1:100,exp_fit(1:100,cod.a[i],cod.b[i]),col="red",lwd=2)
 
 colors <- colorRampPalette(c("red", "blue"))(n_years)
 
-plot(1:100,cod.a[1]*(1:100)^cod.b[1],type = 'l',lwd=2,col=colors[1])
+plot(1:100,cod.a[1]*(1:100)^cod.b[1],type = 'l',lwd=2,col=colors[1]
+     ,xlab="length [cm]",ylab="weight [g]",main="cod")
 for(i in 2:n_years){
   lines(1:100,cod.a[i]*(1:100)^cod.b[i],type = 'l',lwd=2,col=colors[i])
 }
@@ -163,12 +168,14 @@ colors <- colorRampPalette(c("red", "blue"))(n_years)
 plot(dada$LngtClass,dada$IndWgt)
 lines(1:40,coef(fit)[1]*(1:40)^coef(fit)[2],col="red",lwd=2)
 
-plot(1:40,herring.a[1]*(1:40)^herring.b[1],type = 'l',lwd=2,col=colors[1])
+par(mfrow=c(1,2))
+plot(1:40,herring.a[1]*(1:40)^herring.b[1],type = 'l',lwd=2,col=colors[1]
+     ,xlab="length [cm]",ylab="weight [g]",main="Herring")
 for(i in 2:n_years){
   lines(1:40,herring.a[i]*(1:40)^herring.b[i],type = 'l',lwd=2,col=colors[i])
 }
 herring_LW <- data.frame(a=herring.a,b=herring.b,species=rep("herring",n_years))
-plot(lw.herring$LngtClass,lw.herring$IndWgt)
+plot(lw.herring$LngtClass,lw.herring$IndWgt,xlab="length [cm]",ylab="weight [g]")
 fit <- nls(IndWgt~exp_fit(LngtClass,a,b),data=lw.herring,start=c(a=0.001,b=3.5),
            weights=HLNoAtLngt)
 lines(1:40,coef(fit)[1]*(1:40)^coef(fit)[2],col="red",lwd=2)
@@ -204,10 +211,12 @@ for (i in 1:n_years){
   
 }
 colors <- colorRampPalette(c("red", "blue"))(n_years)
-#plot(dada$LngtClass,dada$IndWgt)
-#lines(1:50,coef(fit)[1]*(1:50)^coef(fit)[2],col="red",lwd=2)
+par(mfrow=c(1,2))
+plot(dada$LngtClass,dada$IndWgt,xlab="length [cm]",ylab="weight [g]")
+lines(1:50,coef(fit)[1]*(1:50)^coef(fit)[2],col="red",lwd=2)
 
-plot(1:50,flounder.a[1]*(1:50)^flounder.b[1],type = 'l',lwd=2,col=colors[1])
+plot(1:50,flounder.a[1]*(1:50)^flounder.b[1],type = 'l',lwd=2,col=colors[1]
+     ,xlab="length [cm]",ylab="weight [g]",main="Flounder")
 for(i in 2:n_years){
   lines(1:50,flounder.a[i]*(1:50)^flounder.b[i],type = 'l',lwd=2,col=colors[i])
 }
@@ -240,10 +249,12 @@ for (i in 1:n_years){
   
 }
 colors <- colorRampPalette(c("red", "blue"))(n_years)
-#plot(dada$LngtClass,dada$IndWgt)
-#lines(1:50,coef(fit)[1]*(1:50)^coef(fit)[2],col="red",lwd=2)
+par(mfrow=c(1,2))
+plot(dada$LngtClass,dada$IndWgt,xlab="length [cm]",ylab="weight [g]")
+lines(1:50,coef(fit)[1]*(1:50)^coef(fit)[2],col="red",lwd=2)
 
-plot(1:50,plaice.a[1]*(1:50)^plaice.b[1],type = 'l',lwd=2,col=colors[1])
+plot(1:50,plaice.a[1]*(1:50)^plaice.b[1],type = 'l',lwd=2,col=colors[1]
+     ,xlab="length [cm]",ylab="weight [g]",main="Plaice")
 for(i in 2:n_years){
   lines(1:50,plaice.a[i]*(1:50)^plaice.b[i],type = 'l',lwd=2,col=colors[i])
 }
@@ -276,10 +287,12 @@ for (i in 1:n_years){
   
 }
 colors <- colorRampPalette(c("red", "blue"))(n_years)
-#plot(dada$LngtClass,dada$IndWgt)
-#lines(1:50,coef(fit)[1]*(1:50)^coef(fit)[2],col="red",lwd=2)
+par(mfrow=c(1,2))
+plot(dada$LngtClass,dada$IndWgt,xlab="length [cm]",ylab="weight [g]")
+lines(1:50,coef(fit)[1]*(1:50)^coef(fit)[2],col="red",lwd=2)
 
-plot(1:40,dab.a[1]*(1:40)^dab.b[1],type = 'l',lwd=2,col=colors[1])
+plot(1:40,dab.a[1]*(1:40)^dab.b[1],type = 'l',lwd=2,col=colors[1],main="Dab",
+     xlab="length [cm]",ylab="weight [g]")
 for(i in 2:n_years){
   lines(1:40,dab.a[i]*(1:40)^dab.b[i],type = 'l',lwd=2,col=colors[i])
 }
@@ -288,7 +301,7 @@ dab_LW <- data.frame(year=years,a=dab.a,b=dab.b,
 ################
 
 df.LW <- rbind(cod_LW,herring_LW,flounder_LW,plaice_LW,dab_LW)
-#write.table(df.LW,"length-weight.csv",sep=';',row.names=FALSE)
+write.table(df.LW,paste(data_wd,"length-weight.csv",sep=""),sep=';',row.names=FALSE)
 #rm(list=setdiff(ls(),c('df.LW')))
 
 

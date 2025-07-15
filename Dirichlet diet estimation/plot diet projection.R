@@ -1,7 +1,8 @@
+data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="") # data working directory
 
 # plot predicted cormorant diet - quarter normal scale food
 #####
-cormFood <- read.table("data/food_sim.csv",header=TRUE,sep=';')
+cormFood <- read.table(paste(data_wd,"food_sim.csv",sep=""),header=TRUE,sep=';')
 prey <- c("cod","flatfish")
 cormFood <- cormFood %>% filter(species!="herring")
 cormFood$species[!(cormFood$species %in% prey)] <- "flatfish"

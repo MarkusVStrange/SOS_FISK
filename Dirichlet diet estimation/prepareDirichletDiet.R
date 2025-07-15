@@ -71,8 +71,8 @@ N_ageCod <- function(dat,age,yrs){ # Number of individuals by age
 
 Cod <- read.table(paste(data_wd,'M_sms.csv',sep=""),sep=';',header=TRUE)
 #Cod$N <- readRDS('data/sms_mortality.RDS')$N$N
-cormorant <- read.table(paste(data_wd,'corm_diet.csv',sep=""),sep=';',header=TRUE)
-gseal <- read.table(paste(data_wd,'gSeal_diet.csv',sep=""),sep=';',header=TRUE)
+cormorant <- read.table(paste(data_wd,'corm_diet_prop.csv',sep=""),sep=';',header=TRUE)
+gseal <- read.table(paste(data_wd,'gSeal_diet_prop.csv',sep=""),sep=';',header=TRUE)
 gseal <- gseal %>% filter(Site!="Utklippan")
 
 #####
@@ -290,7 +290,7 @@ width <- 10
 #####
 prey <- c("cod","herring","flounder","plaice","dab")
 months <- c(Jan=1,Feb=2,Mar=3,Apr=4,May=5,Jun=6,Jul=7,Aug=8,Sep=9,Oct=10,Nov=11,Dec=12)
-samplings <- unique(cd$ym)  # get cd from DirichletDiet "Prepare cormorant data - month"
+samplings <- unique(paste(cormorant$year,cormorant$month))
 n_samplings <- length(samplings)
 n_prey <- length(prey)
 
@@ -513,7 +513,7 @@ write.table(cormorantFood,"cormorantFood_month.csv",row.names = FALSE,sep=';')
 #####
 prey <- c("cod","herring","flounder","plaice","dab")
 months <- c(Jan=1,Feb=2,Mar=3,Apr=4,May=5,Jun=6,Jul=7,Aug=8,Sep=9,Oct=10,Nov=11,Dec=12)
-samplings <- unique(sd$ym)  # get cd from DirichletDiet "Prepare seal data - month"
+samplings <- unique(paste(gseal$Year,gseal$Month))  # get cd from DirichletDiet "Prepare seal data - month"
 n_samplings <- length(samplings)
 n_prey <- length(prey)
 
@@ -728,25 +728,9 @@ for (i in 1:length(samplings)){
   
   print(i)
 }
-write.table(sealFood,"sealFood_month.csv",row.names = FALSE,sep=';')
+write.table(sealFood,paste(data_wd,"sealFood_month.csv",sep=""),row.names = FALSE,sep=';')
 
 #####
-
-# normalize prey biomass
-#####
-cormorantFood$normB <- 0
-sealFood$normB <- 0
-for(i in 1:length(sealFood$normB)){
-  ms <- mean(sealFood$biomass[sealFood$species==sealFood$species[i]])
-  sealFood$normB[i] <- sealFood$biomass[i]/ms
-}
-for(i in 1:length(cormorantFood$normB)){
-  mc <- mean(cormorantFood$biomass[cormorantFood$species==cormorantFood$species[i]])
-  cormorantFood$normB[i] <- cormorantFood$biomass[i]/mc
-}
-#####
-write.table(cormorantFood,"cormorantFood.csv",row.names = FALSE,sep=';')
-write.table(sealFood,"sealFood.csv",row.names = FALSE,sep=';')
 
 
 # simulate seal food index quarter 2 1991-2023
@@ -1188,10 +1172,6 @@ write.table(cormFood,"Cormfood_sim.csv",row.names = FALSE,sep=';')
 #####
 
 
-
-
-
-
 # simulate seal food index each day 1991-2023
 #####
 prey <- c("cod","herring","flounder","plaice","dab")
@@ -1408,7 +1388,7 @@ for (i in 1:length(samplings)){
 }
 
 food.sim <- sealFood[-(166:170),]
-write.table(food.sim,"food_sim.csv",row.names = FALSE,sep=';')
+write.table(food.sim,paste(data_wd,"food_sim.csv",sep=""),row.names = FALSE,sep=';')
 #####
 
 # simulate cormorant food index each day 1991-2023
@@ -1627,7 +1607,7 @@ for (i in 1:length(samplings)){
 }
 
 food.sim <- cormFood[-(166:170),]
-write.table(food.sim,"food_sim.csv",row.names = FALSE,sep=';')
+write.table(food.sim,paste(data_wd,"food_sim.csv",sep=""),row.names = FALSE,sep=';')
 #####
 
 
