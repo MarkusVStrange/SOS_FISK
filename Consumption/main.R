@@ -16,7 +16,7 @@ Predators <- getPredators(years = 1991:2023,species = c('cormorant','grey seal')
 # predator diets
 Diets <- getDiets(Predators,method='data') # takes a little while
 # how much fish (g) the predators eat of selected prey fish
-g_eaten <- getEnergyBudget(Diets,method='data')
+g_eaten <- getEnergyBudget(Diets,method='model')
 # the total consumption (tonnes) of selected prey fish by the predators
 consumption <- getConsumption(g_eaten,Predators)
 # plot the consumption compared to the fishery

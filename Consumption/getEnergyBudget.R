@@ -10,6 +10,7 @@
 
 getEnergyBudget <- function(Diets,method){
   E.budget <- data.frame(year = NA,quarter=NA,prey=NA,g_eaten=NA,predator=NA)
+  data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="") # data working directory
   
   # Cormorants
   #####
@@ -44,7 +45,7 @@ getEnergyBudget <- function(Diets,method){
   
   
   if(method=='model' & 'cormorant' %in% unique(Diets$predator)){
-    diet_pred <- read.table("data/pred_diet.csv",header=TRUE,sep=';')
+    diet_pred <- read.table(paste(data_wd,"pred_diet.csv",sep=""),header=TRUE,sep=';')
     # cormorant diet
     corm.diet <- Diets %>% filter(predator=='cormorant')
     energy_weight <- aggregate(diet~prey,data=corm.diet %>% filter(!(prey %in% c("cod","flatfish"))),FUN=mean)
@@ -132,7 +133,7 @@ getEnergyBudget <- function(Diets,method){
   
   
   if(method=='model' & 'grey seal' %in% unique(Diets$predator)){
-    diet_pred <- read.table("data/pred_diet.csv",header=TRUE,sep=';')
+    diet_pred <- read.table(paste(data_wd,"pred_diet.csv",sep=""),header=TRUE,sep=';')
     # grey seal diet
     g.seal.diet <- Diets %>% filter(predator=='grey seal')
     energy_weight <- aggregate(diet~prey,data=g.seal.diet %>% filter(!(prey %in% c("cod","flatfish"))),FUN=mean)

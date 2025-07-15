@@ -13,8 +13,11 @@
 getDiets <- function(Predators,method){
   diet <- data.frame(year = NA,quarter=NA,prey=NA,diet=NA,n=NA,predator=NA)
   
-  source('handleData.R')
-  d <- handleData(years = unique(Predators$year), species = unique(Predators$species))
+  if(method=="data"){
+    source('handleData.R')
+    d <- handleData(years = unique(Predators$year), species = unique(Predators$species))
+  }
+  
   
   # Cormorants
   #####
@@ -55,6 +58,9 @@ getDiets <- function(Predators,method){
   
   
   if(method=='model' & 'cormorant' %in% unique(Predators$species)){
+    corm.diet.fin <- read.table(paste(data_wd,"pred_diet.csv",sep=""),header=TRUE,sep=';')
+
+    diet <- rbind(diet,corm.diet.fin)
     
   }
   #####
@@ -99,7 +105,7 @@ getDiets <- function(Predators,method){
   
   
   if(method=='model' & 'grey seal' %in% unique(Predators$species)){
-    
+
   }
   #####
   
