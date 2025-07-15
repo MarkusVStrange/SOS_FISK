@@ -15,6 +15,8 @@
   
 
 getConsPlot <- function(prey,consumption,type){
+  data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="") # data working directory
+  
   #####
   if(prey=='cod'){
     #from sam
@@ -39,7 +41,7 @@ getConsPlot <- function(prey,consumption,type){
     # get early consumptions
     cod.cons <- aggregate(consumption_t~year+predator,data=consumption %>% filter(prey=='cod' & year %in% yrs),FUN=sum)
     
-    sms_nis <- readRDS("data/sms_mortality.RDS")
+    sms_nis <- readRDS(paste(data_wd,"sms_mortality.RDS",sep=""))
     # read in WB cod population data
     #M_age <- read.table("data/M_sms.csv",header=TRUE,sep=';')
     # read in WB cod catch data

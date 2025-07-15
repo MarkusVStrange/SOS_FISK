@@ -10,6 +10,7 @@
 #########################
 
 getPredators <- function(years,species,area){
+  data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="") # data working directory
   
   # Cormorants
   if ('cormorant' %in% species){
@@ -28,7 +29,7 @@ getPredators <- function(years,species,area){
                                                 mean(dk_corms2014$cormorants[7:9]),
                                                 mean(dk_corms2014$cormorants[10:12])))
     # Read in the number of cormorants nests
-    nests <- read.table("data/cormorant nests in Denmark.csv",sep=';',header=TRUE)
+    nests <- read.table(paste(data_wd,"cormorant nests in Denmark.csv",sep=""),sep=';',header=TRUE)
     nests <- nests %>% filter(year %in% years)
     
     # Find the proportion of nests to birds in 2014

@@ -1,5 +1,3 @@
-# working directory
-setwd("/Users/mavast/Desktop/Markus SOS/Consumption/")
 # packages required
 library(ggplot2)
 library(dplyr)
