@@ -36,32 +36,6 @@ ggplot(X, aes(x = (LngtClass), y = N_age)) +# plot the observed and simulated le
   labs(x = "Length Class", y = "Summed N_age") +
   theme_minimal()
 
-# Group by age and year
-byYear <- aggregate(N_age~yd+LngtClass+year,data=cod,FUN=sum) # group by age and year
-X <- byYear %>% filter(yd==ages[14] & year==2001) # select age and year to plot
-# normal
-m <-  sum(X$LngtClass*X$N_age)/sum(X$N_age) # can be inactive if a comparison to the only age-based simulation
-s <- sqrt(sum(X$N_age*(X$LngtClass-m)^2)/sum(X$N_age)) # can be inactive if a comparison to the only age-based simulation
-r <- round(rnorm(sum(X$N_age),mean=m,sd=s))
-dr <- data.frame(Freq = as.numeric(table(r)),l=sort(unique(r)))
-
-ggplot(X, aes(x = (LngtClass), y = N_age)) +
-  geom_col(fill = "steelblue") +geom_line(data=dr,aes(x=l,y=Freq),linewidth=2)+
-  labs(x = "Length Class", y = "Summed N_age") +
-  theme_minimal()
-
-# log-normal
-m <-  sum(log(X$LngtClass)*X$N_age)/sum(X$N_age) # can be inactive if a comparison to the only age-based simulation
-s <- sqrt(sum(X$N_age*(log(X$LngtClass)-m)^2)/sum(X$N_age)) # can be inactive if a comparison to the only age-based simulation
-r <- round(exp(rnorm(sum(X$N_age),mean = m,sd = s)))-1
-dr <- data.frame(Freq = as.numeric(table(r)),l=sort(unique(r)))
-
-ggplot(X, aes(x = (LngtClass), y = N_age)) +
-  geom_col(fill = "steelblue") +geom_line(data=dr,aes(x=l,y=Freq),linewidth=2)+
-  labs(x = "Length Class", y = "Summed N_age") +
-  theme_minimal()
-
-
 # calculate mean and sd length for each year and age
 n_years <- length(years) # number of years
 n_ages <- length(ages) # number of ages
@@ -84,6 +58,7 @@ for (i in 1:n_years){
 mat_sd[mat_sd==0] <- NA # do not consider sd's of 0
 sd_red <- mat_sd[-c(12,14:20),] # remove ages with low number of observations
 mean_red <- mat_mean[-c(12,14:20),]
+mean_red[is.na(sd_red)] <- NA
 n_red <- mat_n[-c(12,14:20),]
 # Convert SD to data frame with row and column indices for plot purposes
 dsd <- as.data.frame(sd_red)
@@ -169,7 +144,14 @@ for (i in 1:n_years){
   }
 }
 
-rm(list=setdiff(ls(),c('hl_N','df.cod')))
+df.cod_all <- rbind(df_mean,df_sd,df_n)
+df.cod_all$age <- ages[df.cod_all$row]
+df.cod_all$year <- years[df.cod_all$col]
+df.cod_all$metric <- rep(c("mean","sd","n"),each=length(df_mean$row))
+df.cod_all <- df.cod_all %>% select(metric,age,year,value)
+df.cod_all$species <- "cod"
+
+rm(list=setdiff(ls(),c('hl_N','df.cod','df.cod_all')))
 
 ################
 
@@ -208,32 +190,6 @@ ggplot(X, aes(x = (LngtClass), y = N_age)) +# plot the observed and simulated le
   labs(x = "Length Class", y = "Summed N_age") +
   theme_minimal()
 
-# Group by age and year
-byYear <- aggregate(N_age~yd+LngtClass+year,data=herring,FUN=sum) # group by age and year
-X <- byYear %>% filter(yd==ages[1] & year==2001) # select age and year to plot
-# normal
-m <-  sum(X$LngtClass*X$N_age)/sum(X$N_age) # can be inactive if a comparison to the only age-based simulation
-s <- sqrt(sum(X$N_age*(X$LngtClass-m)^2)/sum(X$N_age)) # can be inactive if a comparison to the only age-based simulation
-r <- round(rnorm(sum(X$N_age),mean=m,sd=s))
-dr <- data.frame(Freq = as.numeric(table(r)),l=sort(unique(r)))
-
-ggplot(X, aes(x = (LngtClass), y = N_age)) +
-  geom_col(fill = "steelblue") +geom_line(data=dr,aes(x=l,y=Freq),linewidth=2)+
-  labs(x = "Length Class", y = "Summed N_age") +
-  theme_minimal()
-
-# log-normal
-m <-  sum(log(X$LngtClass)*X$N_age)/sum(X$N_age) # can be inactive if a comparison to the only age-based simulation
-s <- sqrt(sum(X$N_age*(log(X$LngtClass)-m)^2)/sum(X$N_age)) # can be inactive if a comparison to the only age-based simulation
-r <- round(exp(rnorm(sum(X$N_age),mean = m,sd = s)))-1
-dr <- data.frame(Freq = as.numeric(table(r)),l=sort(unique(r)))
-
-ggplot(X, aes(x = (LngtClass), y = N_age)) +
-  geom_col(fill = "steelblue") +geom_line(data=dr,aes(x=l,y=Freq),linewidth=2)+
-  labs(x = "Length Class", y = "Summed N_age") +
-  theme_minimal()
-
-
 # calculate mean and sd length for each year and age
 n_years <- length(years) # number of years
 n_ages <- length(ages) # number of ages
@@ -256,6 +212,7 @@ for (i in 1:n_years){
 mat_sd[mat_sd==0] <- NA # do not consider sd's of 0
 sd_red <- mat_sd[-c(18:20),] # remove ages with low number of observations
 mean_red <- mat_mean[-c(18:20),]
+mean_red[is.na(sd_red)] <- NA
 n_red <- mat_n[-c(18:20),]
 # Convert to data frame with row and column indices for plot purposes
 dsd <- as.data.frame(sd_red)
@@ -339,7 +296,15 @@ for (i in 1:n_years){
     mat_n[j,i] <- sum(dada$N_age)
   }
 }
-rm(list=setdiff(ls(),c('hl_N','df.cod','df.herring')))
+
+df.herring_all <- rbind(df_mean,df_sd,df_n)
+df.herring_all$age <- ages[df.herring_all$row]
+df.herring_all$year <- years[df.herring_all$col]
+df.herring_all$metric <- rep(c("mean","sd","n"),each=length(df_mean$row))
+df.herring_all <- df.herring_all %>% select(metric,age,year,value)
+df.herring_all$species <- "herring"
+
+rm(list=setdiff(ls(),c('hl_N','df.cod','df.cod_all','df.herring','df.herring_all')))
 
 #################
 
@@ -378,32 +343,6 @@ ggplot(X, aes(x = (LngtClass), y = N_age)) +# plot the observed and simulated le
   labs(x = "Length Class", y = "Summed N_age") +
   theme_minimal()
 
-# Group by age and year
-byYear <- aggregate(N_age~yd+LngtClass+year,data=flounder,FUN=sum) # group by age and year
-X <- byYear %>% filter(yd==ages[1] & year==1997) # select age and year to plot
-# normal
-m <-  sum(X$LngtClass*X$N_age)/sum(X$N_age) # can be inactive if a comparison to the only age-based simulation
-s <- sqrt(sum(X$N_age*(X$LngtClass-m)^2)/sum(X$N_age)) # can be inactive if a comparison to the only age-based simulation
-r <- round(rnorm(sum(X$N_age),mean=m,sd=s))
-dr <- data.frame(Freq = as.numeric(table(r)),l=sort(unique(r)))
-
-ggplot(X, aes(x = (LngtClass), y = N_age)) +
-  geom_col(fill = "steelblue") +geom_line(data=dr,aes(x=l,y=Freq),linewidth=2)+
-  labs(x = "Length Class", y = "Summed N_age") +
-  theme_minimal()
-
-# log-normal
-m <-  sum(log(X$LngtClass)*X$N_age)/sum(X$N_age) # can be inactive if a comparison to the only age-based simulation
-s <- sqrt(sum(X$N_age*(log(X$LngtClass)-m)^2)/sum(X$N_age)) # can be inactive if a comparison to the only age-based simulation
-r <- round(exp(rnorm(sum(X$N_age),mean = m,sd = s)))-1
-dr <- data.frame(Freq = as.numeric(table(r)),l=sort(unique(r)))
-
-ggplot(X, aes(x = (LngtClass), y = N_age)) +
-  geom_col(fill = "steelblue") +geom_line(data=dr,aes(x=l,y=Freq),linewidth=2)+
-  labs(x = "Length Class", y = "Summed N_age") +
-  theme_minimal()
-
-
 # calculate mean and sd length for each year and age
 n_years <- length(years) # number of years
 n_ages <- length(ages)
@@ -426,6 +365,7 @@ for (i in 1:n_years){
 mat_sd[mat_sd==0] <- NA # do not consider sd's of 0
 sd_red <- mat_sd[-c(24:33),] # remove ages with low number of observations
 mean_red <- mat_mean[-c(24:33),]
+mean_red[is.na(sd_red)] <- NA
 n_red <- mat_n[-c(24:33),]
 # Convert to data frame with row and column indices for plot purposes
 dsd <- as.data.frame(sd_red)
@@ -512,7 +452,14 @@ for (i in 1:n_years){
     mat_n[j,i] <- sum(dada$N_age)
   }
 }
-rm(list=setdiff(ls(),c('hl_N','df.cod','df.herring','df.flounder')))
+df.flounder_all <- rbind(df_mean,df_sd,df_n)
+df.flounder_all$age <- ages[df.flounder_all$row]
+df.flounder_all$year <- years[df.flounder_all$col]
+df.flounder_all$metric <- rep(c("mean","sd","n"),each=length(df_mean$row))
+df.flounder_all <- df.flounder_all %>% select(metric,age,year,value)
+df.flounder_all$species <- "flounder"
+
+rm(list=setdiff(ls(),c('hl_N','df.cod','df.cod_all','df.herring','df.herring_all','df.flounder','df.flounder_all')))
 #################
 
 ##############
@@ -550,32 +497,6 @@ ggplot(X, aes(x = (LngtClass), y = N_age)) +# plot the observed and simulated le
   labs(x = "Length Class", y = "Summed N_age") +
   theme_minimal()
 
-# Group by age and year
-byYear <- aggregate(N_age~yd+LngtClass+year,data=plaice,FUN=sum) # group by age and year
-X <- byYear %>% filter(yd==ages[1] & year==1997) # select age and year to plot
-# normal
-m <-  sum(X$LngtClass*X$N_age)/sum(X$N_age) # can be inactive if a comparison to the only age-based simulation
-s <- sqrt(sum(X$N_age*(X$LngtClass-m)^2)/sum(X$N_age)) # can be inactive if a comparison to the only age-based simulation
-r <- round(rnorm(sum(X$N_age),mean=m,sd=s))
-dr <- data.frame(Freq = as.numeric(table(r)),l=sort(unique(r)))
-
-ggplot(X, aes(x = (LngtClass), y = N_age)) +
-  geom_col(fill = "steelblue") +geom_line(data=dr,aes(x=l,y=Freq),linewidth=2)+
-  labs(x = "Length Class", y = "Summed N_age") +
-  theme_minimal()
-
-# log-normal
-m <-  sum(log(X$LngtClass)*X$N_age)/sum(X$N_age) # can be inactive if a comparison to the only age-based simulation
-s <- sqrt(sum(X$N_age*(log(X$LngtClass)-m)^2)/sum(X$N_age)) # can be inactive if a comparison to the only age-based simulation
-r <- round(exp(rnorm(sum(X$N_age),mean = m,sd = s)))-1
-dr <- data.frame(Freq = as.numeric(table(r)),l=sort(unique(r)))
-
-ggplot(X, aes(x = (LngtClass), y = N_age)) +
-  geom_col(fill = "steelblue") +geom_line(data=dr,aes(x=l,y=Freq),linewidth=2)+
-  labs(x = "Length Class", y = "Summed N_age") +
-  theme_minimal()
-
-
 # calculate mean and sd length for each year and age
 n_years <- length(years) # number of years
 n_ages <- length(ages)
@@ -598,6 +519,7 @@ for (i in 1:n_years){
 mat_sd[mat_sd==0] <- NA # do not consider sd's of 0
 sd_red <- mat_sd[-c(27:34),] # remove ages with low number of observations
 mean_red <- mat_mean[-c(27:34),]
+mean_red[is.na(sd_red)] <- NA
 n_red <- mat_n[-c(27:34),]
 # Convert to data frame with row and column indices for plot purposes
 dsd <- as.data.frame(sd_red)
@@ -684,7 +606,16 @@ for (i in 1:n_years){
     mat_n[j,i] <- sum(dada$N_age)
   }
 }
-rm(list=setdiff(ls(),c('hl_N','df.cod','df.herring','df.flounder','df.plaice')))
+df.plaice_all <- rbind(df_mean,df_sd,df_n)
+df.plaice_all$age <- ages[df.plaice_all$row]
+df.plaice_all$year <- years[df.plaice_all$col]
+df.plaice_all$metric <- rep(c("mean","sd","n"),each=length(df_mean$row))
+df.plaice_all <- df.plaice_all %>% select(metric,age,year,value)
+df.plaice_all$species <- "plaice"
+
+rm(list=setdiff(ls(),c('hl_N','df.cod','df.cod_all','df.herring','df.herring_all','df.flounder',
+                       'df.flounder_all','df.plaice','df.plaice_all')))
+
 #################
 
 ##############
@@ -722,32 +653,6 @@ ggplot(X, aes(x = (LngtClass), y = N_age)) +# plot the observed and simulated le
   labs(x = "Length Class", y = "Summed N_age") +
   theme_minimal()
 
-# Group by age and year
-byYear <- aggregate(N_age~yd+LngtClass+year,data=dab,FUN=sum) # group by age and year
-X <- byYear %>% filter(yd==ages[1] & year==1997) # select age and year to plot
-# normal
-m <-  sum(X$LngtClass*X$N_age)/sum(X$N_age) # can be inactive if a comparison to the only age-based simulation
-s <- sqrt(sum(X$N_age*(X$LngtClass-m)^2)/sum(X$N_age)) # can be inactive if a comparison to the only age-based simulation
-r <- round(rnorm(sum(X$N_age),mean=m,sd=s))
-dr <- data.frame(Freq = as.numeric(table(r)),l=sort(unique(r)))
-
-ggplot(X, aes(x = (LngtClass), y = N_age)) +
-  geom_col(fill = "steelblue") +geom_line(data=dr,aes(x=l,y=Freq),linewidth=2)+
-  labs(x = "Length Class", y = "Summed N_age") +
-  theme_minimal()
-
-# log-normal
-m <-  sum(log(X$LngtClass)*X$N_age)/sum(X$N_age) # can be inactive if a comparison to the only age-based simulation
-s <- sqrt(sum(X$N_age*(log(X$LngtClass)-m)^2)/sum(X$N_age)) # can be inactive if a comparison to the only age-based simulation
-r <- round(exp(rnorm(sum(X$N_age),mean = m,sd = s)))-1
-dr <- data.frame(Freq = as.numeric(table(r)),l=sort(unique(r)))
-
-ggplot(X, aes(x = (LngtClass), y = N_age)) +
-  geom_col(fill = "steelblue") +geom_line(data=dr,aes(x=l,y=Freq),linewidth=2)+
-  labs(x = "Length Class", y = "Summed N_age") +
-  theme_minimal()
-
-
 # calculate mean and sd length for each year and age
 n_years <- length(years) # number of years
 n_ages <- length(ages)
@@ -770,6 +675,7 @@ for (i in 1:n_years){
 mat_sd[mat_sd==0] <- NA # do not consider sd's of 0
 sd_red <- mat_sd[-c(2,5,8,11,14,22:31),] # remove ages with low number of observations
 mean_red <- mat_mean[-c(2,5,8,11,14,22:31),]
+mean_red[is.na(sd_red)] <- NA
 n_red <- mat_n[-c(2,5,8,11,14,22:31),]
 # Convert to data frame with row and column indices for plot purposes
 dsd <- as.data.frame(sd_red)
@@ -857,8 +763,18 @@ for (i in 1:n_years){
     mat_n[j,i] <- sum(dada$N_age)
   }
 }
-rm(list=setdiff(ls(),c('hl_N','df.cod','df.herring','df.flounder','df.plaice','df.dab')))
+df.dab_all <- rbind(df_mean,df_sd,df_n)
+df.dab_all$age <- ages[df.dab_all$row]
+df.dab_all$year <- years[df.dab_all$col]
+df.dab_all$metric <- rep(c("mean","sd","n"),each=length(df_mean$row))
+df.dab_all <- df.dab_all %>% select(metric,age,year,value)
+df.dab_all$species <- "dab"
+
+rm(list=setdiff(ls(),c('hl_N','df.cod','df.cod_all','df.herring','df.herring_all','df.flounder',
+                       'df.flounder_all','df.plaice','df.plaice_all','df.dab','df.dab_all')))
 #################
 
 df <- rbind(df.cod,df.herring,df.flounder,df.plaice,df.dab)
-rm(list=setdiff(ls(),c('df')))
+df_all <- rbind(df.cod_all,df.herring_all,df.flounder_all,df.plaice_all,df.dab_all)
+df_all$cohort <- df_all$year-floor(df_all$age)
+rm(list=setdiff(ls(),c('df','df_all')))
