@@ -75,7 +75,7 @@ getEnergyBudget <- function(Diets,method){
     corm.diet <- corm.diet[,names(E.budget)]
     
     E.budget <- rbind(E.budget,corm.diet)
-    rm(list=setdiff(ls(),c('E.budget','Diets','method')))
+    rm(list=setdiff(ls(),c('E.budget','Diets','method','data_wd')))
   }
   #####
   
@@ -128,7 +128,7 @@ getEnergyBudget <- function(Diets,method){
     g.seal.diet <- g.seal.diet[,names(E.budget)]
     
     E.budget <- rbind(E.budget,g.seal.diet)
-    rm(list=setdiff(ls(),c('E.budget','Diets','method')))
+    rm(list=setdiff(ls(),c('E.budget','Diets','method','data_wd')))
   }
   
   

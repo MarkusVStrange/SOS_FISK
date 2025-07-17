@@ -16,7 +16,7 @@ Predators <- getPredators(years = 1991:2023,species = c('cormorant','grey seal')
 # predator diets
 Diets <- getDiets(Predators,method='data') # takes a little while
 # how much fish (g) the predators eat of selected prey fish
-g_eaten <- getEnergyBudget(Diets,method='model')
+g_eaten <- getEnergyBudget(Diets,method='data')
 # the total consumption (tonnes) of selected prey fish by the predators
 consumption <- getConsumption(g_eaten,Predators)
 # plot the consumption compared to the fishery
@@ -25,6 +25,6 @@ getConsPlot(prey='cod',consumption,type="total")
 getDietPlot(predators=c('cormorant','grey seal'),Diets,year=c(1997)) # this is weight-based diets and n denote number of excrements
 
 
-p <- getConsPlot(prey='cod',consumption,type="proportions")
+p <- getConsPlot(prey='cod',consumption,type="total")
 p
-ggsave("plots/biomass.png",p,width=7,height=6)
+#ggsave("plots/biomass.png",p,width=7,height=6)
