@@ -153,7 +153,7 @@ ggplot(data=dada,aes(x=yd,y=log(CPUE),color = Species))+
         axis.text = element_text(size = 10),
         legend.position =  'none')
 
-# plot flatfish statistrics
+# plot flatfish statistics
 par(mfrow=c(1,3))
 # M
 plot(cohort,-flat.info[,1,1],ylim=c(0,1.3),main="Flounder",ylab="M",type='l',lwd=2)
@@ -306,7 +306,7 @@ N_Q1 <- N_est.fin %>% filter(Jday==day_q1)
 T1N_est <- aggregate(N~Species+year,data = N_Q1 %>% filter(Age>=3),FUN=sum)
 # plot N
 ggplot(data=TN_est,aes(x=year,y=N,color = Species))+
-  geom_point(pch=19,cex=2)+ylim(0,10)+
+  geom_point(pch=19,cex=2)+
   facet_wrap(~Species)+geom_line(data=t %>% filter(Quarter==1),aes(x=Year,y=CPUE,color = Species))+
   labs(x='Age [years]',y=~paste('CPUE [#  ',h^-1,']'))+
   theme(axis.title.x = element_text(size = 12),

@@ -1,10 +1,10 @@
-remotes::install_github("DTUAqua/DATRAS/DATRAS")
-remotes::install_github("casperwberg/surveyIndex/surveyIndex")
+#remotes::install_github("DTUAqua/DATRAS/DATRAS")
+#remotes::install_github("casperwberg/surveyIndex/surveyIndex")
 
 library(surveyIndex)
 library(DATRAS)
 
-downloadExchange("BITS",1985)
+downloadExchange("BITS",1985:2023)
 hl_markus <- read.table("hl_markus.csv",header=TRUE,sep=';')
 dAll<-readExchangeDir(".",strict=TRUE)
 rm(list=setdiff(ls(),c('dAll','hl_markus')))

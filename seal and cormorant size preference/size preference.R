@@ -288,30 +288,24 @@ df.seal <- data.frame(l.class = rep(vec.lengths,length(samplings)),
                       year =  rep(0,n.lengths*length(samplings)))
 
 cod_hatch <- ((16+197)/2)/365 # time of hatching, Julian day / 365 - spawning from Jan. to July (a bit arbitrary from Hüssy et al., 2011), average set to peak spawning
+ages <- c(0,1,2,3,4,5,6,7)
 
 for (i in 1:length(samplings)){
   dada <- gseal.cod %>% filter(my==samplings[i])
   n_sca <- length(unique(dada$Scat))
   date <- paste(dada$Year[1],'-',which(dada$Month[1]==month)[[1]],'-',15,sep="")
   jday <- yday(date)/365
-  sizes <- c(vbgrCod(jday-cod_hatch),vbgrCod(jday-cod_hatch+1),vbgrCod(jday-cod_hatch+2),vbgrCod(jday-cod_hatch+3),
-             vbgrCod(jday-cod_hatch+4),vbgrCod(jday-cod_hatch+5),vbgrCod(jday-cod_hatch+6),vbgrCod(jday-cod_hatch+7))*10
-  ages <- c(0,1,2,3,4,5,6,7)
   cod.i <- N_ageCod(Cod,ages,dada$Year[1])[jday*365,1:length(ages)]
-  sd<- c(vbgr.sdCod(jday-cod_hatch,100000),vbgr.sdCod(jday-cod_hatch+1,100000),vbgr.sdCod(jday-cod_hatch+2,100000),vbgr.sdCod(jday-cod_hatch+3,100000),
-         vbgr.sdCod(jday-cod_hatch+4,100000),vbgr.sdCod(jday-cod_hatch+5,100000),vbgr.sdCod(jday-cod_hatch+6,100000),vbgr.sdCod(jday-cod_hatch+7,100000))*10
   
-  if (min(sd)<0){
-    sd[sd<0] <-rep(0,length(sd[sd<0]))
+  available <- matrix(NA,ncol=length(ages),nrow = length(vec.lengths))
+  for(j in 1:length(ages)){
+    size <- vbgrCod(jday-cod_hatch+(j-1))*10
+    sd<- vbgr.sdCod(jday-cod_hatch+(j-1),100000)*10
+    sd[sd<0] <- 0
+    available[,j] <- cod.i[j]*dnorm(vec.lengths,size,sd)/sum(dnorm(vec.lengths,size,sd))
   }
-  available <- c(floor(rnorm(cod.i[1],sizes[1],sd[1])/width)*width+width/2,floor(rnorm(cod.i[2],sizes[2],sd[2])/width)*width+width/2,
-                 floor(rnorm(cod.i[3],sizes[3],sd[3])/width)*width+width/2,floor(rnorm(cod.i[4],sizes[4],sd[4])/width)*width+width/2,
-                 floor(rnorm(cod.i[5],sizes[5],sd[5])/width)*width+width/2,floor(rnorm(cod.i[6],sizes[6],sd[6])/width)*width+width/2,
-                 floor(rnorm(cod.i[7],sizes[7],sd[7])/width)*width+width/2,floor(rnorm(cod.i[8],sizes[8],sd[8])/width)*width+width/2)
-  available[available<0] <- rep(width/2,length(available[available<0]))
+  avail <- data.frame(l.class=vec.lengths,available=rowSums(available))
 
-  avail <- as.data.frame(table(available))
-  colnames(avail) <- c("l.class", "available")
   eat <- as.data.frame(table(dada$size))
   colnames(eat) <- c("l.class", "eaten")
   
@@ -326,7 +320,7 @@ for (i in 1:length(samplings)){
 }
 df.seal$odds <- df.seal$n_eaten/df.seal$n
 df.seal <- df.seal %>% filter(!is.na(odds))
-plot(df.seal$l.class,df.seal$odds)
+#plot(df.seal$l.class,df.seal$odds)
 # Remove outliers - NB put in again when more data
 df.seal <- df.seal %>% filter(odds<0.03)
 
@@ -448,31 +442,23 @@ df.corm <- data.frame(l.class = rep(vec.lengths,length(samplings)),
                       year =  rep(0,n.lengths*length(samplings)))
 
 cod_hatch <- ((16+197)/2)/365 # time of hatching, Julian day / 365 - spawning from Jan. to July (a bit arbitrary from Hüssy et al., 2011), average set to peak spawning
+ages <- 0:7
 start_time <- Sys.time() #NB takes 5 min
 for (i in 1:length(samplings)){
   dada <- cod_corm %>% filter(dmy==samplings[i])
   n_sca <- length(unique(dada$GYLP))
   date <- paste(dada$year[1],'-',which(dada$month[1]==month)[[1]],'-',dada$day[1],sep="")
   jday <- yday(date)/365
-  sizes <- c(vbgrCod(jday-cod_hatch),vbgrCod(jday-cod_hatch+1),vbgrCod(jday-cod_hatch+2),vbgrCod(jday-cod_hatch+3),
-             vbgrCod(jday-cod_hatch+4),vbgrCod(jday-cod_hatch+5),vbgrCod(jday-cod_hatch+6),vbgrCod(jday-cod_hatch+7))*10
-  ages <- 0:7
   cod.i <- N_ageCod(Cod,ages,dada$year[1])[jday*365,1:length(ages)]
-  sd<- c(vbgr.sdCod(jday-cod_hatch,100000),vbgr.sdCod(jday-cod_hatch+1,100000),vbgr.sdCod(jday-cod_hatch+2,100000),vbgr.sdCod(jday-cod_hatch+3,100000),
-         vbgr.sdCod(jday-cod_hatch+4,100000),vbgr.sdCod(jday-cod_hatch+5,100000),vbgr.sdCod(jday-cod_hatch+6,100000),vbgr.sdCod(jday-cod_hatch+7,100000))*10
   
-  if (min(sd)<0){
-    sd[sd<0] <-rep(0,length(sd[sd<0]))
+  available <- matrix(NA,ncol=length(ages),nrow = length(vec.lengths))
+  for(j in 1:length(ages)){
+    size <- vbgrCod(jday-cod_hatch+(j-1))*10
+    sd<- vbgr.sdCod(jday-cod_hatch+(j-1),100000)*10
+    sd[sd<0] <- 0
+    available[,j] <- cod.i[j]*dnorm(vec.lengths,size,sd)/sum(dnorm(vec.lengths,size,sd))
   }
-  available <- c(floor(rnorm(cod.i[1],sizes[1],sd[1])/width)*width+width/2,floor(rnorm(cod.i[2],sizes[2],sd[2])/width)*width+width/2,
-                 floor(rnorm(cod.i[3],sizes[3],sd[3])/width)*width+width/2,floor(rnorm(cod.i[4],sizes[4],sd[4])/width)*width+width/2,
-                 floor(rnorm(cod.i[5],sizes[5],sd[5])/width)*width+width/2,floor(rnorm(cod.i[6],sizes[6],sd[6])/width)*width+width/2,
-                 floor(rnorm(cod.i[7],sizes[7],sd[7])/width)*width+width/2,floor(rnorm(cod.i[8],sizes[8],sd[8])/width)*width+width/2)
-  available[available<0] <- rep(NA,length(available[available<0]))
-  
-  
-  avail <- as.data.frame(table(available))
-  colnames(avail) <- c("l.class", "available")
+  avail <- data.frame(l.class=vec.lengths,available=rowSums(available))
   eat <- as.data.frame(table(dada$size))
   colnames(eat) <- c("l.class", "eaten")
   
@@ -624,38 +610,23 @@ df.seal <- data.frame(l.class = rep(vec.lengths,length(samplings)),
                       year =  rep(0,n.lengths*length(samplings)))
 
 herring_hatch <- mean(c(92,92,94,96,99,103,106,109,111,118,118,122,126,134,135,143)/365)
+ages <- 0:8
 
 for (i in 1:length(samplings)){
   dada <- gseal.herring %>% filter(my==samplings[i])
   n_sca <- length(unique(dada$Scat))
   date <- paste(dada$Year[1],'-',which(dada$Month[1]==month)[[1]],'-',15,sep="")
   jday <- yday(date)/365
-  sizes <- c(vbgrHerring(jday-herring_hatch),vbgrHerring(jday-herring_hatch+1),
-             vbgrHerring(jday-herring_hatch+2),vbgrHerring(jday-herring_hatch+3),
-             vbgrHerring(jday-herring_hatch+4),vbgrHerring(jday-herring_hatch+5),
-             vbgrHerring(jday-herring_hatch+6),vbgrHerring(jday-herring_hatch+7),
-             vbgrHerring(jday-herring_hatch+8))*10
-  ages <- 0:8
+
   herring.i <- N_ageHerring(Herring,ages,dada$Year[1])[jday*365,1:length(ages)]
-  
-  sd<- c(vbgr.sdHerring(jday-herring_hatch,100000),vbgr.sdHerring(jday-herring_hatch+1,100000),
-         vbgr.sdHerring(jday-herring_hatch+2,100000),vbgr.sdHerring(jday-herring_hatch+3,100000),
-         vbgr.sdHerring(jday-herring_hatch+4,100000),vbgr.sdHerring(jday-herring_hatch+5,100000),
-         vbgr.sdHerring(jday-herring_hatch+6,100000),vbgr.sdHerring(jday-herring_hatch+7,100000),
-         vbgr.sdHerring(jday-herring_hatch+7,100000))*10
-  if (min(sd)<0){
-    sd[sd] <-rep(0,length(sd[sd<0]))
+  available <- matrix(NA,ncol=length(ages),nrow = length(vec.lengths))
+  for(j in 1:length(ages)){
+    size <- vbgrHerring(jday-herring_hatch+(j-1))*10
+    sd<- vbgr.sdHerring(jday-herring_hatch+(j-1),100000)*10
+    sd[sd<0] <- 0
+    available[,j] <- herring.i[j]*dnorm(vec.lengths,size,sd)/sum(dnorm(vec.lengths,size,sd))
   }
-  available <- c(floor(rnorm(herring.i[1],sizes[1],sd[1])/width)*width+width/2,floor(rnorm(herring.i[2],sizes[2],sd[2])/width)*width+width/2,
-                 floor(rnorm(herring.i[3],sizes[3],sd[3])/width)*width+width/2,floor(rnorm(herring.i[4],sizes[4],sd[4])/width)*width+width/2,
-                 floor(rnorm(herring.i[5],sizes[5],sd[5])/width)*width+width/2,floor(rnorm(herring.i[6],sizes[6],sd[6])/width)*width+width/2,
-                 floor(rnorm(herring.i[7],sizes[7],sd[7])/width)*width+width/2,floor(rnorm(herring.i[8],sizes[8],sd[8])/width)*width+width/2,
-                 floor(rnorm(herring.i[9],sizes[9],sd[9])/width)*width+width/2)
-  available[available<0] <- rep(width/2,length(available[available<0]))
-  
-  
-  avail <- as.data.frame(table(available))
-  colnames(avail) <- c("l.class", "available")
+  avail <- data.frame(l.class=vec.lengths,available=rowSums(available))
   eat <- as.data.frame(table(dada$size))
   colnames(eat) <- c("l.class", "eaten")
   
@@ -806,37 +777,25 @@ df.corm <- data.frame(l.class = rep(vec.lengths,length(samplings)),
                       year =  rep(0,n.lengths*length(samplings)))
 
 herring_hatch <- mean(c(92,92,94,96,99,103,106,109,111,118,118,122,126,134,135,143)/365)
+ages <- 0:8
+
 start_time <- Sys.time() #NB takes 5 min
 for (i in 1:length(samplings)){
   dada <- herring_corm %>% filter(dmy==samplings[i])
   n_sca <- length(unique(dada$GYLP))
   date <- paste(dada$year[1],'-',which(dada$month[1]==month)[[1]],'-',dada$day[1],sep="")
   jday <- yday(date)/365
-  sizes <- c(vbgrHerring(jday-herring_hatch),vbgrHerring(jday-herring_hatch+1),
-             vbgrHerring(jday-herring_hatch+2),vbgrHerring(jday-herring_hatch+3),
-             vbgrHerring(jday-herring_hatch+4),vbgrHerring(jday-herring_hatch+5),
-             vbgrHerring(jday-herring_hatch+6),vbgrHerring(jday-herring_hatch+7),
-             vbgrHerring(jday-herring_hatch+8))*10
-  ages <- 0:8
+
   herring.i <- N_ageHerring(Herring,ages,dada$year[1])[jday*365,1:length(ages)]
-  sd<- c(vbgr.sdHerring(jday-herring_hatch,100000),vbgr.sdHerring(jday-herring_hatch+1,100000),
-         vbgr.sdHerring(jday-herring_hatch+2,100000),vbgr.sdHerring(jday-herring_hatch+3,100000),
-         vbgr.sdHerring(jday-herring_hatch+4,100000),vbgr.sdHerring(jday-herring_hatch+5,100000),
-         vbgr.sdHerring(jday-herring_hatch+6,100000),vbgr.sdHerring(jday-herring_hatch+7,100000),
-         vbgr.sdHerring(jday-herring_hatch+8,100000))*10
-  
-  if (min(sd)<0){
-    sd[sd<0] <-rep(0,length(sd[sd<0]))
+  available <- matrix(NA,ncol=length(ages),nrow = length(vec.lengths))
+  for(j in 1:length(ages)){
+    size <- vbgrHerring(jday-herring_hatch+(j-1))*10
+    sd<- vbgr.sdHerring(jday-herring_hatch+(j-1),100000)*10
+    sd[sd<0] <- 0
+    available[,j] <- herring.i[j]*dnorm(vec.lengths,size,sd)/sum(dnorm(vec.lengths,size,sd))
   }
-  available <- c(floor(rnorm(herring.i[1],sizes[1],sd[1])/width)*width+width/2,floor(rnorm(herring.i[2],sizes[2],sd[2])/width)*width+width/2,
-                 floor(rnorm(herring.i[3],sizes[3],sd[3])/width)*width+width/2,floor(rnorm(herring.i[4],sizes[4],sd[4])/width)*width+width/2,
-                 floor(rnorm(herring.i[5],sizes[5],sd[5])/width)*width+width/2,floor(rnorm(herring.i[6],sizes[6],sd[6])/width)*width+width/2,
-                 floor(rnorm(herring.i[7],sizes[7],sd[7])/width)*width+width/2,floor(rnorm(herring.i[8],sizes[8],sd[8])/width)*width+width/2,
-                 floor(rnorm(herring.i[9],sizes[9],sd[9])/width)*width+width/2)
-  available[available<0] <- rep(width/2,length(available[available<0]))
-  
-  avail <- as.data.frame(table(available))
-  colnames(avail) <- c("l.class", "available")
+  avail <- data.frame(l.class=vec.lengths,available=rowSums(available))
+
   eat <- as.data.frame(table(dada$size))
   colnames(eat) <- c("l.class", "eaten")
   
@@ -848,7 +807,6 @@ for (i in 1:length(samplings)){
   df.corm$n_scat[i.idx] <- rep(n_sca,n.lengths)
   #  df$location <- rep(dada$Site[1],n.lengths)
   df.corm$year[i.idx] <- rep(dada$year[1],n.lengths)
-  print(i)
 }
 end_time <- Sys.time()
 elapsed <- end_time - start_time
@@ -979,107 +937,31 @@ df.seal <- data.frame(l.class = rep(vec.lengths,length(samplings)),
 Flounder_hatch <- ((75+197)/2)/365 # time of hatching, Julian day / 365 - from fiskeatlas 
 Plaice_hatch <- ((-46+75)/2)/365 # time of hatching, Julian day / 365 - from fiskeatlas 
 Dab_hatch <- ((105+228)/2)/365 # time of hatching, Julian day / 365 - from fiskeatlas 
-
+ages <- 0:10
 for (i in 1:length(samplings)){
   dada <- gseal.flatfish %>% filter(my==samplings[i])
   n_sca <- length(unique(dada$Scat))
   date <- paste(dada$Year[1],'-',which(dada$Month[1]==month)[[1]],'-',15,sep="")
   jday <- yday(date)/365
-  sizesFlounder <- c(vbgrFlounder(jday-Flounder_hatch),vbgrFlounder(jday-Flounder_hatch+1),
-                     vbgrFlounder(jday-Flounder_hatch+2),vbgrFlounder(jday-Flounder_hatch+3),
-                     vbgrFlounder(jday-Flounder_hatch+4),vbgrFlounder(jday-Flounder_hatch+5),
-                     vbgrFlounder(jday-Flounder_hatch+6),vbgrFlounder(jday-Flounder_hatch+7),
-                     vbgrFlounder(jday-Flounder_hatch+8),vbgrFlounder(jday-Flounder_hatch+9),
-                     vbgrFlounder(jday-Flounder_hatch+10))*10
-  sizesPlaice <- c(vbgrPlaice(jday-Plaice_hatch),vbgrPlaice(jday-Plaice_hatch+1),
-                     vbgrPlaice(jday-Plaice_hatch+2),vbgrPlaice(jday-Plaice_hatch+3),
-                     vbgrPlaice(jday-Plaice_hatch+4),vbgrPlaice(jday-Plaice_hatch+5),
-                     vbgrPlaice(jday-Plaice_hatch+6),vbgrPlaice(jday-Plaice_hatch+7),
-                     vbgrPlaice(jday-Plaice_hatch+8),vbgrPlaice(jday-Plaice_hatch+9),
-                     vbgrPlaice(jday-Plaice_hatch+10))*10
-  sizesDab <- c(vbgrDab(jday-Dab_hatch),vbgrDab(jday-Dab_hatch+1),
-                     vbgrDab(jday-Dab_hatch+2),vbgrDab(jday-Dab_hatch+3),
-                     vbgrDab(jday-Dab_hatch+4),vbgrDab(jday-Dab_hatch+5),
-                     vbgrDab(jday-Dab_hatch+6),vbgrDab(jday-Dab_hatch+7),
-                     vbgrDab(jday-Dab_hatch+8),vbgrDab(jday-Dab_hatch+9),
-                     vbgrDab(jday-Dab_hatch+10))*10
+  
   fl.i <- Flatfish %>% filter(yday==round(jday*365))
   fl.i$Age[fl.i$Age>=11] <- 10+jday
   flatfish.i <- aggregate(N~Age+species,data=fl.i,FUN=sum)
-  
-  sdFlounder<- c(vbgr.sdFlounder(jday-Flounder_hatch,100000),vbgr.sdFlounder(jday-Flounder_hatch+1,100000),
-         vbgr.sdFlounder(jday-Flounder_hatch+2,100000),vbgr.sdFlounder(jday-Flounder_hatch+3,100000),
-         vbgr.sdFlounder(jday-Flounder_hatch+4,100000),vbgr.sdFlounder(jday-Flounder_hatch+5,100000),
-         vbgr.sdFlounder(jday-Flounder_hatch+6,100000),vbgr.sdFlounder(jday-Flounder_hatch+7,100000),
-         vbgr.sdFlounder(jday-Flounder_hatch+8,100000),vbgr.sdFlounder(jday-Flounder_hatch+9,100000),
-         vbgr.sdFlounder(jday-Flounder_hatch+10,100000))*10
-  sdPlaice<- c(vbgr.sdPlaice(jday-Plaice_hatch,100000),vbgr.sdPlaice(jday-Plaice_hatch+1,100000),
-                 vbgr.sdPlaice(jday-Plaice_hatch+2,100000),vbgr.sdPlaice(jday-Plaice_hatch+3,100000),
-                 vbgr.sdPlaice(jday-Plaice_hatch+4,100000),vbgr.sdPlaice(jday-Plaice_hatch+5,100000),
-                 vbgr.sdPlaice(jday-Plaice_hatch+6,100000),vbgr.sdPlaice(jday-Plaice_hatch+7,100000),
-                 vbgr.sdPlaice(jday-Plaice_hatch+8,100000),vbgr.sdPlaice(jday-Plaice_hatch+9,100000),
-                 vbgr.sdPlaice(jday-Plaice_hatch+10,100000))*10
-  sdDab<- c(vbgr.sdDab(jday-Dab_hatch,100000),vbgr.sdDab(jday-Dab_hatch+1,100000),
-                 vbgr.sdDab(jday-Dab_hatch+2,100000),vbgr.sdDab(jday-Dab_hatch+3,100000),
-                 vbgr.sdDab(jday-Dab_hatch+4,100000),vbgr.sdDab(jday-Dab_hatch+5,100000),
-                 vbgr.sdDab(jday-Dab_hatch+6,100000),vbgr.sdDab(jday-Dab_hatch+7,100000),
-                 vbgr.sdDab(jday-Dab_hatch+8,100000),vbgr.sdDab(jday-Dab_hatch+9,100000),
-                 vbgr.sdDab(jday-Dab_hatch+10,100000))*10
+  Fl <- flatfish.i %>% filter(species=="flounder")
+  Pl <- flatfish.i %>% filter(species=="plaice")
+  Da <- flatfish.i %>% filter(species=="dab")
   
   
-  if (min(sdFlounder)<0){
-    sdFlounder[sdFlounder] <-rep(0,length(sdFlounder[sdFlounder<0]))
+  available <- matrix(NA,ncol=length(ages),nrow = length(vec.lengths))
+  for(j in 1:length(ages)){
+    size <- c(vbgrFlounder(jday-Flounder_hatch+(j-1)),vbgrPlaice(jday-Plaice_hatch+(j-1)),vbgrDab(jday-Dab_hatch+(j-1)))*10
+    sd<- c(vbgr.sdFlounder(jday-Flounder_hatch+(j-1),100000),vbgr.sdPlaice(jday-Plaice_hatch+(j-1),100000),vbgr.sdDab(jday-Dab_hatch+(j-1),100000))*10
+    sd[sd<0] <- 0
+    available[,j] <- Fl$N[j]*dnorm(vec.lengths,size[1],sd[1])/sum(dnorm(vec.lengths,size[1],sd[1]))+
+      Pl$N[j]*dnorm(vec.lengths,size[2],sd[2])/sum(dnorm(vec.lengths,size[2],sd[2]))+
+      Da$N[j]*dnorm(vec.lengths,size[3],sd[3])/sum(dnorm(vec.lengths,size[3],sd[3]))
   }
-  if (min(sdPlaice)<0){
-    sdPlaice[sdPlaice] <-rep(0,length(sdPlaice[sdPlaice<0]))
-  }
-  if (min(sdDab)<0){
-    sdDab[sdDab] <-rep(0,length(sdDab[sdDab<0]))
-  }
-  
-  
-  
-  
-  availableFlounder <- c(floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][1],sizesFlounder[1],sdFlounder[1])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][2],sizesFlounder[2],sdFlounder[2])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][3],sizesFlounder[3],sdFlounder[3])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][4],sizesFlounder[4],sdFlounder[4])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][5],sizesFlounder[5],sdFlounder[5])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][6],sizesFlounder[6],sdFlounder[6])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][7],sizesFlounder[7],sdFlounder[7])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][8],sizesFlounder[8],sdFlounder[8])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][9],sizesFlounder[9],sdFlounder[9])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][10],sizesFlounder[10],sdFlounder[10])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][11],sizesFlounder[11],sdFlounder[11])/width)*width+width/2)
-  availableFlounder[availableFlounder<0] <- rep(width/2,length(availableFlounder[availableFlounder<0]))
-  availablePlaice <- c(floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][1],sizesPlaice[1],sdPlaice[1])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][2],sizesPlaice[2],sdPlaice[2])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][3],sizesPlaice[3],sdPlaice[3])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][4],sizesPlaice[4],sdPlaice[4])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][5],sizesPlaice[5],sdPlaice[5])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][6],sizesPlaice[6],sdPlaice[6])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][7],sizesPlaice[7],sdPlaice[7])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][8],sizesPlaice[8],sdPlaice[8])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][9],sizesPlaice[9],sdPlaice[9])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][10],sizesPlaice[10],sdPlaice[10])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][11],sizesPlaice[11],sdPlaice[11])/width)*width+width/2)
-  availablePlaice[availablePlaice<0] <- rep(width/2,length(availablePlaice[availablePlaice<0]))
-  availableDab <- c(floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][1],sizesDab[1],sdDab[1])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][2],sizesDab[2],sdDab[2])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][3],sizesDab[3],sdDab[3])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][4],sizesDab[4],sdDab[4])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][5],sizesDab[5],sdDab[5])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][6],sizesDab[6],sdDab[6])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][7],sizesDab[7],sdDab[7])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][8],sizesDab[8],sdDab[8])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][9],sizesDab[9],sdDab[9])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][10],sizesDab[10],sdDab[10])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][11],sizesDab[11],sdDab[11])/width)*width+width/2)
-  availableDab[availableDab<0] <- rep(width/2,length(availableDab[availableDab<0]))
-  available <- c(availableFlounder,availablePlaice,availableDab)
-  
-  avail <- as.data.frame(table(available))
-  colnames(avail) <- c("l.class", "available")
+  avail <- data.frame(l.class=vec.lengths,available=rowSums(available))
   eat <- as.data.frame(table(dada$size))
   colnames(eat) <- c("l.class", "eaten")
   
@@ -1091,8 +973,6 @@ for (i in 1:length(samplings)){
   df.seal$n_scat[i.idx] <- rep(length(unique(dada$Scat)),n.lengths)
   #  df$location <- rep(dada$Site[1],n.lengths)
   df.seal$year[i.idx] <- rep(dada$Year[1],n.lengths)
-  
-  print(i)
 }
 df.seal$odds <- df.seal$n_eaten/df.seal$n
 #df.seal$n[df.seal$n==0] <- 1
@@ -1225,108 +1105,31 @@ df.corm <- data.frame(l.class = rep(vec.lengths,length(samplings)),
 Flounder_hatch <- ((75+197)/2)/365 # time of hatching, Julian day / 365 - from fiskeatlas 
 Plaice_hatch <- ((-46+75)/2)/365 # time of hatching, Julian day / 365 - from fiskeatlas 
 Dab_hatch <- ((105+228)/2)/365 # time of hatching, Julian day / 365 - from fiskeatlas 
-
+ages <- 0:10
 start_time <- Sys.time() #NB takes 5 min
 for (i in 1:length(samplings)){
   dada <- flatfish_corm %>% filter(dmy==samplings[i])
   n_sca <- length(unique(dada$GYLP))
   date <- paste(dada$year[1],'-',which(dada$month[1]==month)[[1]],'-',dada$day[1],sep="")
   jday <- yday(date)/365
-  sizesFlounder <- c(vbgrFlounder(jday-Flounder_hatch),vbgrFlounder(jday-Flounder_hatch+1),
-                     vbgrFlounder(jday-Flounder_hatch+2),vbgrFlounder(jday-Flounder_hatch+3),
-                     vbgrFlounder(jday-Flounder_hatch+4),vbgrFlounder(jday-Flounder_hatch+5),
-                     vbgrFlounder(jday-Flounder_hatch+6),vbgrFlounder(jday-Flounder_hatch+7),
-                     vbgrFlounder(jday-Flounder_hatch+8),vbgrFlounder(jday-Flounder_hatch+9),
-                     vbgrFlounder(jday-Flounder_hatch+10))*10
-  sizesPlaice <- c(vbgrPlaice(jday-Plaice_hatch),vbgrPlaice(jday-Plaice_hatch+1),
-                   vbgrPlaice(jday-Plaice_hatch+2),vbgrPlaice(jday-Plaice_hatch+3),
-                   vbgrPlaice(jday-Plaice_hatch+4),vbgrPlaice(jday-Plaice_hatch+5),
-                   vbgrPlaice(jday-Plaice_hatch+6),vbgrPlaice(jday-Plaice_hatch+7),
-                   vbgrPlaice(jday-Plaice_hatch+8),vbgrPlaice(jday-Plaice_hatch+9),
-                   vbgrPlaice(jday-Plaice_hatch+10))*10
-  sizesDab <- c(vbgrDab(jday-Dab_hatch),vbgrDab(jday-Dab_hatch+1),
-                vbgrDab(jday-Dab_hatch+2),vbgrDab(jday-Dab_hatch+3),
-                vbgrDab(jday-Dab_hatch+4),vbgrDab(jday-Dab_hatch+5),
-                vbgrDab(jday-Dab_hatch+6),vbgrDab(jday-Dab_hatch+7),
-                vbgrDab(jday-Dab_hatch+8),vbgrDab(jday-Dab_hatch+9),
-                vbgrDab(jday-Dab_hatch+10))*10
   fl.i <- Flatfish %>% filter(yday==round(jday*365))
   fl.i$Age[fl.i$Age>=11] <- 10+jday
   flatfish.i <- aggregate(N~Age+species,data=fl.i,FUN=sum)
-  
-  sdFlounder<- c(vbgr.sdFlounder(jday-Flounder_hatch,100000),vbgr.sdFlounder(jday-Flounder_hatch+1,100000),
-                 vbgr.sdFlounder(jday-Flounder_hatch+2,100000),vbgr.sdFlounder(jday-Flounder_hatch+3,100000),
-                 vbgr.sdFlounder(jday-Flounder_hatch+4,100000),vbgr.sdFlounder(jday-Flounder_hatch+5,100000),
-                 vbgr.sdFlounder(jday-Flounder_hatch+6,100000),vbgr.sdFlounder(jday-Flounder_hatch+7,100000),
-                 vbgr.sdFlounder(jday-Flounder_hatch+8,100000),vbgr.sdFlounder(jday-Flounder_hatch+9,100000),
-                 vbgr.sdFlounder(jday-Flounder_hatch+10,100000))*10
-  sdPlaice<- c(vbgr.sdPlaice(jday-Plaice_hatch,100000),vbgr.sdPlaice(jday-Plaice_hatch+1,100000),
-               vbgr.sdPlaice(jday-Plaice_hatch+2,100000),vbgr.sdPlaice(jday-Plaice_hatch+3,100000),
-               vbgr.sdPlaice(jday-Plaice_hatch+4,100000),vbgr.sdPlaice(jday-Plaice_hatch+5,100000),
-               vbgr.sdPlaice(jday-Plaice_hatch+6,100000),vbgr.sdPlaice(jday-Plaice_hatch+7,100000),
-               vbgr.sdPlaice(jday-Plaice_hatch+8,100000),vbgr.sdPlaice(jday-Plaice_hatch+9,100000),
-               vbgr.sdPlaice(jday-Plaice_hatch+10,100000))*10
-  sdDab<- c(vbgr.sdDab(jday-Dab_hatch,100000),vbgr.sdDab(jday-Dab_hatch+1,100000),
-            vbgr.sdDab(jday-Dab_hatch+2,100000),vbgr.sdDab(jday-Dab_hatch+3,100000),
-            vbgr.sdDab(jday-Dab_hatch+4,100000),vbgr.sdDab(jday-Dab_hatch+5,100000),
-            vbgr.sdDab(jday-Dab_hatch+6,100000),vbgr.sdDab(jday-Dab_hatch+7,100000),
-            vbgr.sdDab(jday-Dab_hatch+8,100000),vbgr.sdDab(jday-Dab_hatch+9,100000),
-            vbgr.sdDab(jday-Dab_hatch+10,100000))*10
+  Fl <- flatfish.i %>% filter(species=="flounder")
+  Pl <- flatfish.i %>% filter(species=="plaice")
+  Da <- flatfish.i %>% filter(species=="dab")
   
   
-  if (min(sdFlounder)<0){
-    sdFlounder[sdFlounder] <-rep(0,length(sdFlounder[sdFlounder<0]))
+  available <- matrix(NA,ncol=length(ages),nrow = length(vec.lengths))
+  for(j in 1:length(ages)){
+    size <- c(vbgrFlounder(jday-Flounder_hatch+(j-1)),vbgrPlaice(jday-Plaice_hatch+(j-1)),vbgrDab(jday-Dab_hatch+(j-1)))*10
+    sd<- c(vbgr.sdFlounder(jday-Flounder_hatch+(j-1),100000),vbgr.sdPlaice(jday-Plaice_hatch+(j-1),100000),vbgr.sdDab(jday-Dab_hatch+(j-1),100000))*10
+    sd[sd<0] <- 0
+    available[,j] <- Fl$N[j]*dnorm(vec.lengths,size[1],sd[1])/sum(dnorm(vec.lengths,size[1],sd[1]))+
+      Pl$N[j]*dnorm(vec.lengths,size[2],sd[2])/sum(dnorm(vec.lengths,size[2],sd[2]))+
+      Da$N[j]*dnorm(vec.lengths,size[3],sd[3])/sum(dnorm(vec.lengths,size[3],sd[3]))
   }
-  if (min(sdPlaice)<0){
-    sdPlaice[sdPlaice] <-rep(0,length(sdPlaice[sdPlaice<0]))
-  }
-  if (min(sdDab)<0){
-    sdDab[sdDab] <-rep(0,length(sdDab[sdDab<0]))
-  }
-  
-  
-  
-  
-  availableFlounder <- c(floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][1],sizesFlounder[1],sdFlounder[1])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][2],sizesFlounder[2],sdFlounder[2])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][3],sizesFlounder[3],sdFlounder[3])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][4],sizesFlounder[4],sdFlounder[4])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][5],sizesFlounder[5],sdFlounder[5])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][6],sizesFlounder[6],sdFlounder[6])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][7],sizesFlounder[7],sdFlounder[7])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][8],sizesFlounder[8],sdFlounder[8])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][9],sizesFlounder[9],sdFlounder[9])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][10],sizesFlounder[10],sdFlounder[10])/width)*width+width/2,
-                         floor(rnorm(flatfish.i$N[flatfish.i$species=="flounder"][11],sizesFlounder[11],sdFlounder[11])/width)*width+width/2)
-  availableFlounder[availableFlounder<0] <- rep(width/2,length(availableFlounder[availableFlounder<0]))
-  availablePlaice <- c(floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][1],sizesPlaice[1],sdPlaice[1])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][2],sizesPlaice[2],sdPlaice[2])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][3],sizesPlaice[3],sdPlaice[3])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][4],sizesPlaice[4],sdPlaice[4])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][5],sizesPlaice[5],sdPlaice[5])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][6],sizesPlaice[6],sdPlaice[6])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][7],sizesPlaice[7],sdPlaice[7])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][8],sizesPlaice[8],sdPlaice[8])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][9],sizesPlaice[9],sdPlaice[9])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][10],sizesPlaice[10],sdPlaice[10])/width)*width+width/2,
-                       floor(rnorm(flatfish.i$N[flatfish.i$species=="plaice"][11],sizesPlaice[11],sdPlaice[11])/width)*width+width/2)
-  availablePlaice[availablePlaice<0] <- rep(width/2,length(availablePlaice[availablePlaice<0]))
-  availableDab <- c(floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][1],sizesDab[1],sdDab[1])/width)*width+width/2,
-                    floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][2],sizesDab[2],sdDab[2])/width)*width+width/2,
-                    floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][3],sizesDab[3],sdDab[3])/width)*width+width/2,
-                    floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][4],sizesDab[4],sdDab[4])/width)*width+width/2,
-                    floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][5],sizesDab[5],sdDab[5])/width)*width+width/2,
-                    floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][6],sizesDab[6],sdDab[6])/width)*width+width/2,
-                    floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][7],sizesDab[7],sdDab[7])/width)*width+width/2,
-                    floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][8],sizesDab[8],sdDab[8])/width)*width+width/2,
-                    floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][9],sizesDab[9],sdDab[9])/width)*width+width/2,
-                    floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][10],sizesDab[10],sdDab[10])/width)*width+width/2,
-                    floor(rnorm(flatfish.i$N[flatfish.i$species=="dab"][11],sizesDab[11],sdDab[11])/width)*width+width/2)
-  availableDab[availableDab<0] <- rep(width/2,length(availableDab[availableDab<0]))
-  available <- c(availableFlounder,availablePlaice,availableDab)
-  
-  avail <- as.data.frame(table(available))
-  colnames(avail) <- c("l.class", "available")
+  avail <- data.frame(l.class=vec.lengths,available=rowSums(available))
   eat <- as.data.frame(table(dada$size))
   colnames(eat) <- c("l.class", "eaten")
   
@@ -1338,8 +1141,6 @@ for (i in 1:length(samplings)){
   df.corm$n_scat[i.idx] <- rep(n_sca,n.lengths)
   #  df$location <- rep(dada$Site[1],n.lengths)
   df.corm$year[i.idx] <- rep(dada$year[1],n.lengths)
-  
-  print(i)
 }
 end_time <- Sys.time()
 elapsed <- end_time - start_time
@@ -1477,6 +1278,5 @@ save(seal_flatfish.pref, file = paste(dirname(getwd()),"/Dirichlet diet estimati
 save(corm_cod.pref, file = paste(dirname(getwd()),"/Dirichlet diet estimation/preference functions/corm_cod_pref.RData",sep=""))
 save(corm_herring.pref, file = paste(dirname(getwd()),"/Dirichlet diet estimation/preference functions/corm_herring_pref.RData",sep=""))
 save(corm_flatfish.pref, file = paste(dirname(getwd()),"/Dirichlet diet estimation/preference functions/corm_flatfish_pref.RData",sep=""))
-
 #####
 
