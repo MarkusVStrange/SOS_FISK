@@ -1,5 +1,6 @@
 source('sd estimation.R')
 rm(list=setdiff(ls(),c('df')))
+data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="") # data working directory
 
 ###########
 # cod 

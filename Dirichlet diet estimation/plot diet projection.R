@@ -2,7 +2,7 @@ data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="") # data working d
 
 # plot predicted cormorant diet - month log-scale food
 #####
-cormFood <- read.table(paste(data_wd,"Cormfood_sim.csv",sep=""),header=TRUE,sep=';')
+cormFood <- read.table(paste(data_wd,"Cormfood_sim_quarter.csv",sep=""),header=TRUE,sep=';')
 prey <- c("cod","flatfish")
 cormFood <- cormFood %>% filter(species!="herring")
 cormFood$species[!(cormFood$species %in% prey)] <- "flatfish"
@@ -16,9 +16,9 @@ C.idx <- match(cf$species,prey)
 cf$Bnorm <- (cf$biomass)/meanC.B[C.idx]
 
 k <- exp(c(1.144524,1.540565,1.313913))
-p <- matrix(0,ncol=3,nrow=33)
-for(i in 1:33){
-  food.i <- log(c(c(cf$Bnorm[i],cf$Bnorm[i+33])*100,100))
+p <- matrix(0,ncol=3,nrow=33*4)
+for(i in 1:(33*4)){
+  food.i <- log(c(c(cf$Bnorm[i],cf$Bnorm[i+33*4])*100,100))
   
   p[i,] <- (food.i^k)/sum(food.i^k)
   
@@ -27,7 +27,7 @@ rowSums(p)
 
 df1 <- as.data.frame(p)
 names(df1) <- c("cod","flatfish","other")
-df1$year <- 1991:2023
+df1$year <- rep(1991:2023,each=4)+(c(1/4,2/4,3/4,4/4)-1/8)
 
 df_corm <- df1 %>%
   mutate(
@@ -56,9 +56,9 @@ ggplot(df_corm, aes(x = year)) +
 #####
 # Plot cormorant food index
 par(mfrow=c(1,1))
-plot(1991:2023,(cf$Bnorm[1:33]),type='l',lwd=2,col="indianred2",
+plot(rep(1991:2023,each=4)+(c(1/4,2/4,3/4,4/4)-1/8),cf$Bnorm[cf$species=="cod"],type='l',lwd=2,col="indianred2",
      ylab="Normalized biomass index",xlab="Year",ylim=c(0,4))
-lines(1991:2023,(cf$Bnorm[34:66]),type='l',lwd=2,col="olivedrab",ylab="Normalized biomass index",xlab="Year")
+lines(rep(1991:2023,each=4)+(c(1/4,2/4,3/4,4/4)-1/8),cf$Bnorm[cf$species=="flatfish"],type='l',lwd=2,col="olivedrab",ylab="Normalized biomass index",xlab="Year")
 lines(c(1980,2030),c(1,1),col="lightskyblue",lwd=2,lty="dashed")
 legend("top",               # legend position (or use x/y coordinates)
        legend = c("cod", "flatfish","other"),  # labels
@@ -69,12 +69,11 @@ legend("top",               # legend position (or use x/y coordinates)
 
 # plot predicted grey seal diet - month log-scale food
 #####
-sealFood <- read.table(paste(data_wd,"Sealfood_sim.csv",sep=""),header=TRUE,sep=';')
+sealFood <- read.table(paste(data_wd,"Sealfood_sim_quarter.csv",sep=""),header=TRUE,sep=';')
 prey <- c("cod","flatfish")
 sealFood <- sealFood %>% filter(species!="herring")
 sealFood$species[!(sealFood$species %in% prey)] <- "flatfish"
 sealFood <- aggregate(biomass~sampling+species,data=sealFood,FUN = sum)
-
 
 sf <- aggregate(biomass~sampling+species,data=sealFood,FUN = sum)
 
@@ -83,9 +82,9 @@ C.idx <- match(sf$species,prey)
 sf$Bnorm <- (sf$biomass)/meanC.B[C.idx]
 
 k <- exp(c(0.3775862,0.2061222,-21.8424387))
-p <- matrix(0,ncol=3,nrow=33)
-for(i in 1:33){
-  food.i <- log(c(c(sf$Bnorm[i],sf$Bnorm[i+33])*100,100))
+p <- matrix(0,ncol=3,nrow=33*4)
+for(i in 1:(33*4)){
+  food.i <- log(c(c(sf$Bnorm[i],sf$Bnorm[i+33*4])*100,100))
   
   p[i,] <- (food.i^k)/sum(food.i^k)
   
@@ -94,7 +93,7 @@ rowSums(p)
 
 df1 <- as.data.frame(p)
 names(df1) <- c("cod","flatfish","other")
-df1$year <- 1991:2023
+df1$year <- rep(1991:2023,each=4)+(c(1/4,2/4,3/4,4/4)-1/8)
 
 df_seal <- df1 %>%
   mutate(
@@ -123,9 +122,9 @@ ggplot(df_seal, aes(x = year)) +
 #####
 
 # Plot greay seal food index
-plot(1991:2023,(sf$Bnorm[1:33]),type='l',lwd=2,col="indianred2",
+plot(rep(1991:2023,each=4)+(c(1/4,2/4,3/4,4/4)-1/8),sf$Bnorm[sf$species=="cod"],type='l',lwd=2,col="indianred2",
      ylab="Normalized biomass index",xlab="Year",ylim=c(0,4))
-lines(1991:2023,(sf$Bnorm[34:66]),type='l',lwd=2,col="olivedrab",ylab="Normalized biomass index",xlab="Year")
+lines(rep(1991:2023,each=4)+(c(1/4,2/4,3/4,4/4)-1/8),sf$Bnorm[sf$species=="flatfish"],type='l',lwd=2,col="olivedrab",ylab="Normalized biomass index",xlab="Year")
 lines(c(1980,2030),c(1,1),col="lightskyblue",lwd=2,lty="dashed")
 legend("top",               # legend position (or use x/y coordinates)
        legend = c("cod", "flatfish","other"),  # labels
@@ -135,17 +134,17 @@ legend("top",               # legend position (or use x/y coordinates)
 
 
 n_year <- length(df_corm$year)
-df_c <- data.frame(year=rep(rep(df_corm$year,each=4),3),
-                   quarter = rep(c("Q1","Q2","Q3","Q4"),3*n_year),
-                   prey =rep(c("cod","flatfish","other"),each=4*n_year),
-                   diet=c(rep(df_corm$cod,each=4),rep(df_corm$flatfish,each=4),rep(df_corm$other,each=4)),
-                   predator=rep("cormorant",3*4*n_year))
+df_c <- data.frame(year=rep(floor(df_corm$year),3),
+                   quarter = c("Q1","Q2","Q3","Q4"),
+                   prey =rep(c("cod","flatfish","other"),each=n_year),
+                   diet=c(df_corm$cod,df_corm$flatfish,df_corm$other),
+                   predator=rep("cormorant",3*n_year))
 
-df_s <- data.frame(year=rep(rep(df_seal$year,each=4),3),
-                   quarter = rep(c("Q1","Q2","Q3","Q4"),3*n_year),
-                   prey =rep(c("cod","flatfish","other"),each=4*n_year),
-                   diet=c(rep(df_seal$cod,each=4),rep(df_seal$flatfish,each=4),rep(df_seal$other,each=4)),
-                   predator=rep("grey seal",3*4*n_year))
+df_s <- data.frame(year=rep(floor(df_seal$year),3),
+                   quarter = c("Q1","Q2","Q3","Q4"),
+                   prey =rep(c("cod","flatfish","other"),each=n_year),
+                   diet=c(df_seal$cod,df_seal$flatfish,df_seal$other),
+                   predator=rep("grey seal",3*n_year))
 
 
 pred_diet <- rbind(df_c,df_s)

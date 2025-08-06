@@ -92,7 +92,7 @@ ca.flounder <- ca %>% filter(species==c("flounder"))
 ca.dab <- ca %>% filter(species==c("dab"))
 
 
-#plot(ca.cod$Age+ca.cod$jday,ca.cod$LngtClass)
+plot(ca.cod$Age+ca.cod$jday/365,ca.cod$LngtClass)
 #plot(ca.herring$Age+ca.herring$jday,ca.herring$LngtClass)
 #plot(ca.plaice$Age+ca.plaice$jday,ca.plaice$LngtClass)
 #plot(ca.flounder$Age+ca.flounder$jday,ca.flounder$LngtClass)
