@@ -2,18 +2,18 @@ data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="") # data working d
 
 # plot predicted cormorant diet - month log-scale food
 #####
-cormFood <- read.table(paste(data_wd,"Cormfood_sim_quarter.csv",sep=""),header=TRUE,sep=';')
+cormFood <- read.table(paste(data_wd,"Cormorantfood_sim_quarter.csv",sep=""),header=TRUE,sep=';')
 prey <- c("cod","flatfish")
 cormFood <- cormFood %>% filter(species!="herring")
 cormFood$species[!(cormFood$species %in% prey)] <- "flatfish"
-cormFood <- aggregate(biomass~sampling+species,data=cormFood,FUN = sum)
+cormFood <- aggregate(B_index~sampling+species,data=cormFood,FUN = sum)
 
 
-cf <- aggregate(biomass~sampling+species,data=cormFood,FUN = sum)
+cf <- aggregate(B_index~sampling+species,data=cormFood,FUN = sum)
 
-meanC.B <- aggregate(biomass~species,data=cf,FUN=mean)$biomass
+meanC.B <- aggregate(B_index~species,data=cf,FUN=mean)$B_index
 C.idx <- match(cf$species,prey)
-cf$Bnorm <- (cf$biomass)/meanC.B[C.idx]
+cf$Bnorm <- (cf$B_index)/meanC.B[C.idx]
 
 k <- exp(c(1.144524,1.540565,1.313913))
 p <- matrix(0,ncol=3,nrow=33*4)
@@ -42,7 +42,7 @@ ggplot(df_corm, aes(x = year)) +
   geom_ribbon(aes(ymin = 0, ymax = cod_cum), fill = "indianred2", alpha = 0.5) +
   geom_ribbon(aes(ymin = cod_cum, ymax = flatfish_cum), fill = "olivedrab", alpha = 0.5) +
   geom_ribbon(aes(ymin = flatfish_cum, ymax = other_cum), fill = "lightskyblue", alpha = 0.5) +
-  ylab("Diet proportion") +
+  ylab("Diet proportion") +ggtitle("Cormorant food")+
   xlab("Year") +
   theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 0.8),
         plot.background = element_blank(),
@@ -57,7 +57,7 @@ ggplot(df_corm, aes(x = year)) +
 # Plot cormorant food index
 par(mfrow=c(1,1))
 plot(rep(1991:2023,each=4)+(c(1/4,2/4,3/4,4/4)-1/8),cf$Bnorm[cf$species=="cod"],type='l',lwd=2,col="indianred2",
-     ylab="Normalized biomass index",xlab="Year",ylim=c(0,4))
+     ylab="Normalized biomass index",xlab="Year",ylim=c(0,4),main="Cormorant food")
 lines(rep(1991:2023,each=4)+(c(1/4,2/4,3/4,4/4)-1/8),cf$Bnorm[cf$species=="flatfish"],type='l',lwd=2,col="olivedrab",ylab="Normalized biomass index",xlab="Year")
 lines(c(1980,2030),c(1,1),col="lightskyblue",lwd=2,lty="dashed")
 legend("top",               # legend position (or use x/y coordinates)
@@ -73,13 +73,13 @@ sealFood <- read.table(paste(data_wd,"Sealfood_sim_quarter.csv",sep=""),header=T
 prey <- c("cod","flatfish")
 sealFood <- sealFood %>% filter(species!="herring")
 sealFood$species[!(sealFood$species %in% prey)] <- "flatfish"
-sealFood <- aggregate(biomass~sampling+species,data=sealFood,FUN = sum)
+sealFood <- aggregate(B_index~sampling+species,data=sealFood,FUN = sum)
 
-sf <- aggregate(biomass~sampling+species,data=sealFood,FUN = sum)
+sf <- aggregate(B_index~sampling+species,data=sealFood,FUN = sum)
 
-meanC.B <- aggregate(biomass~species,data=sf,FUN=mean)$biomass
+meanC.B <- aggregate(B_index~species,data=sf,FUN=mean)$B_index
 C.idx <- match(sf$species,prey)
-sf$Bnorm <- (sf$biomass)/meanC.B[C.idx]
+sf$Bnorm <- (sf$B_index)/meanC.B[C.idx]
 
 k <- exp(c(0.3775862,0.2061222,-21.8424387))
 p <- matrix(0,ncol=3,nrow=33*4)
@@ -108,7 +108,7 @@ ggplot(df_seal, aes(x = year)) +
   geom_ribbon(aes(ymin = 0, ymax = cod_cum), fill = "indianred2", alpha = 0.5) +
   geom_ribbon(aes(ymin = cod_cum, ymax = flatfish_cum), fill = "olivedrab", alpha = 0.5) +
   geom_ribbon(aes(ymin = flatfish_cum, ymax = other_cum), fill = "lightskyblue", alpha = 0.5) +
-  ylab("Diet proportion") +
+  ylab("Diet proportion") +ggtitle("Grey Seal food")+
   xlab("Year") +
   theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 0.8),
         plot.background = element_blank(),
@@ -123,7 +123,7 @@ ggplot(df_seal, aes(x = year)) +
 
 # Plot greay seal food index
 plot(rep(1991:2023,each=4)+(c(1/4,2/4,3/4,4/4)-1/8),sf$Bnorm[sf$species=="cod"],type='l',lwd=2,col="indianred2",
-     ylab="Normalized biomass index",xlab="Year",ylim=c(0,4))
+     ylab="Normalized biomass index",xlab="Year",ylim=c(0,4),main="Grey seal food")
 lines(rep(1991:2023,each=4)+(c(1/4,2/4,3/4,4/4)-1/8),sf$Bnorm[sf$species=="flatfish"],type='l',lwd=2,col="olivedrab",ylab="Normalized biomass index",xlab="Year")
 lines(c(1980,2030),c(1,1),col="lightskyblue",lwd=2,lty="dashed")
 legend("top",               # legend position (or use x/y coordinates)
@@ -149,6 +149,6 @@ df_s <- data.frame(year=rep(floor(df_seal$year),3),
 
 pred_diet <- rbind(df_c,df_s)
 pred_diet <- aggregate(diet~prey+quarter+year+predator,data=pred_diet,FUN=mean)
-write.table(pred_diet,paste(data_wd,"pred_diet.csv",sep=""),row.names = FALSE,sep=';')
+#write.table(pred_diet,paste(data_wd,"pred_diet.csv",sep=""),row.names = FALSE,sep=';')
 
 

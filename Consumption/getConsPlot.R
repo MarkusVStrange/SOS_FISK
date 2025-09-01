@@ -36,7 +36,7 @@ getConsPlot <- function(prey,consumption,type){
     #catch.obs <- colSums(catch.obs.nr*weca)
     
     # Plot WB cod
-    yrs <- c(1991:2023)
+    yrs <- c(1985:2023)
     
     # get early consumptions
     cod.cons <- aggregate(consumption_t~year+predator,data=consumption %>% filter(prey=='cod' & year %in% yrs),FUN=sum)

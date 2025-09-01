@@ -132,7 +132,7 @@ lines(1:100,exp_fit(1:100,cod.a[i],cod.b[i]),col="red",lwd=2)
 colors <- colorRampPalette(c("red", "blue"))(n_years)
 
 plot(1:100,cod.a[1]*(1:100)^cod.b[1],type = 'l',lwd=2,col=colors[1]
-     ,xlab="length [cm]",ylab="weight [g]",main="cod")
+     ,xlab="length [cm]",ylab="weight [g]",main="cod",xlim = c(0,80),ylim=c(0,8000))
 for(i in 2:n_years){
   lines(1:100,cod.a[i]*(1:100)^cod.b[i],type = 'l',lwd=2,col=colors[i])
 }
@@ -170,7 +170,7 @@ lines(1:40,coef(fit)[1]*(1:40)^coef(fit)[2],col="red",lwd=2)
 
 par(mfrow=c(1,2))
 plot(1:40,herring.a[1]*(1:40)^herring.b[1],type = 'l',lwd=2,col=colors[1]
-     ,xlab="length [cm]",ylab="weight [g]",main="Herring")
+     ,xlab="length [cm]",ylab="weight [g]",main="Herring",xlim=c(0,35))
 for(i in 2:n_years){
   lines(1:40,herring.a[i]*(1:40)^herring.b[i],type = 'l',lwd=2,col=colors[i])
 }
@@ -216,7 +216,7 @@ plot(dada$LngtClass,dada$IndWgt,xlab="length [cm]",ylab="weight [g]")
 lines(1:50,coef(fit)[1]*(1:50)^coef(fit)[2],col="red",lwd=2)
 
 plot(1:50,flounder.a[1]*(1:50)^flounder.b[1],type = 'l',lwd=2,col=colors[1]
-     ,xlab="length [cm]",ylab="weight [g]",main="Flounder")
+     ,xlab="length [cm]",ylab="weight [g]",main="Flounder",xlim=c(0,45))
 for(i in 2:n_years){
   lines(1:50,flounder.a[i]*(1:50)^flounder.b[i],type = 'l',lwd=2,col=colors[i])
 }
@@ -254,7 +254,7 @@ plot(dada$LngtClass,dada$IndWgt,xlab="length [cm]",ylab="weight [g]")
 lines(1:50,coef(fit)[1]*(1:50)^coef(fit)[2],col="red",lwd=2)
 
 plot(1:50,plaice.a[1]*(1:50)^plaice.b[1],type = 'l',lwd=2,col=colors[1]
-     ,xlab="length [cm]",ylab="weight [g]",main="Plaice")
+     ,xlab="length [cm]",ylab="weight [g]",main="Plaice",xlim=c(0,45))
 for(i in 2:n_years){
   lines(1:50,plaice.a[i]*(1:50)^plaice.b[i],type = 'l',lwd=2,col=colors[i])
 }
@@ -292,7 +292,7 @@ plot(dada$LngtClass,dada$IndWgt,xlab="length [cm]",ylab="weight [g]")
 lines(1:50,coef(fit)[1]*(1:50)^coef(fit)[2],col="red",lwd=2)
 
 plot(1:40,dab.a[1]*(1:40)^dab.b[1],type = 'l',lwd=2,col=colors[1],main="Dab",
-     xlab="length [cm]",ylab="weight [g]")
+     xlab="length [cm]",ylab="weight [g]",xlim=c(0,35))
 for(i in 2:n_years){
   lines(1:40,dab.a[i]*(1:40)^dab.b[i],type = 'l',lwd=2,col=colors[i])
 }

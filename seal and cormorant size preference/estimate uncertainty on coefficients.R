@@ -466,3 +466,18 @@ lines(t.c,apply(sd.0,2,sd),lwd=2,col="red",lty = 'dashed')
 dab_sd_coef
 ###########
 rm(list=setdiff(ls(),c('df','cod_sd_coef','herring_sd_coef','flounder_sd_coef','plaice_sd_coef','dab_sd_coef')))
+
+data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="") # data working directory
+coefs <- readRDS(paste(data_wd,"coefficients.R",sep=""))
+coefs$cod_sd_coef <- cod_sd_coef
+coefs$herring_sd_coef <- herring_sd_coef
+coefs$flounder_sd_coef <- flounder_sd_coef
+coefs$plaice_sd_coef <- plaice_sd_coef
+coefs$dab_sd_coef <- dab_sd_coef
+
+saveRDS(coefs,paste(data_wd,"coefficients.R",sep=""))
+
+
+
+
+

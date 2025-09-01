@@ -210,10 +210,10 @@ for (i in 1:n_years){
 }
 
 mat_sd[mat_sd==0] <- NA # do not consider sd's of 0
-sd_red <- mat_sd[-c(18:20),] # remove ages with low number of observations
-mean_red <- mat_mean[-c(18:20),]
+sd_red <- mat_sd[-c(15:20),] # remove ages with low number of observations
+mean_red <- mat_mean[-c(15:20),]
 mean_red[is.na(sd_red)] <- NA
-n_red <- mat_n[-c(18:20),]
+n_red <- mat_n[-c(15:20),]
 # Convert to data frame with row and column indices for plot purposes
 dsd <- as.data.frame(sd_red)
 dsd$row <- 1:nrow(dsd)
@@ -267,7 +267,7 @@ df_n <- dn %>%
   mutate(col = as.integer(gsub("V", "", col)))  # Convert column names to numeric
 
 # Plot the beast
-ggplot(df_mean, aes(x = col+min(years)-1, y = row, fill = log10(value))) +
+ggplot(df_n, aes(x = col+min(years)-1, y = row, fill = log10(value))) +
   geom_tile() +
   scale_fill_viridis_c() +
   coord_fixed() +
@@ -279,10 +279,10 @@ mean_means <- rowMeans(mean_red,na.rm = TRUE)
 n_sds <- apply(n_red,1,FUN=mean,na.rm = TRUE)
 
 plot(mat_n[1,],mat_sd[1,])
-plot(ages[-c(18:20)],mean_sds)
+plot(ages[-c(15:20)],mean_sds)
 plot(mean_means,mean_sds)
 
-df.herring <- data.frame(yd = ages[-c(18:20)],
+df.herring <- data.frame(yd = ages[-c(15:20)],
                      mean=mean_means,sd=mean_sds,
                      species=rep("herring",length(mean_means)),
                      n=n_sds) # mean catch pr. quarter
@@ -363,10 +363,10 @@ for (i in 1:n_years){
 }
 
 mat_sd[mat_sd==0] <- NA # do not consider sd's of 0
-sd_red <- mat_sd[-c(24:33),] # remove ages with low number of observations
-mean_red <- mat_mean[-c(24:33),]
+sd_red <- mat_sd[-c(19:33),] # remove ages with low number of observations
+mean_red <- mat_mean[-c(19:33),]
 mean_red[is.na(sd_red)] <- NA
-n_red <- mat_n[-c(24:33),]
+n_red <- mat_n[-c(19:33),]
 # Convert to data frame with row and column indices for plot purposes
 dsd <- as.data.frame(sd_red)
 dsd$row <- 1:nrow(dsd)
@@ -420,7 +420,7 @@ df_n <- dn %>%
   mutate(col = as.integer(gsub("V", "", col)))  # Convert column names to numeric
 
 # Plot the beast
-ggplot(df_mean, aes(x = col+min(years)-1, y = row, fill = log10(value))) +
+ggplot(df_n, aes(x = col+min(years)-1, y = row, fill = log10(value))) +
   geom_tile() +
   scale_fill_viridis_c() +
   coord_fixed() +
@@ -435,10 +435,10 @@ n_sds <- apply(n_red,1,FUN=mean,na.rm = TRUE)
 #for(i in 1:25) plot(mat_n[i,],mat_sd[i,])
 par(mfrow=c(1,1))
 
-plot(ages[-c(24:33)],mean_sds)
+plot(ages[-c(19:33)],mean_sds)
 plot(mean_means,mean_sds)
 
-df.flounder <- data.frame(yd = ages[-c(24:33)],
+df.flounder <- data.frame(yd = ages[-c(19:33)],
                          mean=mean_means,sd=mean_sds,
                          species=rep("flounder",length(mean_means)),
                          n=n_sds) # mean catch pr. quarter
@@ -517,10 +517,10 @@ for (i in 1:n_years){
 }
 
 mat_sd[mat_sd==0] <- NA # do not consider sd's of 0
-sd_red <- mat_sd[-c(27:34),] # remove ages with low number of observations
-mean_red <- mat_mean[-c(27:34),]
+sd_red <- mat_sd[1:18,] # remove ages with low number of observations
+mean_red <- mat_mean[1:18,]
 mean_red[is.na(sd_red)] <- NA
-n_red <- mat_n[-c(27:34),]
+n_red <- mat_n[1:18,]
 # Convert to data frame with row and column indices for plot purposes
 dsd <- as.data.frame(sd_red)
 dsd$row <- 1:nrow(dsd)
@@ -574,7 +574,7 @@ df_n <- dn %>%
   mutate(col = as.integer(gsub("V", "", col)))  # Convert column names to numeric
 
 # Plot the beast
-ggplot(df_mean, aes(x = col+min(years)-1, y = row, fill = log10(value))) +
+ggplot(df_n, aes(x = col+min(years)-1, y = row, fill = log10(value))) +
   geom_tile() +
   scale_fill_viridis_c() +
   coord_fixed() +
@@ -589,10 +589,10 @@ n_sds <- apply(n_red,1,FUN=mean,na.rm = TRUE)
 #for(i in 1:25) plot(mat_n[i,],mat_sd[i,])
 par(mfrow=c(1,1))
 plot(mat_n[1,],mat_sd[1,])
-plot(ages[-c(27:34)],mean_sds)
+plot(ages[1:18],mean_sds)
 plot(mean_means,mean_sds)
 
-df.plaice <- data.frame(yd = ages[-c(27:34)],
+df.plaice <- data.frame(yd = ages[1:18],
                           mean=mean_means,sd=mean_sds,
                           species=rep("plaice",length(mean_means)),
                           n=n_sds) # mean catch pr. quarter

@@ -2,26 +2,26 @@
 #remotes::install_github("casperwberg/surveyIndex/surveyIndex")
 
 library(surveyIndex)
-library(DATRAS)
 
-downloadExchange("BITS",1985:2023)
-hl_markus <- read.table("hl_markus.csv",header=TRUE,sep=';')
-dAll<-readExchangeDir(".",strict=TRUE)
-rm(list=setdiff(ls(),c('dAll','hl_markus')))
+data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="")
 
-WB_rects <- c("37G2", "37G3", "37G4", "37G5", "38G2", "38G3", "38G4", 
-                 "38G5", "39G4", "39G5", "39G6", "40G5", "40G6")
+dAll <- readRDS(paste(data_wd,"DatrasExchange.R",sep=""))
+WB <- st_read(paste(data_wd,"shapefiles/ICES_areas.shp",sep=""))
+plot(WB %>% filter(ICES_SUB %in% 22:24))
+WB <- as(WB,"Spatial")
+
+dAll <- addSpatialData(dAll,WB)
 
 # Cod ALK QI
 #####
 mc.cores<-1; library(parallel)
-d<-subset(dAll, Species=="Gadus morhua",Quarter==1,StatRec %in% WB_rects)
+d<-subset(dAll, Species=="Gadus morhua",Quarter==1,ICES_SUB %in% 22:24)
 #dAll<-NULL; gc(); ## lose dAll because it takes up a lot of memory
 d<-addSpectrum(d,by=1)
 ## get idea about number of age groups to include
 agetab<-xtabs(NoAtALK~Year+Age,data=d[[1]])
 agetab.df<-as.data.frame(agetab)
-ages<-1:10
+ages<-1:7
 ## require at least 1 aged individual in each year
 for(a in ages){
   if(any(agetab.df$Freq[agetab.df$Age==a]<1))
@@ -52,7 +52,7 @@ for(i in 1:n_years){
   alk.i <- array(NA,dim=c(length(cm.breaks)-1,length(ages),n_hauls))
   for(j in 1:n_hauls){
     row=j
-    alk.i[,,j] = NageByHaul(row, ALK[[i]], returnALK = TRUE)
+    alk.i[,,j] = NageByHaul(row, ALK[[i]], returnALK = FALSE)
   }
   ma <- apply(alk.i,c(1,2),FUN=mean)
   ALK_Cod1[[years[i]]] <- apply(alk.i,c(1,2),FUN=mean)
@@ -67,6 +67,8 @@ for(i in 1:n_years){
   print(years[i])
 }
 codQ1 <- codQ1[-1,]
+matplot(cm.breaks[-length(cm.breaks)], ALK_Cod1[[3]], lwd = 2, type = 'l',col=1:max(ages))
+legend(max(cm.breaks)*0.8,1,paste("Age",ages),col=1:max(ages),pch=19)
 #saveRDS(ALK_Cod1, file="ALK_Cod1.RData")
 rm(list=setdiff(ls(),c('dAll','codQ1','codQ4','herQ1','herQ4','flounderQ1','flounderQ4'
                        ,'plaiceQ1','plaiceQ4','dabQ1','dabQ4','WB_rects','hl_markus')))

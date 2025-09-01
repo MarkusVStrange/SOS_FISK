@@ -1,19 +1,20 @@
-source('estimate uncertainty on coefficients.R')
+#source('estimate uncertainty on coefficients.R')
 
 data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="")
+coefs <- readRDS(paste(data_wd,"coefficients.R",sep=""))
+
 # Define cod functions and read data
 #####
 # Growth model, cohort spread by length, and individuals at by age and time, functions: vbgr.fixed(), vbgr.sd(), N_age
 
-vbgrCod <- function(age){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 with fixed hatching time
+vbgrCod <- function(age,cohort){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 with fixed hatching time
   # define growth parameters
-  Linf <- 97.9 # cm. McQueen et al., 2019
-  L_hatch <- 0.4 # length at hatching, cm (Pepin et al, 1997)
-  k <- 0.22 # vbgr growth rate, from McQueen
-  u <- 0.23 # Amplitude of seasonality
-  w <- 0.91 # Timing of peak growth
-  #t_hatch <- ((46+135)/2)/365 # time of hatching, Julian day / 365 - spawning from Feb. to May (Fiskeatlas), average set to April 1st
-  t_hatch <- ((16+197)/2)/365 # time of hatching, Julian day / 365 - spawning from Jan. to July (a bit arbitrary from Hüssy et al., 2011), average set to peak spawning
+  Linf <- coefs$cod_varying_growth$Linf[coefs$cod_varying_growth$cohort %in% cohort] # cm. McQueen et al., 2019
+  L_hatch <- coefs$L_hatch_cod # length at hatching, cm (Pepin et al, 1997)
+  k <- coefs$cod_varying_growth$k[coefs$cod_varying_growth$cohort %in% cohort] # vbgr growth rate, from McQueen
+  u <- coefs$u # Amplitude of seasonality
+  w <- coefs$w # Timing of peak growth
+  t_hatch <- coefs$t_hatch_cod # time of hatching, Julian day / 365 - spawning from Jan. to July (a bit arbitrary from Hüssy et al., 2011), average set to peak spawning
   t <- age+t_hatch
   X_t <- t-floor(t) # time of year [0,1]
   phi_t <- u*sin(2*pi*(X_t-w))/(2*pi) # seasonal variability in growth
@@ -24,23 +25,24 @@ vbgrCod <- function(age){ # von Bertalanffy growth rate. Parameters from McQueen
 }
 
 
-vbgr.sdCod <- function(age,n){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 and estimated
+vbgr.sdCod <- function(age,cohort,n){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 and estimated
   # t in fraction year, Julian day/365
-  Linf <- rnorm(n,mean=97.9,sd=cod_sd_coef[3]) # Assymptotic length - with stochasticity
-  #Linf <- 154.56 # cm
-  L_hatch <- 0.4 # length at hatching, cm (Pepin et al, 1997)
-  #t_hatch <- ((46+135)/2)/365
-  t_hatch <- ((16+197)/2)/365 # time of hatching, Julian day / 365 - spawning from Jan. to July (a bit arbitrary from Hüssy et al., 2011), average set to peak spawning
-  k <- rnorm(n,mean=0.22,sd=cod_sd_coef[1]) # vbgr growth rate
-  u <- 0.23 # Amplitude of seasonality
-  w <- 0.91 # Timing of peak growth
+  Linf <- rnorm(n,mean=coefs$cod_varying_growth$Linf[coefs$cod_varying_growth$cohort %in% cohort],
+                sd=coefs$cod_varying_sd$Linf_sd[coefs$cod_varying_sd$cohort==cohort]) # Assymptotic length - with stochasticity
+  L_hatch <- coefs$L_hatch_cod # length at hatching, cm (Pepin et al, 1997)
+  k <- rnorm(n,mean=coefs$cod_varying_growth$k[coefs$cod_varying_growth$cohort %in% cohort],
+             sd=coefs$cod_varying_sd$k_sd[coefs$cod_varying_sd$cohort==cohort])# vbgr growth rate
+  u <- coefs$u # Amplitude of seasonality
+  w <- coefs$w # Timing of peak growth
+  t_hatch <- coefs$t_hatch_cod # time of hatching, Julian day / 365 - spawning from Jan. to July (a bit arbitrary from Hüssy et al., 2011), average set to peak spawning
   t <- age+t_hatch
   X_t <- t-floor(t) # time of year [0,1]
   phi_t <- u*sin(2*pi*(X_t-w))/(2*pi) # seasonal variability in growth
   phi_hatch <- u*sin(2*pi*(t_hatch-w))/(2*pi) # seasonal variability in growth
   sd <- rep(0,length(t))
   for (i in 1:length(sd)){
-    fish.age <- age[i]+rnorm(n,mean=0,sd=cod_sd_coef[2]) # time of hatching with stochasticity, Julian day / 365 - mean = march 1st
+    fish.age <- age[i]+rnorm(n,mean=0,
+                             sd=coefs$cod_varying_sd$A_sd[coefs$cod_varying_sd$cohort==cohort]) # time of hatching with stochasticity, Julian day / 365 - mean = march 1st
     L_t <- (L_hatch-Linf)*exp(-k*(phi_t[i]+fish.age-phi_hatch))+Linf # vbgr estimated length
     sd[i] <- sd(L_t)
   }
@@ -156,7 +158,6 @@ vbgrFlounder <- function(age) {
 } #Original
 
 vbgr.sdFlounder <- function(age,n){
-  #Parameters 2005-2010 for Western Baltic spring spawning herring (Gröhsler et al., 2013)
   Linf <- rnorm(n,mean=34.0031653,sd=flounder_sd_coef[3])
   k <- rnorm(n,0.4537312,flounder_sd_coef[1]) # from table 2 in Gröhsler et al, 2013
   L_hatch <- mean(c(0.697,0.662)) # mean from Kennedy et al., 2007
@@ -198,7 +199,6 @@ vbgrPlaice <- function(age) {
 } #Original
 
 vbgr.sdPlaice <- function(age,n){
-  #Parameters 2005-2010 for Western Baltic spring spawning herring (Gröhsler et al., 2013)
   Linf <- rnorm(n,mean=41.637260,sd=plaice_sd_coef[3])
   k <- rnorm(n,0.240703,plaice_sd_coef[1]) # from table 2 in Gröhsler et al, 2013
   L_hatch <- mean(c(0.697,0.662)) # mean from Kennedy et al., 2007
@@ -287,8 +287,8 @@ df.seal <- data.frame(l.class = rep(vec.lengths,length(samplings)),
                       n_scat =  rep(0,n.lengths*length(samplings)),
                       year =  rep(0,n.lengths*length(samplings)))
 
-cod_hatch <- ((16+197)/2)/365 # time of hatching, Julian day / 365 - spawning from Jan. to July (a bit arbitrary from Hüssy et al., 2011), average set to peak spawning
-ages <- c(0,1,2,3,4,5,6,7)
+cod_hatch <- coefs$t_hatch_cod # time of hatching, Julian day / 365 - spawning from Jan. to July (a bit arbitrary from Hüssy et al., 2011), average set to peak spawning
+ages <- 0:7
 
 for (i in 1:length(samplings)){
   dada <- gseal.cod %>% filter(my==samplings[i])
@@ -299,8 +299,9 @@ for (i in 1:length(samplings)){
   
   available <- matrix(NA,ncol=length(ages),nrow = length(vec.lengths))
   for(j in 1:length(ages)){
-    size <- vbgrCod(jday-cod_hatch+(j-1))*10
-    sd<- vbgr.sdCod(jday-cod_hatch+(j-1),100000)*10
+    cohort.i <- dada$Year[1]-floor(ages[j])
+    size <- vbgrCod(jday-cod_hatch+(j-1),cohort.i)*10
+    sd<- vbgr.sdCod(jday-cod_hatch+(j-1),cohort.i,100000)*10
     sd[sd<0] <- 0
     available[,j] <- cod.i[j]*dnorm(vec.lengths,size,sd)/sum(dnorm(vec.lengths,size,sd))
   }
@@ -372,7 +373,7 @@ df.fin.seal$n[is.na(df.fin.seal$n)] <- 0
 df.fin.seal$weight <- df.fin.seal$n+1
 
 
-df.fin.seal <- df.fin.seal[-which(df.fin.seal$l.class>400 & df.fin.seal$weighted.odds==0),]
+#df.fin.seal <- df.fin.seal[-which(df.fin.seal$l.class>400 & df.fin.seal$weighted.odds==0),]
 double_sigmoid <- function(x, maximum, slope1, midPoint1, slope2, midPointDistance) {
   0 * maximum + 
     (maximum / (1 + exp(-slope1 * (x - midPoint1)))) - 
@@ -400,10 +401,11 @@ seal_param <- exp(opt$par)
 
 seal_fit <- double_sigmoid((0:7000)/10,seal_param[1],seal_param[2],seal_param[3],seal_param[4],seal_param[5])
 plot(df.fin.seal$l.class,df.fin.seal$weighted.odds,ylab = "preference",
-     xlab="length [mm]",main="Grey Seal")
+     xlab="length [mm]",main="Grey Seal",xlim = c(0,600))
 lines((0:7000)/10,seal_fit,
       lwd=2,col="red")
-
+lines((0:7000)/10,double_sigmoid((0:7000)/10,seal_param[1]*0.9,seal_param[2]*1.5,seal_param[3]-10,seal_param[4],seal_param[5]),
+      lwd=2,col="orange")
 
 make_my_function <- function(seal_param) {
   maximum <- seal_param[1]   
@@ -426,7 +428,7 @@ seal_cod.pref <- make_my_function(seal_param)
 #####
 cod_corm <- cormorant %>% filter(species=="cod")
 cod_corm$dmy <- paste(cod_corm$year,'-',cod_corm$month,'-',cod_corm$day,sep="")
-width <- 30 # mm. width of the size classes
+width <- 10 # mm. width of the size classes
 cod_corm$size <- floor(cod_corm$FISKLGD/width)*width+width/2
 samplings <- unique(cod_corm$dmy)
 month <- c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug",
@@ -441,7 +443,7 @@ df.corm <- data.frame(l.class = rep(vec.lengths,length(samplings)),
                       n_scat =  rep(0,n.lengths*length(samplings)),
                       year =  rep(0,n.lengths*length(samplings)))
 
-cod_hatch <- ((16+197)/2)/365 # time of hatching, Julian day / 365 - spawning from Jan. to July (a bit arbitrary from Hüssy et al., 2011), average set to peak spawning
+cod_hatch <- coefs$t_hatch_cod # time of hatching, Julian day / 365 - spawning from Jan. to July (a bit arbitrary from Hüssy et al., 2011), average set to peak spawning
 ages <- 0:7
 start_time <- Sys.time() #NB takes 5 min
 for (i in 1:length(samplings)){
@@ -453,8 +455,9 @@ for (i in 1:length(samplings)){
   
   available <- matrix(NA,ncol=length(ages),nrow = length(vec.lengths))
   for(j in 1:length(ages)){
-    size <- vbgrCod(jday-cod_hatch+(j-1))*10
-    sd<- vbgr.sdCod(jday-cod_hatch+(j-1),100000)*10
+    cohort.i <- dada$year[1]-floor(ages[j])
+    size <- vbgrCod(jday-cod_hatch+(j-1),cohort.i)*10
+    sd<- vbgr.sdCod(jday-cod_hatch+(j-1),cohort.i,100000)*10
     sd[sd<0] <- 0
     available[,j] <- cod.i[j]*dnorm(vec.lengths,size,sd)/sum(dnorm(vec.lengths,size,sd))
   }
@@ -517,7 +520,7 @@ plot(df.fin.15$l.class,df.fin.15$weighted.odds,xlim=c(0,500),
 points(df.fin.16$l.class,df.fin.16$weighted.odds,pch=19,col='red')
 points(df.fin.17$l.class,df.fin.17$weighted.odds,pch=19,col='green')
 points(df.fin.corm$l.class,df.fin.corm$weighted.odds,pch=19)
-legend(350,max(c(df.fin.15$weighted.odds,df.fin.16$weighted.odds,df.fin.17$weighted.odds))
+legend(180,max(c(df.fin.15$weighted.odds,df.fin.16$weighted.odds,df.fin.17$weighted.odds))
        ,legend = c('2015','2016','2017','All'),pch=19,
        col=c('blue','red','green','black'))
 
@@ -529,13 +532,13 @@ df.fin.corm$n[is.na(df.fin.corm$n)] <- 0
 df.fin.corm$weight <- df.fin.corm$n+1
 
 
-df.fin.corm <- df.fin.corm %>% filter(weighted.odds<0.0014)
+#df.fin.corm <- df.fin.corm %>% filter(weighted.odds<0.0014)
 double_sigmoid <- function(x, maximum, slope1, midPoint1, slope2, midPointDistance) {
   (maximum / (1 + exp(-slope1 * (x - midPoint1)))) - 
     (maximum / (1 + exp(-slope2 * (x - (midPoint1 + midPointDistance)))))
 }
 
-par <- list(logMax = -5,logS1=-2,logMid=6,logS2=-2,logDis = 4)
+par <- list(logMax = -5,logS1=-2,logMid=log(80),logS2=-2,logDis = log(400))
 
 
 obj_fn <- function(par) {
@@ -556,8 +559,9 @@ plot(df.fin.corm$l.class,df.fin.corm$weighted.odds,ylab = "preference",
      xlab="length [mm]",main="Cormorant",xlim=c(0,500))
 lines((0:7000)/10,corm_fit,
       lwd=2,col="orange")
-
-
+lines((0:7000)/10,double_sigmoid((0:7000)/10,corm_param[1],corm_param[2]*0.3,corm_param[3]+10,corm_param[4],corm_param[5]-10),
+      lwd=2,col="red")
+corm_fit <- double_sigmoid((0:7000)/10,corm_param[1],corm_param[2]*0.3,corm_param[3]+10,corm_param[4],corm_param[5]-10) # small tweak
 
 
 plot((0:7000)/10,corm_fit/max(corm_fit),

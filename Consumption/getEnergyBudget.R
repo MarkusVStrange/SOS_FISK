@@ -46,11 +46,18 @@ getEnergyBudget <- function(Diets,method){
   
   if(method=='model' & 'cormorant' %in% unique(Diets$predator)){
     diet_pred <- read.table(paste(data_wd,"pred_diet.csv",sep=""),header=TRUE,sep=';')
+
     # cormorant diet
     corm.diet <- Diets %>% filter(predator=='cormorant')
     energy_weight <- aggregate(diet~prey,data=corm.diet %>% filter(!(prey %in% c("cod","flatfish"))),FUN=mean)
     energy_weight$weight <- energy_weight$diet/sum(energy_weight$diet) 
     corm.diet <- diet_pred %>% filter(predator=='cormorant')
+    yrs_constant <- 1985:1990
+    constant_diet <- data.frame(prey=rep(unique(corm.diet$prey),length(yrs_constant)*4),
+                                quarter=rep(rep(c("Q1","Q2","Q3","Q4"),each=3),length(yrs_constant)),
+                                year=rep(yrs_constant,each=3*4),predator="cormorant",
+                                diet=rep(corm.diet$diet[1:12],length(yrs_constant)))
+    corm.diet <- rbind(constant_diet,corm.diet)
     
     # energy requirement for a cormorant
     corm_energy_demand <- 2094 # kJ/day/bird (Keller & Visser, 1999) - Winter value for P. carbo sinensis. 
@@ -134,11 +141,18 @@ getEnergyBudget <- function(Diets,method){
   
   if(method=='model' & 'grey seal' %in% unique(Diets$predator)){
     diet_pred <- read.table(paste(data_wd,"pred_diet.csv",sep=""),header=TRUE,sep=';')
+
     # grey seal diet
     g.seal.diet <- Diets %>% filter(predator=='grey seal')
     energy_weight <- aggregate(diet~prey,data=g.seal.diet %>% filter(!(prey %in% c("cod","flatfish"))),FUN=mean)
     energy_weight$weight <- energy_weight$diet/sum(energy_weight$diet) 
     g.seal.diet <- diet_pred %>% filter(predator=='grey seal')
+    yrs_constant <- 1985:1990
+    constant_diet <- data.frame(prey=rep(unique(g.seal.diet$prey),length(yrs_constant)*4),
+                                quarter=rep(rep(c("Q1","Q2","Q3","Q4"),each=3),length(yrs_constant)),
+                                year=rep(yrs_constant,each=3*4),predator="grey seal",
+                                diet=rep(g.seal.diet$diet[1:12],length(yrs_constant)))
+    g.seal.diet <- rbind(constant_diet,g.seal.diet)
     
     # Calculate bady mass for a grey seal - parameters from Hauksson 2007
     # 1 = male,2=female
