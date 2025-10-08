@@ -156,37 +156,75 @@ cor(scale(sd$B[sd$species=="cod"]),
 
 # Prepare cormorant data - month
 #####
-cormFood <- read.table(paste(data_wd,"cormorantFood_samplings.csv",sep=""),header=TRUE,sep=';')
+cormFood <- read.table(paste(data_wd,"cormorantFood_samplings_22_24.csv",sep=""),header=TRUE,sep=';')
 cormFood <- cormFood %>% filter(species!="herring")
 prey <- c("cod","flatfish")
 cormFood$species[!(cormFood$species %in% prey)] <- "flatfish"
 cormFood <- aggregate(B_index~sampling+species,data=cormFood,FUN = sum)
-corm.diet <-  read.table(paste(data_wd,"corm_diet_prop.csv",sep=""),header=TRUE,sep=';')
-corm.diet$species[!(corm.diet$species %in% prey)] <- "other"
-corm.diet$month <- factor(corm.diet$month,levels = month <- c("Feb","Mar","Apr","May","Jun","Jul","Aug",
-                                                              "Sep","Oct") )
+corm.diet <-  read.table(paste(data_wd,"corm_diet_22_24.csv",sep=""),header=TRUE,sep=';')
+fishes <- c("Gadus morhua" ="cod","Platichthys flesus"="flatfish",
+            "Pleuronectes platessa"="flatfish","Limanda limanda"="flatfish",
+            "other"="other")
 
-cdn1 <- aggregate(n~dmyl+month+year,data=corm.diet,FUN = mean)
-cd <- aggregate(B~species+month+year,data=corm.diet,FUN = sum)
-cd <- left_join(cd,aggregate(n~month+year,data=cdn1,FUN = sum))
-cd$ym <- paste(cd$year,cd$month)
+corm.diet$Species <- as.character(fishes[corm.diet$Species])
 
 
-cormFood$year <- cd$year[match(cormFood$sampling,cd$ym)]
-cormFood$month <- cd$month[match(cormFood$sampling,cd$ym)]
-cormFood$month <- factor(cormFood$month,levels = month <- c("Feb","Mar","Apr","May","Jun","Jul","Aug",
-                                                            "Sep","Oct") )
+
+d.ag <- aggregate(weight~Species+Month+Year,data=corm.diet,FUN=sum) 
+tv <- aggregate(weight~Month+Year,data=corm.diet,FUN=sum) #total weight
+names(tv)[names(tv)=="weight"] <- "total_weight"
+d.ag <- left_join(d.ag,tv)
+d.ag$p <- d.ag$weight/d.ag$total_weight
+
+
+cod <- d.ag %>% filter(Species=="cod")
+cod$sampling <- paste(cod$Year,cod$Month)
+cod <- aggregate(p~sampling,data=cod,FUN=sum)
+
+cod_food <- cormFood %>% filter(species=="cod" & sampling !="1993 8") 
+cod$sampling==cod_food$sampling
+
+plot(cod_food$B_index,cod$p)
+
+
+flatfish <- d.ag %>% filter(Species=="flatfish")
+flatfish$sampling <- paste(flatfish$Year,flatfish$Month)
+flatfish <- aggregate(p~sampling,data=flatfish,FUN=sum)
+
+flatfish_food <- cormFood %>% filter(species=="flatfish") 
+flatfish$sampling==flatfish_food$sampling
+
+plot(flatfish_food$B_index,flatfish$p)
+
+
+
+
+
+corm.diet$dmyl <- paste(corm.diet$Month,corm.diet$Year,corm.diet$Colony_1)
+cdn1 <- aggregate(n~dmyl+Month+Year,data=corm.diet,FUN = mean)
+#cd <- aggregate(B~species+month+year,data=corm.diet,FUN = sum)
+cd <- aggregate(weight~Species+Month+Year,data=corm.diet,FUN = sum)
+cd <- left_join(cd,aggregate(n~Month+Year,data=cdn1,FUN = sum))
+cd$ym <- paste(cd$Year,cd$Month)
+
+
+cormFood$year <- cd$Year[match(cormFood$sampling,cd$ym)]
+cormFood$Month <- cd$Month[match(cormFood$sampling,cd$ym)]
+cormFood$Month <- factor(cormFood$Month)
 cormFood$samp_count <- 1
 
-cf <- aggregate(B_index~sampling+year+month+species,data=cormFood,FUN = sum)
-cf$n_samp <- aggregate(samp_count~sampling+year+month+species,data=cormFood,FUN = sum)$samp_count
+cf <- aggregate(B_index~year+Month+sampling+species,data=cormFood,FUN = sum)
 
 meanC.B <- aggregate(B_index~species,data=cf,FUN=mean)$B_index  
 meanC.B <- c(12592402.04,49774.32)
 
 C.idx <- match(cf$species,prey)
-cf$Bnorm <- (cf$B_index)/meanC.B[C.idx]
+cf$B_mean <- meanC.B[C.idx]
+cf$Bnorm <- (cf$B_index)/cf$B_mean
 
+names(cd)[names(cd)=="weight"] <- "B"
+cd <- cd %>% filter(ym!="1993 8") # temporary removal of sampling without cod
+cf <- cf %>% filter(sampling!="1993 8") 
 rm(list=setdiff(ls(),c('cd','cf','data_wd')))
 #####
 # cormorant configuration
@@ -199,7 +237,7 @@ f <- function(par){
   getAll(par,dat)
   k <- exp(logK)
   #r <- exp(logR)
-  prey <- unique(diet$species)
+  prey <- unique(diet$Species)
   
   ddirichlet <- function(x, alpha, log = TRUE) {
     logB <- sum(lgamma(alpha)) - lgamma(sum(alpha))
@@ -223,17 +261,14 @@ f <- function(par){
     f.idx <- food$sampling==samplings[i]
     d.idx <- diet$ym==samplings[i]
     n_prey <- length(prey)
-    diet.i <- rep(0,n_prey)
-    diet.sum <- sum(diet$B[d.idx])
     
-    for(j in 1:n_prey){
-      diet.i[j] <- diet$B[which(diet$ym==samplings[i] & diet$species==prey[j])]/diet.sum
-      
-    }
+    diet.sum <- sum(diet$B[d.idx])
+    diet.i <- diet$B[d.idx]/diet.sum
     
     food.i <- log(c(c(food$Bnorm[f.idx])*100,100))
+    #food.i <- c(food$Bnorm[f.idx]*100,100)
     p <- (food.i^k)/sum(food.i^k)
-    ret <- ret -ddirichlet(x=p,alpha=diet.i*diet$n[d.idx][1])
+    ret <- ret -ddirichlet(x=p,alpha=diet.i*diet$n[d.idx][1],log=TRUE)
     
     p_cod[i] <- p[1]
     p_flat[i] <- p[2]
@@ -241,7 +276,7 @@ f <- function(par){
     
     cod.d[i] <- diet.i[1]
     cod.f[i] <- food.i[1]/sum(food.i)
-    print(food.i)
+    #print(food.i)
   }
   #logitPcod <- log(p_cod/(1-p_cod))
   #logitPflat <- log(p_flat/(1-p_flat))
@@ -252,7 +287,7 @@ f <- function(par){
   
   ret
 }
-obj <- MakeADFun(f,par,silent=TRUE)
+obj <- MakeADFun(f,par)
 opt <- nlminb(obj$par, obj$fn, obj$gr)
 sdr <- sdreport(obj)
 sdr
@@ -287,6 +322,11 @@ plot(x, f,type = 'l',lwd=2,xlab="log-scale cod biomass index",ylim=c(0,1),
      main="Flatfish with constant cod")
 lines(log(c(100,100)),c(-2,2),type = 'l',lty='dashed')
 text(3,0.9,"mean flatfish biomass")
+
+
+
+plot(cf$B_index[cf$species=="cod"])
+plot(cd$B[cd$Species=="cod"])
 #####
 
 
@@ -306,3 +346,28 @@ cor(scale(log(cd$B[cd$species=="flatfish"])),
 cor(scale(log(cd$B[cd$species=="cod"])),
     scale(log(cf$Bnorm[cf$species=="cod"])))
 
+
+
+#######################
+##for constant diet
+#######################
+corm.cons <- aggregate(weight~Species,data=corm.diet,FUN = sum)
+df_c_cons <- data.frame(year=rep(rep(1985:2024,each=4),3),
+                        quarter = c("Q1","Q2","Q3","Q4"),
+                        prey =rep(c("cod","flatfish","other"),each=length(1985:2024)*4),
+                        diet=rep(corm.cons$weight/sum(corm.cons$weight),
+                                 each=length(1985:2024)*4),
+                        predator="cormorant")
+
+seal.cons <- aggregate(FW.cor~species,data=seal.diet,FUN = sum)
+df_s_cons <- data.frame(year=rep(rep(1985:2024,each=4),3),
+                        quarter = c("Q1","Q2","Q3","Q4"),
+                        prey =rep(c("cod","flatfish","other"),each=length(1985:2024)*4),
+                        diet=rep(seal.cons$FW.cor/sum(seal.cons$FW.cor),
+                                 each=length(1985:2024)*4),
+                        predator="grey seal")
+
+
+pred_diet <- rbind(df_c_cons,df_s_cons)
+pred_diet <- aggregate(diet~prey+quarter+year+predator,data=pred_diet,FUN=mean)
+write.table(pred_diet,paste(data_wd,"pred_diet_constant.csv",sep=""),row.names = FALSE,sep=';')

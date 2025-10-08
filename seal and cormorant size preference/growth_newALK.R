@@ -46,14 +46,14 @@ hl$lengthID <- paste(hl$haul.id,hl$LngtCm)
 
 ca_cod <- left_join(ca,hl %>% select(lengthID,HLNoAtLngt))
 ca_cod$cohort <- as.numeric(as.character(ca_cod$Year))-ca_cod$Age
-ca_cod <- ca_cod %>% filter(Age>1 & !is.na(HLNoAtLngt))
+#ca_cod <- ca_cod %>% filter(Age>1 & !is.na(HLNoAtLngt))
+ca_cod <- ca_cod %>% filter(!is.na(HLNoAtLngt))
 hh$Jday <- yday(make_date(year=hh$Year,month=hh$Month,day=hh$Day))/yday(make_date(year=hh$Year,month=12,day=31))
 ca_cod <- left_join(ca_cod,hh %>% select(haul.id,Jday))
 ca_cod <- ca_cod %>% filter(!is.na(Jday))
-
-
+ca_cod <- ca_cod %>% filter(!is.na(Age))
+#ca_cod <- ca_cod %>% filter(!(Age<1 & LngtCm>30))
 cohorts <- sort(unique(ca_cod$cohort))[-c(1:6,39:40)] # cohort with sufficient observations to fit
-
 ca_cod$logLength <- log(ca_cod$LngtCm)
 
 # parameters
@@ -61,9 +61,9 @@ par <- list(logK=rep(log(0.1603331),length(cohorts)),
             logLinf=rep(log(112.2677),length(cohorts)),
             #transT_hatch=rep(0.02210022,length(cohorts)),
             transT_hatch = 0,
-            logSD=0,logitW=0,logitU=0)
+            logSD=0)
 
-dat <- list(ca=ca_cod %>% select(haul.id,Age,cohort,logLength,HLNoAtLngt,Jday,Quarter) %>% filter(cohort %in% cohorts))
+dat <- list(ca=ca_cod %>% select(haul.id,Age,cohort,logLength,HLNoAtLngt,Jday,Quarter,weight) %>% filter(cohort %in% cohorts))
 #rm(list=setdiff(ls(),c('par','dat')))
 # run diet model
 #####
@@ -74,10 +74,10 @@ f <- function(par){
   t_hatch <- plogis(transT_hatch)*0.4958904+0.04109589 # confine the hatching time between Jan. 15th (Julian day=0.0411) and July 15th (Julian day=0.5369) (Fiskeatlas)
   #t_hatch <- 0.2917808 
   SD <- exp(logSD)
-  u <- plogis(logitU)
-  w <- plogis(logitW)
-  #u <- 0.23 #exp(logU)
-  #w <- 0.91 #exp(logW)
+  #u <- plogis(logitU)
+  #w <- plogis(logitW)
+  u <- 0.23 #exp(logU)
+  w <- 0.91 #exp(logW)
 
   
   # Function to calculate fish length as a function of t, Age (years) + time of year.
@@ -99,18 +99,16 @@ f <- function(par){
   for(i in 1:length(cohorts)){
     cohort.idx <- which(ca$cohort==cohorts[i])
     ages.i <- sort(unique(ca$Age[cohort.idx]+ca$Jday[cohort.idx]))
+    ages.i <- ages.i[ages.i>0.5]
     #plot(ca$Age[cohort.idx]+ca$Jday[cohort.idx],ca$logLength[cohort.idx],main=cohorts[i],col="white")
     for(j in 1:length(ages.i)){
       age.idx <- which((ca$Age[cohort.idx]+ca$Jday[cohort.idx])==ages.i[j])
-      vbgr.fit <- vbgr(ages.i[j],k,Linf,t_hatch)+err[i]
-      
-      ret <- RET+dnorm(err[i], 0, sd =SD, log = TRUE)
+      vbgr.fit <- vbgr(ages.i[j],k[i],Linf[i],t_hatch)
       #vbgr.sd <- calculate_var()
       #sd.fit <- vbgr(ages.i[j],k[i],Linf[i],t_hatch)
-      ret <- ret-sum(dnorm(ca$logLength[cohort.idx][age.idx],mean=log(vbgr.fit),sd=SD_samp,log=TRUE)*ca$HLNoAtLngt[cohort.idx][age.idx])
+      ret <- ret-sum(dnorm(ca$logLength[cohort.idx][age.idx],mean=log(vbgr.fit),sd=SD,log=TRUE)*ca$HLNoAtLngt[cohort.idx][age.idx])
     #  points(ages.i[j],log(vbgr.fit),cex=3,col="darkred",pch=19)
      # points(ca$Age[cohort.idx][age.idx]+ca$Jday[cohort.idx][age.idx],ca$logLength[cohort.idx][age.idx],cex=1,col="black",pch=1)
-      
     }
     #lines((0:100)/10,log(vbgr((0:100)/10,0.1603331,112.2677,0.2917808)),lwd=3,col="darkred")
     #readline() # press enter to continue
@@ -120,7 +118,7 @@ f <- function(par){
   ADREPORT(logVbgr1997)
   ret
 }
-obj <- MakeADFun(f,par,silent=TRUE, random = c('err'))
+obj <- MakeADFun(f,par,silent=TRUE)
 opt <- nlminb(obj$par, obj$fn, obj$gr)
 sdr <- sdreport(obj)
 sdr

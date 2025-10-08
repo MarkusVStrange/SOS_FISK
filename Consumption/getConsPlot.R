@@ -85,6 +85,7 @@ getConsPlot <- function(prey,consumption,type){
     }
     # plot consumption of WB cod
     ptot <- ggplot(data=cod.cons %>% filter(year>1985)) +geom_bar(aes(x = year, y = proportion*120000,fill=predator),
+    ptot <- ggplot(data=cod.cons %>% filter(year>1990)) +geom_bar(aes(x = year, y = proportion*120000,fill=predator),
                                 stat = "identity",position="stack",alpha=0.25,width=0.7,show.legend = FALSE)+   
     geom_line(aes(x = year, y = cod_B,color='cod stock'),linewidth=2)+
     geom_line(aes(x = year, y = consumption_t,color=predator),linewidth=2)+
@@ -181,7 +182,7 @@ getConsPlot <- function(prey,consumption,type){
       group = c("Cod stock", "Danish cormorants", "Grey seals", "Fisheries")
     )
     
-    ptot <- ggplot(data=cod.cons) +geom_bar(aes(x = year, y = proportion*120000,fill=predator),
+    ptot <- ggplot(data=cod.cons %>% filter(year>1990)) +geom_bar(aes(x = year, y = proportion*90000,fill=predator),
                                                                   stat = "identity",position="stack",alpha=0.40,width=0.7,show.legend = FALSE)+   
       geom_line(aes(x = year, y = cod_B),color='black',linewidth=2)+
       ggtitle("Cod in the western Baltic")+
@@ -189,13 +190,13 @@ getConsPlot <- function(prey,consumption,type){
                                    "grey seals"="darkorange",
                                    "fisheries"="darkred"),name="")+
       xlab("year")+
-      scale_y_continuous(name = 'Total stock biomass [tonnes]',limits = c(0,120000),expand=c(0,0),
-                         sec.axis = sec_axis(~.*1/120000, name = "proportion removed")) +
+      scale_y_continuous(name = 'Total stock biomass [tonnes]',limits = c(0,90000),expand=c(0,0),
+                         sec.axis = sec_axis(~.*1/90000, name = "proportion removed")) +
       scale_x_continuous(expand = c(0, 0))+ 
       theme_bw()
     
     
-    ptot <- ptot+ geom_line(data = legend_df, aes(x = x, y = y, color = group),linewidth=2) +
+    ptot <- ptot+ geom_line(data = legend_df, aes(x = x, y = y, color = group),linewidth=2,show.legend = FALSE) +
       scale_color_manual(values = c(
         "Grey seals" = "darkorange",
         "Danish cormorants" = "darkblue",

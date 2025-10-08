@@ -1,4 +1,3 @@
-setwd("/Users/mavast/Desktop/Markus SOS/Tagging experiment/")
 library("readxl")
 library(RTMB)
 library(dplyr)
@@ -58,7 +57,24 @@ tagging.exp <- df %>% filter(year!='feeding')
 feeding.exp <- df %>% filter(year=='feeding')
 
 tagging.exp$month <- factor(format(tagging.exp$release, "%B"),levels = c("marts","april","maj","juni"))
-rm(list=setdiff(ls(),c('tagging.exp','feeding.exp')))
+
+# create size classes
+tagging.exp$length.class[tagging.exp$species=="torsk"] <- ceiling(tagging.exp$length[tagging.exp$species=="torsk"]/50)*50
+tagging.exp$length.class[tagging.exp$species=="skrubbe"] <- ceiling(tagging.exp$length[tagging.exp$species=="skrubbe"]/30)*30
+
+tagging.exp$length.class[which(tagging.exp$length.class>210 & tagging.exp$species=="skrubbe")] <- 240
+tagging.exp$length.class[which(tagging.exp$length.class>300 & tagging.exp$species=="torsk")] <- 350
+
+dexp <- aggregate(found~PIT+species+length.class+release.loca+month+year,data=tagging.exp,FUN = sum)
+dexp$n <- aggregate(found~PIT+species+length.class+release.loca+month+year,data=tagging.exp,FUN = length)$found
+dexp$time <- paste(dexp$year,dexp$month)
+
+dFeed <- aggregate(found~PIT,data=feeding.exp,FUN = sum)
+dFeed$n <- aggregate(found~PIT,data=feeding.exp,FUN = length)$found
+
+dat <- as.list(dexp)
+dat$feed.exp <- dFeed
+rm(list=setdiff(ls(),c('dat')))
 #####
 
 # compare feeding experiments

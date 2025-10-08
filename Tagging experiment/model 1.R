@@ -1,24 +1,7 @@
 # Final model. ADDITIVE effects with refinding efficiency TRUE
 #####
-
-# create size classes
-tagging.exp$length.class[tagging.exp$species=="torsk"] <- ceiling(tagging.exp$length[tagging.exp$species=="torsk"]/50)*50
-tagging.exp$length.class[tagging.exp$species=="skrubbe"] <- ceiling(tagging.exp$length[tagging.exp$species=="skrubbe"]/30)*30
-
-tagging.exp$length.class[which(tagging.exp$length.class>210 & tagging.exp$species=="skrubbe")] <- 240
-tagging.exp$length.class[which(tagging.exp$length.class>300 & tagging.exp$species=="torsk")] <- 350
-
-dexp <- aggregate(found~PIT+species+length.class,data=tagging.exp,FUN = sum)
-dexp$n <- aggregate(found~PIT+species+length.class,data=tagging.exp,FUN = length)$found
-
-dFeed <- aggregate(found~PIT,data=feeding.exp,FUN = sum)
-dFeed$n <- aggregate(found~PIT,data=feeding.exp,FUN = length)$found
-
-dat <- as.list(dexp)
-dat$feed.exp <- dFeed
-
-par <- list(logitP_cod = rep(0,length(unique(dexp$length.class[dexp$species=="torsk"]))),
-            logitP_flounder = rep(0,length(unique(dexp$length.class[dexp$species=="skrubbe"]))),
+par <- list(logitP_cod = rep(0,length(unique(dat$length.class[dat$species=="torsk"]))),
+            logitP_flounder = rep(0,length(unique(dat$length.class[dat$species=="skrubbe"]))),
             logitTag.diff = 0,
             logitRefind.eff = 0)
 
@@ -26,8 +9,8 @@ par <- list(logitP_cod = rep(0,length(unique(dexp$length.class[dexp$species=="to
 nll <- function(par){
   getAll(par, dat)
   
-  c_sizes <- unique(dexp$length.class[dexp$species=="torsk"])
-  f_sizes <- unique(dexp$length.class[dexp$species=="skrubbe"])
+  c_sizes <- unique(length.class[species=="torsk"])
+  f_sizes <- unique(length.class[species=="skrubbe"])
   
   jnll <- -sum(dbinom(feed.exp$found,feed.exp$n,plogis(c(logitRefind.eff,logitRefind.eff+logitTag.diff)),log=TRUE))
   p <- rep(0,length(n))
@@ -67,21 +50,27 @@ opt <- nlminb(obj$par, obj$fn, obj$gr)
 sdr <- sdreport(obj)
 sdr
 
-
+M1 <- opt
 # 1. Number of estimated parameters
 k <- length(opt$par)
 # 2. Log-likelihood is the negative of obj$fn at optimum
 logL <- -obj$fn(opt$par)
 # 3. Calculate AIC
-AIC <- 2 * k - 2 * logL
-print(AIC)
+AIC1 <- 2 * k - 2 * logL
+print(AIC1)
 
-res <- oneStepPredict(obj)
-res$n <- dexp$n
+res <- oneStepPredict(obj,method="oneStepGeneric",
+                      discrete=TRUE)
+res$n <- dat$n
 
-
+res1 <- res
 qqnorm(res$residual)
 qqline(res$residual)
+
+#####
+
+#Looks at model outputs
+#####
 
 V_i <- res$n * res$mean * (1 - res$mean / res$n)
 dispersion <- sum((res$observation - res$mean)^2 / V_i) / (length(res$observation) - length(obj$par))

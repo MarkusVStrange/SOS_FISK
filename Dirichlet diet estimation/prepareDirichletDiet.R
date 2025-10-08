@@ -73,7 +73,7 @@ N_ageCod <- function(dat,age,yrs){ # Number of individuals by age
 
 Cod <- read.table(paste(data_wd,'M_sms.csv',sep=""),sep=';',header=TRUE)
 #Cod$N <- readRDS('data/sms_mortality.RDS')$N$N
-cormorant <- read.table(paste(data_wd,'corm_diet.csv',sep=""),sep=';',header=TRUE)
+cormorant <- read.table(paste(data_wd,'corm_diet_22_24.csv',sep=""),sep=';',header=TRUE)
 gseal <- read.table(paste(data_wd,'gSeal_diet.csv',sep=""),sep=';',header=TRUE)
 gseal <- gseal %>% filter(Site!="Utklippan")
 
@@ -301,7 +301,7 @@ Dab_hatch <- coefs$t_hatch_dab # time of hatching, Julian day / 365 - from fiske
 #####
 months <- c(Jan=1,Feb=2,Mar=3,Apr=4,May=5,Jun=6,Jul=7,Aug=8,Sep=9,Oct=10,Nov=11,Dec=12)
 prey <- c("cod","herring","flounder","plaice","dab")
-samplings <- unique(paste(cormorant$year,cormorant$month))
+samplings <- unique(paste(cormorant$Year,cormorant$Month))
 n_samplings <- length(samplings)
 n_prey <- length(prey)
 
@@ -313,7 +313,7 @@ cormFood <- data.frame(sampling=rep("O",n_samplings*n_prey),
 for (i in 1:length(samplings)){
   # sampling specific
   jday <- yday(as.Date(paste(substr(samplings[i],1,4),
-                             months[substr(samplings[i],6,8)],16,sep='-')))/365
+                             substr(samplings[i],6,7),16,sep='-')))/365
   year.i <- as.numeric(substr(samplings[i],1,4))
   # cod
   ####
@@ -423,11 +423,11 @@ for (i in 1:length(samplings)){
   print(i)
 }
 
-write.table(cormFood,paste(data_wd,"cormorantFood_samplings.csv",sep=""),row.names = FALSE,sep=';')
+write.table(cormFood,paste(data_wd,"cormorantFood_samplings_22_24.csv",sep=""),row.names = FALSE,sep=';')
 
 #####
 
-# seal food index - month
+# Simulate grey seal food index - sampling days
 #####
 months <- c(Jan=1,Feb=2,Mar=3,Apr=4,May=5,Jun=6,Jul=7,Aug=8,Sep=9,Oct=10,Nov=11,Dec=12)
 prey <- c("cod","herring","flounder","plaice","dab")

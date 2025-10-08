@@ -14,7 +14,7 @@ getEnergyBudget <- function(Diets,method){
   
   # Cormorants
   #####
-  if(method=='data' & 'cormorant' %in% unique(Diets$predator)){
+  if(method=='old' & 'cormorant' %in% unique(Diets$predator)){
     # cormorant diet
     corm.diet <- Diets %>% filter(predator=='cormorant')
     
@@ -42,7 +42,46 @@ getEnergyBudget <- function(Diets,method){
     E.budget <- rbind(E.budget,corm.diet)
     rm(list=setdiff(ls(),c('E.budget','Diets','method')))
   } 
-  
+  if(method=='data' & 'cormorant' %in% unique(Diets$predator)){
+    diet_pred <- read.table(paste(data_wd,"pred_diet_constant.csv",sep=""),header=TRUE,sep=';')
+    
+    # cormorant diet
+    corm.diet <- Diets %>% filter(predator=='cormorant')
+    energy_weight <- aggregate(diet~prey,data=corm.diet %>% filter(!(prey %in% c("cod","flatfish"))),FUN=mean)
+    energy_weight$weight <- energy_weight$diet/sum(energy_weight$diet) 
+    corm.diet <- diet_pred %>% filter(predator=='cormorant')
+    yrs_constant <- 1985:1990
+    constant_diet <- data.frame(prey=rep(unique(corm.diet$prey),length(yrs_constant)*4),
+                                quarter=rep(rep(c("Q1","Q2","Q3","Q4"),each=3),length(yrs_constant)),
+                                year=rep(yrs_constant,each=3*4),predator="cormorant",
+                                diet=rep(corm.diet$diet[1:12],length(yrs_constant)))
+    corm.diet <- rbind(constant_diet,corm.diet)
+    
+    # energy requirement for a cormorant
+    corm_energy_demand <- 2094 # kJ/day/bird (Keller & Visser, 1999) - Winter value for P. carbo sinensis. 
+    # there are different factors affecting energy expenditure: temperature, breeding (early breeding low; late high), migratory behaviour
+    
+    # relevant prey species
+    energy_density <- data.frame(species = c("cod","eelpout","flatfish","goby","herring","other","sandeel","sculpin"),
+                                 kJ_pr._g_Ww = c(4.9,3.4,5.7,5.56,mean(c(6.21,9.73)),mean(c(4.9,5.7,mean(c(6.21,9.73)),4.2,5.93,3.22,3.4)),5.93,3.22)) # kJ/g Ww
+    # Atlantic cod (mean from Mårtenssen et al., 1996) 
+    # eelpout (Eder & Lewis 2005)
+    # flatfish (Pleuronectiformes from Spitz et al., 2010)
+    # goby (Jane Behrens data)
+    # Atlantic herring (mean from Mårtenssen et al., 1996). Assuming a 1:1 distribution of immature (6.21 kJ/g) and mature (9.73 kJ/g)
+    # sandeel (Karlsen & Andersen, 2011)
+    # sculpin (great sculpin from Anthony et al., 2000)
+    # other (mean of the other species)
+    energy_density <- c(energy_density$kJ_pr._g_Ww[1],energy_density$kJ_pr._g_Ww[3],
+                        sum(energy_density$kJ_pr._g_Ww[-c(1,3)]*energy_weight$weight))
+    # calculate the biomass eaten as the energy demand for a bird divided by the energy density for prey, distributed out according to the weight-based diet
+    corm.diet$g_eaten <- corm.diet$diet*corm_energy_demand/energy_density #g/day/bird
+    
+    corm.diet <- corm.diet[,names(E.budget)]
+    
+    E.budget <- rbind(E.budget,corm.diet)
+    rm(list=setdiff(ls(),c('E.budget','Diets','method','data_wd')))
+  }
   
   if(method=='model' & 'cormorant' %in% unique(Diets$predator)){
     diet_pred <- read.table(paste(data_wd,"pred_diet.csv",sep=""),header=TRUE,sep=';')

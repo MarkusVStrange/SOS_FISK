@@ -15,7 +15,9 @@ meanC.B <- aggregate(B_index~species,data=cf,FUN=mean)$B_index
 C.idx <- match(cf$species,prey)
 cf$Bnorm <- (cf$B_index)/meanC.B[C.idx]
 
-k <- exp(c(1.144524,1.540565,1.313913))
+#k <- exp(c(1.144524,1.540565,1.313913))
+k <- exp(c(-0.08141993,-0.04687771,-0.20690358)) # log food
+#k <- exp(c(-1.600418  ,-1.562107  ,-1.792812  ))
 p <- matrix(0,ncol=3,nrow=33*4)
 for(i in 1:(33*4)){
   food.i <- log(c(c(cf$Bnorm[i],cf$Bnorm[i+33*4])*100,100))
@@ -43,7 +45,8 @@ ggplot(df_corm, aes(x = year)) +
   geom_ribbon(aes(ymin = cod_cum, ymax = flatfish_cum), fill = "olivedrab", alpha = 0.5) +
   geom_ribbon(aes(ymin = flatfish_cum, ymax = other_cum), fill = "lightskyblue", alpha = 0.5) +
   ylab("Diet proportion") +ggtitle("Cormorant food")+
-  xlab("Year") +
+  xlab("Year") +geom_hline(yintercept = 0.33,linetype="dashed")+
+  geom_hline(yintercept = 0.66,linetype="dashed")+
   theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 0.8),
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
@@ -52,6 +55,13 @@ ggplot(df_corm, aes(x = year)) +
         legend.position = "",
         legend.title = element_blank())
 
+plot(df_corm$cod,type='l',lwd=2,
+     ylab="Proportion",xlab="Year",ylim=c(0,1))
+lines(df_corm$flatfish,type='l',lwd=2,
+      col="darkred")
+lines(df_corm$other,
+      type='l',lwd=2,col="orange")
+legend(1996,1,c("Cod","Flatfish","Others"),col=c("black","orange","darkred"),pch=19)
 
 #####
 # Plot cormorant food index
@@ -109,7 +119,8 @@ ggplot(df_seal, aes(x = year)) +
   geom_ribbon(aes(ymin = cod_cum, ymax = flatfish_cum), fill = "olivedrab", alpha = 0.5) +
   geom_ribbon(aes(ymin = flatfish_cum, ymax = other_cum), fill = "lightskyblue", alpha = 0.5) +
   ylab("Diet proportion") +ggtitle("Grey Seal food")+
-  xlab("Year") +
+  xlab("Year") +geom_hline(yintercept = 0.33,linetype="dashed")+
+  geom_hline(yintercept = 0.66,linetype="dashed")+
   theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 0.8),
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
