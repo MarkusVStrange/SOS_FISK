@@ -95,6 +95,9 @@ lw.plaice <- dat %>% filter(species==c("plaice"))
 lw.flounder <- dat %>% filter(species==c("flounder"))
 lw.dab <- dat %>% filter(species==c("dab"))
 
+#############################
+lw.cod <- left_join(hl,ca %>% dplyr::select(haul.id,LngtCm,IndWgt,Quarter,Year),by=c('haul.id','LngtCm'))
+lw.cod <- lw.cod %>% filter(!is.na(IndWgt) & !is.na(HLNoAtLngt))
 
 
 exp_fit <- function(L,a,b){
@@ -119,22 +122,52 @@ cod.b <- rep(0,n_years)
 # normal
 for (i in 1:n_years){
   dada <- lw.cod %>% filter(Year==years[i])
-  fit <- nls(IndWgt~exp_fit(LngtClass,a,b),data=dada,start=c(a=0.2,b=2.3),
+  fit <- nls(IndWgt~exp_fit(LngtCm,a,b),data=dada,start=c(a=0.2,b=2.3),
              weights = HLNoAtLngt)
   cod.a[i] <- coef(fit)[1]
   cod.b[i] <- coef(fit)[2]
   
 }
 par(mfrow=c(1,2))
-plot(dada$LngtClass,dada$IndWgt,xlab="length [cm]",ylab="weight [g]")
+plot(dada$LngtCm,dada$IndWgt,xlab="length [cm]",ylab="weight [g]")
 lines(1:100,exp_fit(1:100,cod.a[i],cod.b[i]),col="red",lwd=2)
 
 colors <- colorRampPalette(c("red", "blue"))(n_years)
-
+par(mfrow=c(1,1))
 plot(1:100,cod.a[1]*(1:100)^cod.b[1],type = 'l',lwd=2,col=colors[1]
      ,xlab="length [cm]",ylab="weight [g]",main="cod",xlim = c(0,80),ylim=c(0,8000))
 for(i in 2:n_years){
   lines(1:100,cod.a[i]*(1:100)^cod.b[i],type = 'l',lwd=2,col=colors[i])
+  #readline() # press enter to continue
+}
+cod_LW <- data.frame(year=years,a=cod.a,b=cod.b,
+                     species=rep("cod",n_years))
+
+years <- as.numeric(as.character(years))
+par(mfrow=c(1,3))
+plot(years[1],cod.a[1]*20^cod.b[1],col=colors[1],pch=19,xlim=c(1990,2024),
+     xlab="Year",ylab="weight [g]",main="20 cm cod",ylim=c(60,100))
+
+for(i in 2:n_years){
+  points(years[i],cod.a[i]*20^cod.b[i],col=colors[i],pch=19)
+  ##readline() # press enter to continue
+}
+
+plot(years[1],cod.a[1]*35^cod.b[1],col=colors[1],pch=19,
+     ylim=c(350,550),xlim=c(1990,2024),
+     ,xlab="Year",ylab="weight [g]",main="35 cm cod")
+
+for(i in 2:n_years){
+  points(years[i],cod.a[i]*35^cod.b[i],col=colors[i],pch=19)
+  #readline() # press enter to continue
+}
+plot(years[1],cod.a[1]*50^cod.b[1],col=colors[1],pch=19,
+     ylim=c(1100,1400),xlim=c(1990,2024),
+     ,xlab="Year",ylab="weight [g]",main="50 cm cod")
+
+for(i in 2:n_years){
+  points(years[i],cod.a[i]*50^cod.b[i],col=colors[i],pch=19)
+  #readline() # press enter to continue
 }
 cod_LW <- data.frame(year=years,a=cod.a,b=cod.b,
                      species=rep("cod",n_years))

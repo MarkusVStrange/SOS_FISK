@@ -1,3 +1,5 @@
+library(dplyr)
+library(lubridate)
 #source('estimate uncertainty on coefficients.R')
 
 data_wd <- paste(dirname(dirname(getwd())),"/SOS data/",sep="")
@@ -98,8 +100,8 @@ vbgrHerring <- function(age){ # von Bertalanffy growth rate for herring.
 
 vbgr.sdHerring <- function(age,n){ # von Bertalanffy growth rate for herring. 
   #Parameters 2005-2010 for Western Baltic spring spawning herring (Gröhsler et al., 2013)
-  Linf <- rnorm(n,mean=30.57,sd=herring_sd_coef[3])
-  k <- rnorm(n,0.453,herring_sd_coef[1]) # from table 2 in Gröhsler et al, 2013
+  Linf <- rnorm(n,mean=30.57,sd=coefs$herring_sd_coef[3])
+  k <- rnorm(n,0.453,coefs$herring_sd_coef[1]) # from table 2 in Gröhsler et al, 2013
   L_hatch <- 0.645 # figure 2 in Bauer et al., 2014
   hatching <- c(92,92,94,96,99,103,106,109,111,118,118,122,126,134,135,143)/365
   t_hatch <- mean(hatching) # From figure 4 in Polte et al., 2021
@@ -112,7 +114,7 @@ vbgr.sdHerring <- function(age,n){ # von Bertalanffy growth rate for herring.
   phi_hatch <- u*sin(2*pi*(t_hatch-w))/(2*pi) # seasonal variability in growth
   sd <- rep(0,length(t))
   for (i in 1:length(sd)){
-    fish.age <- age[i]+rnorm(n,mean=0,sd=herring_sd_coef[2]) # time of hatching with stochasticity, Julian day / 365 - mean = march 1st
+    fish.age <- age[i]+rnorm(n,mean=0,sd=coefs$herring_sd_coef[2]) # time of hatching with stochasticity, Julian day / 365 - mean = march 1st
     L_t <- (L_hatch-Linf)*exp(-k*(phi_t[i]+fish.age-phi_hatch))+Linf # vbgr estimated length
     sd[i] <- sd(L_t)
   }
@@ -158,8 +160,8 @@ vbgrFlounder <- function(age) {
 } #Original
 
 vbgr.sdFlounder <- function(age,n){
-  Linf <- rnorm(n,mean=34.0031653,sd=flounder_sd_coef[3])
-  k <- rnorm(n,0.4537312,flounder_sd_coef[1]) # from table 2 in Gröhsler et al, 2013
+  Linf <- rnorm(n,mean=34.0031653,sd=coefs$flounder_sd_coef[3])
+  k <- rnorm(n,0.4537312,coefs$flounder_sd_coef[1]) # from table 2 in Gröhsler et al, 2013
   L_hatch <- mean(c(0.697,0.662)) # mean from Kennedy et al., 2007
   u <- 0.23 # Amplitude of seasonality (same as cod)
   w <- 0.91 # Timing of peak growth
@@ -171,7 +173,7 @@ vbgr.sdFlounder <- function(age,n){
   phi_t <- u*sin(2*pi*(X_t-w))/(2*pi) # seasonal variability in growth
   sd <- rep(0,length(t))
   for (i in 1:length(sd)){
-    fish.age <- age[i]+rnorm(n,mean=0,sd=flounder_sd_coef[2]) # time of hatching with stochasticity, Julian day / 365 - mean = march 1st
+    fish.age <- age[i]+rnorm(n,mean=0,sd=coefs$flounder_sd_coef[2]) # time of hatching with stochasticity, Julian day / 365 - mean = march 1st
     L_t <- (L_hatch-Linf)*exp(-k*(phi_t[i]+fish.age-phi_hatch))+Linf # vbgr estimated length
     sd[i] <- sd(L_t)
   }
@@ -199,8 +201,8 @@ vbgrPlaice <- function(age) {
 } #Original
 
 vbgr.sdPlaice <- function(age,n){
-  Linf <- rnorm(n,mean=41.637260,sd=plaice_sd_coef[3])
-  k <- rnorm(n,0.240703,plaice_sd_coef[1]) # from table 2 in Gröhsler et al, 2013
+  Linf <- rnorm(n,mean=41.637260,sd=coefs$plaice_sd_coef[3])
+  k <- rnorm(n,0.240703,coefs$plaice_sd_coef[1]) # from table 2 in Gröhsler et al, 2013
   L_hatch <- mean(c(0.697,0.662)) # mean from Kennedy et al., 2007
   u <- 0.23 # Amplitude of seasonality (same as cod)
   w <- 0.91 # Timing of peak growth
@@ -212,7 +214,7 @@ vbgr.sdPlaice <- function(age,n){
   phi_t <- u*sin(2*pi*(X_t-w))/(2*pi) # seasonal variability in growth
   sd <- rep(0,length(t))
   for (i in 1:length(sd)){
-    fish.age <- age[i]+rnorm(n,mean=0,sd=plaice_sd_coef[2]) # time of hatching with stochasticity, Julian day / 365 - mean = march 1st
+    fish.age <- age[i]+rnorm(n,mean=0,sd=coefs$plaice_sd_coef[2]) # time of hatching with stochasticity, Julian day / 365 - mean = march 1st
     L_t <- (L_hatch-Linf)*exp(-k*(phi_t[i]+fish.age-phi_hatch))+Linf # vbgr estimated length
     sd[i] <- sd(L_t)
   }
@@ -240,8 +242,8 @@ vbgrDab <- function(age) {
 
 vbgr.sdDab <- function(age,n){
   #Parameters 2005-2010 for Western Baltic spring spawning herring (Gröhsler et al., 2013)
-  Linf <- rnorm(n,mean=26.5093927,sd=dab_sd_coef[3]  )
-  k <- rnorm(n,0.4846326,dab_sd_coef[1] ) # from table 2 in Gröhsler et al, 2013
+  Linf <- rnorm(n,mean=26.5093927,sd=coefs$dab_sd_coef[3]  )
+  k <- rnorm(n,0.4846326,coefs$dab_sd_coef[1] ) # from table 2 in Gröhsler et al, 2013
   L_hatch <- mean(c(0.697,0.662)) # mean from Kennedy et al., 2007
   u <- 0.23 # Amplitude of seasonality (same as cod)
   w <- 0.91 # Timing of peak growth
@@ -253,7 +255,7 @@ vbgr.sdDab <- function(age,n){
   phi_t <- u*sin(2*pi*(X_t-w))/(2*pi) # seasonal variability in growth
   sd <- rep(0,length(t))
   for (i in 1:length(sd)){
-    fish.age <- age[i]+rnorm(n,mean=0,sd=dab_sd_coef[2] ) # time of hatching with stochasticity, Julian day / 365 - mean = march 1st
+    fish.age <- age[i]+rnorm(n,mean=0,sd=coefs$dab_sd_coef[2] ) # time of hatching with stochasticity, Julian day / 365 - mean = march 1st
     L_t <- (L_hatch-Linf)*exp(-k*(phi_t[i]+fish.age-phi_hatch))+Linf # vbgr estimated length
     sd[i] <- sd(L_t)
   }
@@ -321,7 +323,7 @@ for (i in 1:length(samplings)){
 }
 df.seal$odds <- df.seal$n_eaten/df.seal$n
 df.seal <- df.seal %>% filter(!is.na(odds))
-#plot(df.seal$l.class,df.seal$odds)
+plot(df.seal$l.class,df.seal$odds)
 # Remove outliers - NB put in again when more data
 df.seal <- df.seal %>% filter(odds<0.03)
 
@@ -404,8 +406,11 @@ plot(df.fin.seal$l.class,df.fin.seal$weighted.odds,ylab = "preference",
      xlab="length [mm]",main="Grey Seal",xlim = c(0,600))
 lines((0:7000)/10,seal_fit,
       lwd=2,col="red")
-lines((0:7000)/10,double_sigmoid((0:7000)/10,seal_param[1]*0.9,seal_param[2]*1.5,seal_param[3]-10,seal_param[4],seal_param[5]),
+lines((0:7000)/10,double_sigmoid((0:7000)/10,seal_param[1]*0.9,seal_param[2]*1.7,seal_param[3]-10,seal_param[4],seal_param[5]),
       lwd=2,col="orange")
+
+seal_param <- c(seal_param[1]*0.9,seal_param[2]*1.7,seal_param[3]-10,seal_param[4],seal_param[5])
+seal_fit <- double_sigmoid((0:7000)/10,seal_param[1],seal_param[2],seal_param[3],seal_param[4],seal_param[5])
 
 make_my_function <- function(seal_param) {
   maximum <- seal_param[1]   

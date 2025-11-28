@@ -14,6 +14,8 @@ coefs <- readRDS(paste(data_wd,"coefficients.R",sep=""))
 # Growth model, cohort spread by length, and individuals at by age and time, functions: vbgr.fixed(), vbgr.sd(), N_age
 
 vbgrCod <- function(age,cohort){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 with fixed hatching time
+  if(cohort>max(coefs$cod_varying_growth$cohort)) cohort <- max(coefs$cod_varying_growth$cohort)
+  if(cohort<min(coefs$cod_varying_growth$cohort)) cohort <- min(coefs$cod_varying_growth$cohort)
   # define growth parameters
   Linf <- coefs$cod_varying_growth$Linf[coefs$cod_varying_growth$cohort %in% cohort] # cm. McQueen et al., 2019
   L_hatch <- coefs$L_hatch_cod # length at hatching, cm (Pepin et al, 1997)
@@ -32,6 +34,8 @@ vbgrCod <- function(age,cohort){ # von Bertalanffy growth rate. Parameters from 
 
 
 vbgr.sdCod <- function(age,cohort,n){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 and estimated
+  if(cohort>max(coefs$cod_varying_growth$cohort)) cohort <- max(coefs$cod_varying_growth$cohort)
+  if(cohort<min(coefs$cod_varying_growth$cohort)) cohort <- min(coefs$cod_varying_growth$cohort)
   # t in fraction year, Julian day/365
   Linf <- rnorm(n,mean=coefs$cod_varying_growth$Linf[coefs$cod_varying_growth$cohort %in% cohort],
                 sd=coefs$cod_varying_sd$Linf_sd[coefs$cod_varying_sd$cohort==cohort]) # Assymptotic length - with stochasticity
@@ -82,6 +86,8 @@ gseal <- gseal %>% filter(Site!="Utklippan")
 # Define herring functions and read data
 #####
 vbgrHerring <- function(age,cohort){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 with fixed hatching time
+  if(cohort>max(coefs$herring_varying_growth$cohort)) cohort <- max(coefs$herring_varying_growth$cohort)
+  if(cohort<min(coefs$herring_varying_growth$cohort)) cohort <- min(coefs$herring_varying_growth$cohort)
   # define growth parameters
   Linf <- coefs$herring_varying_growth$Linf[coefs$herring_varying_growth$cohort %in% cohort] # cm. McQueen et al., 2019
   L_hatch <- coefs$L_hatch_herring # length at hatching, cm (Pepin et al, 1997)
@@ -100,6 +106,8 @@ vbgrHerring <- function(age,cohort){ # von Bertalanffy growth rate. Parameters f
 
 
 vbgr.sdHerring <- function(age,cohort,n){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 and estimated
+  if(cohort>max(coefs$herring_varying_growth$cohort)) cohort <- max(coefs$herring_varying_growth$cohort)
+  if(cohort<min(coefs$herring_varying_growth$cohort)) cohort <- min(coefs$herring_varying_growth$cohort)
   # t in fraction year, Julian day/365
   Linf <- rnorm(n,mean=coefs$herring_varying_growth$Linf[coefs$herring_varying_growth$cohort %in% cohort],
                 sd=coefs$herring_varying_sd$Linf_sd[coefs$herring_varying_sd$cohort==cohort]) # Assymptotic length - with stochasticity
@@ -145,6 +153,8 @@ Herring <- read.table(paste(data_wd,'Herring.csv',sep=""),sep=';',header=TRUE)
 #####
 # define flounder growth function
 vbgrFlounder <- function(age,cohort){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 with fixed hatching time
+  if(cohort>max(coefs$flounder_varying_growth$cohort)) cohort <- max(coefs$flounder_varying_growth$cohort)
+  if(cohort<min(coefs$flounder_varying_growth$cohort)) cohort <- min(coefs$flounder_varying_growth$cohort)
   # define growth parameters
   Linf <- coefs$flounder_varying_growth$Linf[coefs$flounder_varying_growth$cohort %in% cohort] # cm. McQueen et al., 2019
   L_hatch <- coefs$L_hatch_flounder # length at hatching, cm (Pepin et al, 1997)
@@ -163,6 +173,8 @@ vbgrFlounder <- function(age,cohort){ # von Bertalanffy growth rate. Parameters 
 
 
 vbgr.sdFlounder <- function(age,cohort,n){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 and estimated
+  if(cohort>max(coefs$flounder_varying_growth$cohort)) cohort <- max(coefs$flounder_varying_growth$cohort)
+  if(cohort<min(coefs$flounder_varying_growth$cohort)) cohort <- min(coefs$flounder_varying_growth$cohort)
   # t in fraction year, Julian day/365
   Linf <- rnorm(n,mean=coefs$flounder_varying_growth$Linf[coefs$flounder_varying_growth$cohort %in% cohort],
                 sd=coefs$flounder_varying_sd$Linf_sd[coefs$flounder_varying_sd$cohort==cohort]) # Assymptotic length - with stochasticity
@@ -188,6 +200,8 @@ vbgr.sdFlounder <- function(age,cohort,n){ # von Bertalanffy growth rate. Parame
 
 # define plaice growth function
 vbgrPlaice <- function(age,cohort){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 with fixed hatching time
+  if(cohort>max(coefs$plaice_varying_growth$cohort)) cohort <- max(coefs$plaice_varying_growth$cohort)
+  if(cohort<min(coefs$plaice_varying_growth$cohort)) cohort <- min(coefs$plaice_varying_growth$cohort)
   # define growth parameters
   Linf <- coefs$plaice_varying_growth$Linf[coefs$plaice_varying_growth$cohort %in% cohort] # cm. McQueen et al., 2019
   L_hatch <- coefs$L_hatch_plaice # length at hatching, cm (Pepin et al, 1997)
@@ -206,6 +220,8 @@ vbgrPlaice <- function(age,cohort){ # von Bertalanffy growth rate. Parameters fr
 
 
 vbgr.sdPlaice <- function(age,cohort,n){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 and estimated
+  if(cohort>max(coefs$plaice_varying_growth$cohort)) cohort <- max(coefs$plaice_varying_growth$cohort)
+  if(cohort<min(coefs$plaice_varying_growth$cohort)) cohort <- min(coefs$plaice_varying_growth$cohort)
   # t in fraction year, Julian day/365
   Linf <- rnorm(n,mean=coefs$plaice_varying_growth$Linf[coefs$plaice_varying_growth$cohort %in% cohort],
                 sd=coefs$plaice_varying_sd$Linf_sd[coefs$plaice_varying_sd$cohort==cohort]) # Assymptotic length - with stochasticity
@@ -231,6 +247,8 @@ vbgr.sdPlaice <- function(age,cohort,n){ # von Bertalanffy growth rate. Paramete
 
 # define dab growth function
 vbgrDab <- function(age,cohort){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 with fixed hatching time
+  if(cohort>max(coefs$dab_varying_growth$cohort)) cohort <- max(coefs$dab_varying_growth$cohort)
+  if(cohort<min(coefs$dab_varying_growth$cohort)) cohort <- min(coefs$dab_varying_growth$cohort)
   # define growth parameters
   Linf <- coefs$dab_varying_growth$Linf[coefs$dab_varying_growth$cohort %in% cohort] # cm. McQueen et al., 2019
   L_hatch <- coefs$L_hatch_dab # length at hatching, cm (Pepin et al, 1997)
@@ -249,6 +267,8 @@ vbgrDab <- function(age,cohort){ # von Bertalanffy growth rate. Parameters from 
 
 
 vbgr.sdDab <- function(age,cohort,n){ # von Bertalanffy growth rate. Parameters from McQueen et al., 2019 and estimated
+  if(cohort>max(coefs$dab_varying_growth$cohort)) cohort <- max(coefs$dab_varying_growth$cohort)
+  if(cohort<min(coefs$dab_varying_growth$cohort)) cohort <- min(coefs$dab_varying_growth$cohort)
   # t in fraction year, Julian day/365
   Linf <- rnorm(n,mean=coefs$dab_varying_growth$Linf[coefs$dab_varying_growth$cohort %in% cohort],
                 sd=coefs$dab_varying_sd$Linf_sd[coefs$dab_varying_sd$cohort==cohort]) # Assymptotic length - with stochasticity
@@ -296,7 +316,6 @@ Flounder_hatch <-coefs$t_hatch_flounder # time of hatching, Julian day / 365 - f
 Plaice_hatch <- coefs$t_hatch_plaice # time of hatching, Julian day / 365 - from fiskeatlas 
 Dab_hatch <- coefs$t_hatch_dab # time of hatching, Julian day / 365 - from fiskeatlas 
 
-
 # Simulate cormorant food index - sampling days
 #####
 months <- c(Jan=1,Feb=2,Mar=3,Apr=4,May=5,Jun=6,Jul=7,Aug=8,Sep=9,Oct=10,Nov=11,Dec=12)
@@ -309,6 +328,7 @@ n_prey <- length(prey)
 cormFood <- data.frame(sampling=rep("O",n_samplings*n_prey),
                        B_index=rep(0,n_samplings*n_prey),
                        species=rep("O",n_samplings*n_prey))
+
 
 for (i in 1:length(samplings)){
   # sampling specific
@@ -342,6 +362,7 @@ for (i in 1:length(samplings)){
   ####
   # herring
   ####
+  
   herring.i <- N_ageHerring(herring,herring.age,year.i)[jday*365,1:length(herring.age)]
   
   available.herring <- matrix(NA,ncol=length(herring.age),nrow = length(her.lengths))
@@ -368,7 +389,6 @@ for (i in 1:length(samplings)){
   Fl <- flatfish.i %>% filter(species=="flounder")
   Pl <- flatfish.i %>% filter(species=="plaice")
   Da <- flatfish.i %>% filter(species=="dab")
-  
   
   available.flounder <- matrix(NA,ncol=length(flatfish.age),nrow = length(flat.lengths))
   available.plaice <- matrix(NA,ncol=length(flatfish.age),nrow = length(flat.lengths))
@@ -499,7 +519,6 @@ for (i in 1:length(samplings)){
   Pl <- flatfish.i %>% filter(species=="plaice")
   Da <- flatfish.i %>% filter(species=="dab")
   
-  
   available.flounder <- matrix(NA,ncol=length(flatfish.age),nrow = length(flat.lengths))
   available.plaice <- matrix(NA,ncol=length(flatfish.age),nrow = length(flat.lengths))
   available.dab <- matrix(NA,ncol=length(flatfish.age),nrow = length(flat.lengths))
@@ -557,8 +576,8 @@ write.table(sealFood,paste(data_wd,"sealFood_samplings.csv",sep=""),row.names = 
 
 #####
 
-
-
+# For individual based mortality
+pred_ages <- list()
 # simulate seal food index each quarter 1991-2023
 #####
 prey <- c("cod","herring","flounder","plaice","dab")
@@ -570,6 +589,14 @@ n_prey <- length(prey)
 sealFood <- data.frame(sampling=rep("O",n_samplings*n_prey),
                        B_index=rep(0,n_samplings*n_prey),
                        species=rep("O",n_samplings*n_prey))
+
+pred_ages$cod_gseal <- data.frame(year=as.numeric(substr(samplings,1,4)),
+                                  quarter=as.numeric(substr(samplings,6,7)),
+                                  Age0=NA,Age1=NA,Age2=NA,Age3=NA,Age4=NA,Age5=NA,Age6=NA,Age7_p=NA)
+
+pred_ages$rel.cod_gseal <- data.frame(year=as.numeric(substr(samplings,1,4)),
+                                  quarter=as.numeric(substr(samplings,6,7)),
+                                  Age0=NA,Age1=NA,Age2=NA,Age3=NA,Age4=NA,Age5=NA,Age6=NA,Age7_p=NA)
 
 sealFoodAges <- as.data.frame(matrix(NA,ncol=11+2,nrow=n_samplings*n_prey))
 names(sealFoodAges) <- c("sampling","species","age0","age1","age2","age3"
@@ -585,8 +612,9 @@ for (i in 1:length(samplings)){
   
   available.cod <- matrix(NA,ncol=length(cod.age),nrow = length(cod.lengths))
   for(j in 1:length(cod.age)){
-    size <- vbgrCod(jday-cod_hatch+(j-1))*10
-    sd<- vbgr.sdCod(jday-cod_hatch+(j-1),100000)*10
+    cohort.j <- year.i-floor(cod.age[j])
+    size <- vbgrCod(jday-cod_hatch+(j-1),cohort.j)*10
+    sd<- vbgr.sdCod(jday-cod_hatch+(j-1),cohort.j,100000)*10
     sd[sd<0] <- 0
     available.cod[,j] <- cod.i[j]*dnorm(cod.lengths,size,sd)/sum(dnorm(cod.lengths,size,sd))
   }
@@ -603,6 +631,21 @@ for (i in 1:length(samplings)){
   cod.av$avB <- pmax(0,seal_cod.pref(cod.av$l*10))*cod.av$B
   
   cod.ages <- available.cod/rowSums(available.cod)
+  
+  rel_age.cod <- available.cod/rowSums(available.cod)
+  rel_B.cod <- cod.av$avB/sum(cod.av$avB)
+  
+  rel_B.age.cod <- rel_age.cod*rel_B.cod
+  N_age.cod <- rel_B.age.cod/(cod.coef$a*cod.av$l^cod.coef$b)
+  
+  pred_ages$cod_gseal[i,-c(1,2)] <- colSums(N_age.cod)/1000*10^6 # unit: 1000s ind. / tonne
+  pred_ages$cod_gseal[i,1] <- year.i
+  pred_ages$cod_gseal[i,2] <- quarter
+  
+  #pred_ages$rel.cod_gseal[i,-c(1,2)] <- rel_B.age.cod # unit: 1000s ind. / tonne
+  #pred_ages$rel.cod_gseal[i,1] <- year.i
+  #pred_ages$rel.cod_gseal[i,2] <- quarter
+  
   ####
   # herring
   ####
@@ -610,8 +653,9 @@ for (i in 1:length(samplings)){
   
   available.herring <- matrix(NA,ncol=length(herring.age),nrow = length(her.lengths))
   for(j in 1:length(herring.age)){
-    size <- vbgrHerring(jday-herring_hatch+(j-1))*10
-    sd<- vbgr.sdHerring(jday-herring_hatch+(j-1),100000)*10
+    cohort.j <- year.i-floor(herring.age[j])
+    size <- vbgrHerring(jday-herring_hatch+(j-1),cohort.j)*10
+    sd<- vbgr.sdHerring(jday-herring_hatch+(j-1),cohort.j,100000)*10
     sd[sd<0] <- 0
     available.herring[,j] <- herring.i[j]*dnorm(her.lengths,size,sd)/sum(dnorm(her.lengths,size,sd))
   }
@@ -633,17 +677,17 @@ for (i in 1:length(samplings)){
   Pl <- flatfish.i %>% filter(species=="plaice")
   Da <- flatfish.i %>% filter(species=="dab")
   
-  
   available.flounder <- matrix(NA,ncol=length(flatfish.age),nrow = length(flat.lengths))
   available.plaice <- matrix(NA,ncol=length(flatfish.age),nrow = length(flat.lengths))
   available.dab <- matrix(NA,ncol=length(flatfish.age),nrow = length(flat.lengths))
   
   for(j in 1:length(flatfish.age)){
-    size <- c(c(vbgrFlounder(jday-Flounder_hatch+(j-1)))*10,c(vbgrPlaice(jday-Plaice_hatch+(j-1)))*10,
-              c(vbgrDab(jday-Dab_hatch+(j-1)))*10)
+    cohort.j <- year.i-floor(flatfish.age[j])
+    size <- c(vbgrFlounder(jday-Flounder_hatch+(j-1),cohort.j)*10,vbgrPlaice(jday-Plaice_hatch+(j-1),cohort.j)*10,
+              vbgrDab(jday-Dab_hatch+(j-1),cohort.j)*10)
     
-    sd <- c(c(vbgr.sdFlounder(jday-Flounder_hatch+(j-1),100000))*10,c(vbgr.sdPlaice(jday-Plaice_hatch+(j-1),100000))*10,
-            c(vbgr.sdDab(jday-Dab_hatch+(j-1),100000))*10)
+    sd <- c(vbgr.sdFlounder(jday-Flounder_hatch+(j-1),cohort.j,100000)*10,vbgr.sdPlaice(jday-Plaice_hatch+(j-1),cohort.j,100000)*10,
+            vbgr.sdDab(jday-Dab_hatch+(j-1),cohort.j,100000)*10)
     
     available.flounder[,j] <- Fl$N[j]*dnorm(flat.lengths,size[1],sd[1])/sum(dnorm(flat.lengths,size[1],sd[1]))
     available.plaice[,j] <- Pl$N[j]*dnorm(flat.lengths,size[2],sd[2])/sum(dnorm(flat.lengths,size[2],sd[2]))
@@ -687,14 +731,14 @@ for (i in 1:length(samplings)){
   sealFood$B_index[(i-1)*n_prey+4] <- sum(plaice.av$avB)
   sealFood$B_index[(i-1)*n_prey+5] <- sum(dab.av$avB)
   
-  
   sealFoodAges$sampling[((i-1)*n_prey+1):(i*n_prey)] <- samplings[i]
   sealFoodAges$species[((i-1)*n_prey+1):(i*n_prey)] <- prey
-  sealFoodAges[(i-1)*n_prey+1,3:10] <- colSums(cod.ages*cod.av$avB)/sum(colSums(cod.ages*cod.av$avB))
-  sealFoodAges[(i-1)*n_prey+2,3:11] <- colSums(herring.ages*herring.av$avB)/sum(colSums(herring.ages*herring.av$avB))
-  sealFoodAges[(i-1)*n_prey+3,3:13] <- colSums(flounder.ages*flounder.av$avB)/sum(colSums(flounder.ages*flounder.av$avB))
-  sealFoodAges[(i-1)*n_prey+4,3:13] <- colSums(plaice.ages*plaice.av$avB)/sum(colSums(plaice.ages*plaice.av$avB))
-  sealFoodAges[(i-1)*n_prey+5,3:13] <- colSums(dab.ages*dab.av$avB)/sum(colSums(dab.ages*dab.av$avB))
+  sealFoodAges[(i-1)*n_prey+1,3:(length(cod.age)+2)] <- colSums(cod.ages*cod.av$avB)/sum(colSums(cod.ages*cod.av$avB))
+  sealFoodAges[(i-1)*n_prey+2,3:(length(herring.age)+2)] <- colSums(herring.ages*herring.av$avB)/sum(colSums(herring.ages*herring.av$avB))
+  sealFoodAges[(i-1)*n_prey+3,3:(length(flatfish.age)+2)] <- colSums(flounder.ages*flounder.av$avB)/sum(colSums(flounder.ages*flounder.av$avB))
+  sealFoodAges[(i-1)*n_prey+4,3:(length(flatfish.age)+2)] <- colSums(plaice.ages*plaice.av$avB)/sum(colSums(plaice.ages*plaice.av$avB))
+  sealFoodAges[(i-1)*n_prey+5,3:(length(flatfish.age)+2)] <- colSums(dab.ages*dab.av$avB)/sum(colSums(dab.ages*dab.av$avB))
+  
   
   print(i)
 }
@@ -715,6 +759,14 @@ cormFood <- data.frame(sampling=rep("O",n_samplings*n_prey),
                        B_index=rep(0,n_samplings*n_prey),
                        species=rep("O",n_samplings*n_prey))
 
+pred_ages$cod_corm <- data.frame(year=as.numeric(substr(samplings,1,4)),
+                                 quarter=as.numeric(substr(samplings,6,7)),
+                                 Age0=NA,Age1=NA,Age2=NA,Age3=NA,Age4=NA,Age5=NA,Age6=NA,Age7_p=NA)
+
+pred_ages$rel.cod_corm <- data.frame(year=as.numeric(substr(samplings,1,4)),
+                                 quarter=as.numeric(substr(samplings,6,7)),
+                                 Age0=NA,Age1=NA,Age2=NA,Age3=NA,Age4=NA,Age5=NA,Age6=NA,Age7_p=NA)
+
 cormFoodAges <- as.data.frame(matrix(NA,ncol=11+2,nrow=n_samplings*n_prey))
 names(cormFoodAges) <- c("sampling","species","age0","age1","age2","age3"
                          ,"age4","age5","age6","age7","age8","age9","age10")
@@ -729,8 +781,9 @@ for (i in 1:length(samplings)){
   
   available.cod <- matrix(NA,ncol=length(cod.age),nrow = length(cod.lengths))
   for(j in 1:length(cod.age)){
-    size <- vbgrCod(jday-cod_hatch+(j-1))*10
-    sd<- vbgr.sdCod(jday-cod_hatch+(j-1),100000)*10
+    cohort.j <- year.i-floor(cod.age[j])
+    size <- vbgrCod(jday-cod_hatch+(j-1),cohort.j)*10
+    sd<- vbgr.sdCod(jday-cod_hatch+(j-1),cohort.j,100000)*10
     sd[sd<0] <- 0
     available.cod[,j] <- cod.i[j]*dnorm(cod.lengths,size,sd)/sum(dnorm(cod.lengths,size,sd))
   }
@@ -747,6 +800,21 @@ for (i in 1:length(samplings)){
   cod.av$avB <- pmax(0,corm_cod.pref(cod.av$l*10))*cod.av$B
   
   cod.ages <- available.cod/rowSums(available.cod)
+  rel_age.cod <- available.cod/rowSums(available.cod)
+  rel_B.cod <- cod.av$avB/sum(cod.av$avB)
+  
+  rel_B.age.cod <- rel_age.cod*rel_B.cod
+  
+  N_age.cod <- rel_B.age.cod/(cod.coef$a*cod.av$l^cod.coef$b)
+
+  pred_ages$cod_corm[i,-c(1,2)] <- colSums(N_age.cod)/1000*10^6 # unit: 1000s ind. / tonne
+  pred_ages$cod_corm[i,1] <- year.i
+  pred_ages$cod_corm[i,2] <- quarter
+  
+  #pred_ages$rel.cod_corm[i,-c(1,2)] <- rel_B.age.cod # unit: 1000s ind. / tonne
+  #pred_ages$rel.cod_corm[i,1] <- year.i
+  #pred_ages$rel.cod_corm[i,2] <- quarter
+  
   ####
   # herring
   ####
@@ -754,8 +822,9 @@ for (i in 1:length(samplings)){
   
   available.herring <- matrix(NA,ncol=length(herring.age),nrow = length(her.lengths))
   for(j in 1:length(herring.age)){
-    size <- vbgrHerring(jday-herring_hatch+(j-1))*10
-    sd<- vbgr.sdHerring(jday-herring_hatch+(j-1),100000)*10
+    cohort.j <- year.i-floor(herring.age[j])
+    size <- vbgrHerring(jday-herring_hatch+(j-1),cohort.j)*10
+    sd<- vbgr.sdHerring(jday-herring_hatch+(j-1),cohort.j,100000)*10
     sd[sd<0] <- 0
     available.herring[,j] <- herring.i[j]*dnorm(her.lengths,size,sd)/sum(dnorm(her.lengths,size,sd))
   }
@@ -783,11 +852,12 @@ for (i in 1:length(samplings)){
   available.dab <- matrix(NA,ncol=length(flatfish.age),nrow = length(flat.lengths))
   
   for(j in 1:length(flatfish.age)){
-    size <- c(c(vbgrFlounder(jday-Flounder_hatch+(j-1)))*10,c(vbgrPlaice(jday-Plaice_hatch+(j-1)))*10,
-              c(vbgrDab(jday-Dab_hatch+(j-1)))*10)
+    cohort.j <- year.i-floor(flatfish.age[j])
+    size <- c(vbgrFlounder(jday-Flounder_hatch+(j-1),cohort.j)*10,vbgrPlaice(jday-Plaice_hatch+(j-1),cohort.j)*10,
+              vbgrDab(jday-Dab_hatch+(j-1),cohort.j)*10)
     
-    sd <- c(c(vbgr.sdFlounder(jday-Flounder_hatch+(j-1),100000))*10,c(vbgr.sdPlaice(jday-Plaice_hatch+(j-1),100000))*10,
-            c(vbgr.sdDab(jday-Dab_hatch+(j-1),100000))*10)
+    sd <- c(vbgr.sdFlounder(jday-Flounder_hatch+(j-1),cohort.j,100000)*10,vbgr.sdPlaice(jday-Plaice_hatch+(j-1),cohort.j,100000)*10,
+            vbgr.sdDab(jday-Dab_hatch+(j-1),cohort.j,100000)*10)
     
     available.flounder[,j] <- Fl$N[j]*dnorm(flat.lengths,size[1],sd[1])/sum(dnorm(flat.lengths,size[1],sd[1]))
     available.plaice[,j] <- Pl$N[j]*dnorm(flat.lengths,size[2],sd[2])/sum(dnorm(flat.lengths,size[2],sd[2]))
@@ -847,3 +917,4 @@ write.table(cormFoodAges,"CormorantfoodAges_sim.csv",row.names = FALSE,sep=';')
 write.table(cormFood,paste(data_wd,"Cormorantfood_sim_quarter.csv",sep=""),row.names = FALSE,sep=';')
 
 #####
+saveRDS(pred_ages,paste(data_wd,"pred_ages.R",sep=""))

@@ -84,7 +84,6 @@ getConsPlot <- function(prey,consumption,type){
       if(rel_cons$predator[i] %in% dada$predator) rel_cons$rel_B[i] <- cons_Pi/cons_yi
     }
     # plot consumption of WB cod
-    ptot <- ggplot(data=cod.cons %>% filter(year>1985)) +geom_bar(aes(x = year, y = proportion*120000,fill=predator),
     ptot <- ggplot(data=cod.cons %>% filter(year>1990)) +geom_bar(aes(x = year, y = proportion*120000,fill=predator),
                                 stat = "identity",position="stack",alpha=0.25,width=0.7,show.legend = FALSE)+   
     geom_line(aes(x = year, y = cod_B,color='cod stock'),linewidth=2)+

@@ -10,9 +10,10 @@ source('getEnergyBudget.R')
 source('getConsumption.R')
 source('getConsPlot.R')
 source('getDietPlot.R')
+source('getM_&_F.R')
 
 # predator abundance
-Predators <- getPredators(years = 1985:2023,species = c('cormorant','grey seal'))
+Predators <- getPredators(years = 1991:2023,species = c('cormorant','grey seal'))
 # predator diets
 Diets <- getDiets(Predators,method='data') # select always 'data' for now
 # how much fish (g) the predators eat of selected prey fish
@@ -23,7 +24,8 @@ consumption <- getConsumption(g_eaten,Predators)
 getConsPlot(prey='cod',consumption,type="total")
 # plot the diets
 getDietPlot(predators=c('cormorant','grey seal'),Diets,year=c(1993)) # this is weight-based diets and n denote number of excrements
-
+# plot mortality
+getMortality(consumption)
 
 p <- getConsPlot(prey='cod',consumption,type="total")
 p

@@ -4,8 +4,11 @@ library(dplyr)
 library(LaplacesDemon)
 library(ggplot2)
 library(egg)
+library(stringr)
 
+#################
 # read and prepare data
+#################
 #####
 tagged24 <- as.data.frame(read_excel("tagging 2024.xlsx", sheet = "Mærkede"))
 found24 <- as.data.frame(read_excel("tagging 2024.xlsx", sheet = "Fundne"))
@@ -59,14 +62,22 @@ feeding.exp <- df %>% filter(year=='feeding')
 tagging.exp$month <- factor(format(tagging.exp$release, "%B"),levels = c("marts","april","maj","juni"))
 
 # create size classes
-tagging.exp$length.class[tagging.exp$species=="torsk"] <- ceiling(tagging.exp$length[tagging.exp$species=="torsk"]/50)*50
-tagging.exp$length.class[tagging.exp$species=="skrubbe"] <- ceiling(tagging.exp$length[tagging.exp$species=="skrubbe"]/30)*30
+tagging.exp$length.class[tagging.exp$species=="torsk"] <- 
+  floor((tagging.exp$length[tagging.exp$species=="torsk"]+10)/40)*40-10
+tagging.exp$length.class[tagging.exp$species=="skrubbe"] <- 
+  floor((tagging.exp$length[tagging.exp$species=="skrubbe"]-10)/30)*30+10
+table(tagging.exp$length.class[tagging.exp$species=="torsk"])
+table(tagging.exp$length.class[tagging.exp$species=="skrubbe"])
 
-tagging.exp$length.class[which(tagging.exp$length.class>210 & tagging.exp$species=="skrubbe")] <- 240
-tagging.exp$length.class[which(tagging.exp$length.class>300 & tagging.exp$species=="torsk")] <- 350
+tagging.exp$length.class[which(tagging.exp$length.class>220 & tagging.exp$species=="skrubbe")] <- 220
+tagging.exp$length.class[which(tagging.exp$length.class>270 & tagging.exp$species=="torsk")] <- 270
+table(tagging.exp$length.class[tagging.exp$species=="torsk"])
+table(tagging.exp$length.class[tagging.exp$species=="skrubbe"])
 
-dexp <- aggregate(found~PIT+species+length.class+release.loca+month+year,data=tagging.exp,FUN = sum)
-dexp$n <- aggregate(found~PIT+species+length.class+release.loca+month+year,data=tagging.exp,FUN = length)$found
+tagging.exp$release.loca[tagging.exp$release.loca!="Kalvø"] <- "other"
+
+dexp <- aggregate(found~PIT+release+species+length.class+release.loca+month+year,data=tagging.exp,FUN = sum)
+dexp$n <- aggregate(found~PIT+release+species+length.class+release.loca+month+year,data=tagging.exp,FUN = length)$found
 dexp$time <- paste(dexp$year,dexp$month)
 
 dFeed <- aggregate(found~PIT,data=feeding.exp,FUN = sum)
@@ -77,25 +88,27 @@ dat$feed.exp <- dFeed
 rm(list=setdiff(ls(),c('dat')))
 #####
 
+
 # compare feeding experiments
 #####
 
 dFeed <- aggregate(found~PIT+release,data=feeding.exp,FUN = sum)
 dFeed$n <- aggregate(found~PIT+release,data=feeding.exp,FUN = length)$found
 
-par <- list(logitp_14=0,logitp_23=0,logitp_14diff=0,logitp_23diff=0)
+par <- list(logitP=0,logitP_diff=0)
 
 nll <- function(par){
   getAll(par, dFeed)
+  
+  gamma_T <- 0.240 # PIT-tag effect from model 7
   p <- c(0,0,0,0)
-  p[1] <- plogis(logitp_14)
-  p[2] <- plogis(logitp_23)
-  p[3] <- plogis(logitp_14+logitp_14diff)
-  p[4] <- plogis(logitp_23+logitp_23diff)
+  p[1] <- plogis(logitP)
+  p[2] <- plogis(logitP+gamma_T)
+  p[3] <- plogis(logitP+logitP_diff)
+  p[4] <- plogis(logitP+logitP_diff+gamma_T)
   
-  ADREPORT(logitp_14diff)
-  ADREPORT(logitp_23diff)
-  
+  ADREPORT(p)
+
   -sum(dbinom(found, n, p, log=TRUE))
 }
 obj <- MakeADFun(nll, par, silent=TRUE)
@@ -103,20 +116,12 @@ opt <- nlminb(obj$par, obj$fn, obj$gr)
 sdr <- sdreport(obj)
 sdr
 
-# CI of logitp_14diff
-est <- as.list(sdr, "Est", report=TRUE)$logitp_14diff
-sd <- as.list(sdr, "Std", report=TRUE)$logitp_14diff
-paste("CI of 14 mm tag difference between experiments")
-round(c(est-2*sd,est+2*sd),2) # CI
 
+coefs <- summary(sdr)
+# CI of logitP_diff
+cat("experiment difference = ",' [',round(c(coefs[2,1]-1.96*coefs[2,2],coefs[2,1]+1.96*coefs[2,2]),2),']')
 
-# CI of logitp_23diff
-est <- as.list(sdr, "Est", report=TRUE)$logitp_23diff
-sd <- as.list(sdr, "Std", report=TRUE)$logitp_23diff
-paste("CI of 23 mm tag difference between experiments")
-round(c(est-2*sd,est+2*sd),2) # CI
-
-# No difference between feeding experiments for either tag
+sd# No difference between feeding experiments
 #####
 
 # PIT difference

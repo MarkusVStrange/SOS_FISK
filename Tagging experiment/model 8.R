@@ -7,11 +7,13 @@ dat$time_df <- data.frame(release_date,
                           month=as.numeric(as.character(str_sub(release_date,6,7))),
                           day=as.numeric(as.character(str_sub(release_date,9,10))))
 
+#dat$release.loca[dat$release.loca!="Kalvø"] <- "other"
+
 par <- list(logitP_cod = rep(0,length(unique(dat$length.class[dat$species=="torsk"]))),
             logitP_flounder = rep(0,length(unique(dat$length.class[dat$species=="skrubbe"]))),
             logitTag.diff = 0,logitYear.diff=0,
             logitRelease.diff = rep(0,n_release),logReleaseSD = 0,
-            logitRefind.eff = 0,logitloc.diff = rep(0,2))
+            logitRefind.eff = 0,logitloc.diff = rep(0,1))
 
 
 nll <- function(par){
@@ -32,7 +34,7 @@ nll <- function(par){
     PIT.idx <- (0:1)[unique(PIT)==PIT[i]]
     year.idx <- (0:1)[unique(year)==year[i]]
     time.idx <- (1:n_time)[release_date==release[i]]
-    loc.idx <- (0:2)[unique(release.loca)==release.loca[i]]
+    loc.idx <- (0:1)[unique(release.loca)==release.loca[i]]
     
     
     
@@ -142,3 +144,12 @@ lines(c(12.5,12.5),c(-5,5))
 mean(rel[1:12])
 mean(rel[13:28])
 #####
+
+
+# numbers for paper
+# Three release locations
+cat("sandvig = ",c(-0.50041094 -1.96*0.26525343,-0.50041094 +1.96*0.26525343))
+cat("SB Hoved = ",c(0.03320152 -1.96*0.19057540,0.03320152 +1.96*0.19057540))
+
+# "Other" release locations
+cat("other = ",c(-0.1499922 -1.96*0.16849299,-0.1499922 +1.96*0.16849299))
