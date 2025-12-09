@@ -25,8 +25,8 @@ plotVBGR <- function(dat,sdr,version="separate"){
     t3s <- c(cod=5,flounder=10,plaice=10,dab=10)
     
     t_hatch <- as.numeric(t_hatches[unique(dat$Species)])
-    SD_age <- exp(summary(sdr)[6,1])
-    SD_c <- exp(summary(sdr)[5,1])
+    SD_age <- exp(summary(sdr)[rownames(summary(sdr))=="logSDage",1])
+    SD_c <- exp(summary(sdr)[rownames(summary(sdr))=="logSD_c",1])
     par(mfrow=c(1,1))
     for(i in 1:length(cohorts)){
       VbgrF <- expression(L1+(L3-L1)*(1-((L3-L2)/(L2-L1))^(2*(age-t1)/(t3-t1)))*(1-((L3-L2)/(L2-L1))^2)^(-1))
@@ -87,8 +87,8 @@ plotVBGR <- function(dat,sdr,version="separate"){
     t3s <- c(cod=5,flounder=10,plaice=10,dab=10)
     
     t_hatch <- as.numeric(t_hatches[unique(dat$Species)])
-    SD_age <- summary(sdr)[6,1]
-    SD_c <- summary(sdr)[5,1]
+    SD_age <- exp(summary(sdr)[rownames(summary(sdr))=="logSDage",1])
+    SD_c <- exp(summary(sdr)[rownames(summary(sdr))=="logSD_c",1])
     par(mfrow=c(1,1))
     for(i in 1:length(cohorts)){
       VbgrF <- expression(L1+(L3-L1)*(1-((L3-L2)/(L2-L1))^(2*(age-t1)/(t3-t1)))*(1-((L3-L2)/(L2-L1))^2)^(-1))

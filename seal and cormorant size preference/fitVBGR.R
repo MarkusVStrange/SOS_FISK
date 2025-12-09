@@ -18,12 +18,12 @@ fitVBGR <- function(dat, weights=c(1,1)){
   
   n_cohorts <- length(unique(dat$cohort))
   par <- list()
-  par$logL1.1 <- log(15)
-  par$logL2.1 <- log(35)
-  par$logL3.1 <- log(50)
-  par$logL1.rand <- rep(log(15),n_cohorts-1)
-  par$logL2.rand <- rep(log(35),n_cohorts-1)
-  par$logL3.rand <- rep(log(50),n_cohorts-1)
+  #par$logL1.1 <- log(15)
+  #par$logL2.1 <- log(35)
+  #par$logL3.1 <- log(50)
+  par$logL1.rand <- rep(log(15),n_cohorts)
+  par$logL2.rand <- rep(log(35),n_cohorts)
+  par$logL3.rand <- rep(log(50),n_cohorts)
   
   par$logSD_m <- 0 # deviation from mean fit
   par$logSD_c <- 0 # year class SD
@@ -33,9 +33,9 @@ fitVBGR <- function(dat, weights=c(1,1)){
   
   f <- function(par){
     getAll(par,dat)
-    L1 <- exp(c(logL1.1,logL1.rand))
-    L2 <- exp(c(logL2.1,logL2.rand))
-    L3 <- exp(c(logL3.1,logL3.rand))
+    L1 <- exp(c(logL1.rand))
+    L2 <- exp(c(logL2.rand))
+    L3 <- exp(c(logL3.rand))
     t_hatch <- as.numeric(t_hatches[unique(Species)])
     L_hatch <- as.numeric(L_hatches[unique(Species)])
     
@@ -103,7 +103,7 @@ fitVBGR <- function(dat, weights=c(1,1)){
       }
       L.Hatch <- eval(VbgrF,list(age=0,L1=L1[i],L2=L2[i],L3=L3[i],
                                  t1=t1,t3=t3))
-      ret <- ret-dnorm(L.Hatch,L_hatch,0.01,log=TRUE)#*10^4 play with sd here if the model doesn't converge
+      ret <- ret-dnorm(L.Hatch,L_hatch,0.1,log=TRUE)#*10^4 play with sd here if the model doesn't converge
       
     }
     df_mean <- df_mean[-1,]

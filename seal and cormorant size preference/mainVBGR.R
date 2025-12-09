@@ -6,7 +6,7 @@ library(tidyverse)
 
 # cod growth functions ALK
 #####
-d <- rbind(readRDS("N_Cod1.RData"),readRDS("N_Cod4.RData"))
+d <- rbind(readRDS("SURBA data/N_Cod1.RData"),readRDS("SURBA data/N_Cod4.RData"))
 ca_cod <- d %>% filter(N!=0)
 ca_cod$cohort <- ca_cod$Year-ca_cod$Age
 ca_cod$t <- ca_cod$Age+ca_cod$qday
@@ -157,7 +157,7 @@ dat$cohortX <- 2015
 rm(list=setdiff(ls(),c('dat','ca_flounder')))
 source('fitVBGR.R')
 
-sdr <- fitVBGR(dat,weights=c(2,2))
+sdr <- fitVBGR(dat,weights=c(1,1))
 sdr
 #####
 
